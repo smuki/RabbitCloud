@@ -59,7 +59,7 @@ namespace Rabbit.Rpc.Runtime.Client.Implementation
                 var client = _transportClientFactory.CreateClient(endPoint);
                 return await client.SendAsync(context.InvokeMessage);
             }
-            catch (RpcCommunicationException)
+            catch (CommunicationException)
             {
                 await _healthCheckService.MarkFailure(address);
                 throw;

@@ -65,7 +65,7 @@ namespace Rabbit.Rpc.Transport.Implementation
                 }
                 catch (Exception exception)
                 {
-                    throw new RpcCommunicationException("与服务端通讯时发生了异常。", exception);
+                    throw new CommunicationException("与服务端通讯时发生了异常。", exception);
                 }
 
                 if (_logger.IsEnabled(LogLevel.Debug))
