@@ -10,11 +10,7 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Utilitys
         {
             using (var stream = new MemoryStream())
             {
-#if NET
-                Serializer.NonGeneric.Serialize(stream, instance);
-#else
-                Serializer.Serialize(stream,instance);
-#endif
+                Serializer.Serialize(stream, instance);
                 return stream.ToArray();
             }
         }
@@ -25,11 +21,7 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Utilitys
                 return null;
             using (var stream = new MemoryStream(data))
             {
-#if NET
-                return Serializer.NonGeneric.Deserialize(type, stream);
-#else
                 return Serializer.Deserialize(type, stream);
-#endif
             }
         }
 
