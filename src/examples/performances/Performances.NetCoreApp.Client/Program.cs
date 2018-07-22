@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc;
 using Rabbit.Rpc.Codec.ProtoBuffer;
+using Rabbit.Rpc.Codec.MessagePack;
+
 using Rabbit.Rpc.ProxyGenerator;
 using Rabbit.Transport.DotNetty;
 using System;
@@ -36,6 +38,7 @@ namespace Performances.NetCoreApp.Client
                     Console.WriteLine("client 请输入编解码器协议：");
                     Console.WriteLine("1.JSON");
                     Console.WriteLine("2.ProtoBuffer");
+                    Console.WriteLine("3.MessagePack");
                     var codec = Console.ReadLine();
                     switch (codec)
                     {
@@ -47,7 +50,10 @@ namespace Performances.NetCoreApp.Client
                             builder.UseProtoBufferCodec();
                             serviceProvider = serviceCollection.BuildServiceProvider();
                             break;
-
+                        case "3":
+                            builder.UseMessagePackCodec();
+                            serviceProvider = serviceCollection.BuildServiceProvider();
+                            break;
                         default:
                             Console.WriteLine("输入错误。");
                             continue;

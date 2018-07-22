@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using Rabbit.Rpc;
 using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Codec.ProtoBuffer;
+using Rabbit.Rpc.Codec.MessagePack;
+
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Transport.DotNetty;
@@ -46,6 +48,7 @@ namespace Performances.NetCoreApp.Server
                 Console.WriteLine(" server 请输入编解码器协议：");
                 Console.WriteLine("1.JSON");
                 Console.WriteLine("2.ProtoBuffer");
+                Console.WriteLine("3.MessagePack");
                 var codec = Console.ReadLine();
                 switch (codec)
                 {
@@ -55,6 +58,12 @@ namespace Performances.NetCoreApp.Server
 
                     case "2":
                         builder.UseProtoBufferCodec();
+                        serviceProvider = serviceCollection.BuildServiceProvider();
+                        break;
+
+
+                    case "3":
+                        builder.UseMessagePackCodec();
                         serviceProvider = serviceCollection.BuildServiceProvider();
                         break;
 
