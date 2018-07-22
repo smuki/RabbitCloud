@@ -15,6 +15,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Rabbit.Rpc.Codec.Json;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -53,6 +54,7 @@ namespace Performances.NetCoreApp.Server
                 switch (codec)
                 {
                     case "1":
+                        builder.UseJsonCodec();
                         serviceProvider = serviceCollection.BuildServiceProvider();
                         break;
 

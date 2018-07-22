@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\extensions\codecs\Rabbit.Rpc.Codec.Json\Rabbit.Rpc.Codec.Json.csproj" />
     <ProjectReference Include="..\..\..\extensions\codecs\Rabbit.Rpc.Codec.MessagePack\Rabbit.Rpc.Codec.MessagePack.csproj" />
     <ProjectReference Include="..\..\Echo.Common\Echo.Common.csproj" />
     <ProjectReference Include="..\..\..\Rabbit.Rpc\Rabbit.Rpc.csproj" />

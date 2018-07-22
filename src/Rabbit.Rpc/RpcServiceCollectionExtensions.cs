@@ -22,7 +22,7 @@ using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
 using Rabbit.Rpc.Serialization;
 using Rabbit.Rpc.Serialization.Implementation;
 using Rabbit.Rpc.Transport.Codec;
-using Rabbit.Rpc.Transport.Codec.Implementation;
+//using Rabbit.Rpc.Transport.Codec.Implementation;
 using System;
 using System.Linq;
 
@@ -250,15 +250,15 @@ namespace Rabbit.Rpc
 
         #endregion Codec Factory
 
-        /// <summary>
-        /// 使用Json编解码器。
-        /// </summary>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseJsonCodec(this IRpcBuilder builder)
-        {
-            return builder.UseCodec<JsonTransportMessageCodecFactory>();
-        }
+        ///// <summary>
+        ///// 使用Json编解码器。
+        ///// </summary>
+        ///// <param name="builder">Rpc服务构建者。</param>
+        ///// <returns>Rpc服务构建者。</returns>
+        //public static IRpcBuilder UseJsonCodec(this IRpcBuilder builder)
+        //{
+        //    return builder.UseCodec<JsonTransportMessageCodecFactory>();
+        //}
 
         /// <summary>
         /// 添加客户端运行时服务。
@@ -325,8 +325,8 @@ namespace Rabbit.Rpc
             services.AddSingleton<IServiceRouteFactory, DefaultServiceRouteFactory>();
 
             return new RpcBuilder(services)
-                .AddJsonSerialization()
-                .UseJsonCodec();
+                .AddJsonSerialization();
+                //.UseJsonCodec();
         }
     }
 }
