@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>基于Json的Rpc消息编解码器扩展。</Description>
+    <Copyright>© RabbitHub. All rights reserved.</Copyright>
+    <VersionPrefix>1.0.0-alpha1</VersionPrefix>
+    <Authors>majian</Authors>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <AssemblyName>Rabbit.Rpc.Codec.Json</AssemblyName>
+    <PackageId>Rabbit.Rpc.Codec.Json</PackageId>
+    <PackageTags>RabbitHub;RPC</PackageTags>
+    <PackageIconUrl>http://www.rabbithub.com/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/RabbitTeam/Rpc</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/RabbitTeam/Rpc/blob/master/LICENSE</PackageLicenseUrl>
+    <NetStandardImplicitPackageVersion>2.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Rabbit.Rpc\Rabbit.Rpc.csproj" />
+  </ItemGroup>
+
+</Project>
