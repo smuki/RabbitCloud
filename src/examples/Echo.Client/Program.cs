@@ -56,7 +56,7 @@ namespace Echo.Client
                         Console.WriteLine($"userService.Update:{await userService.Update(1, user)}");
                         Console.WriteLine($"userService.GetDictionary:{(await userService.GetDictionary())["key"]}");
                         await userService.Try();
-                        await userService.TryThrowException();
+                     //   await userService.TryThrowException();
                     }
                     catch (RpcRemoteException remoteException)
                     {
