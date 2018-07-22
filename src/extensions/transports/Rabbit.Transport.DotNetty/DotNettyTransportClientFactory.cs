@@ -1,4 +1,5 @@
-﻿using DotNetty.Codecs;
+﻿using DotNetty.Buffers;
+using DotNetty.Codecs;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
@@ -81,16 +82,13 @@ namespace Rabbit.Transport.DotNetty
                 return _clients.GetOrAdd(key
                     , k => new Lazy<ITransportClient>(() =>
                     {
-
                         var bootstrap = _bootstrap;
                         var channel = bootstrap.ConnectAsync(k).Result;
-
                         var messageListener = new MessageListener();
                         channel.GetAttribute(messageListenerKey).Set(messageListener);
                         var messageSender = new DotNettyMessageClientSender(_transportMessageEncoder, channel);
                         channel.GetAttribute(messageSenderKey).Set(messageSender);
                         channel.GetAttribute(origEndPointKey).Set(k);
-
                         var client = new TransportClient(messageSender, messageListener, _logger, _serviceExecutor);
                         return client;
                     }
@@ -124,7 +122,8 @@ namespace Rabbit.Transport.DotNetty
             bootstrap
                 .Channel<TcpSocketChannel>()
                 .Option(ChannelOption.TcpNodelay, true)
-                .Group(new MultithreadEventLoopGroup());
+                .Option(ChannelOption.Allocator, PooledByteBufferAllocator.Default)
+                .Group(new MultithreadEventLoopGroup(1));
 
             return bootstrap;
         }

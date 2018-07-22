@@ -1,4 +1,5 @@
-﻿using DotNetty.Codecs;
+﻿using DotNetty.Buffers;
+using DotNetty.Codecs;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
@@ -63,9 +64,10 @@ namespace Rabbit.Transport.DotNetty
             var workerGroup = new MultithreadEventLoopGroup();
             var bootstrap = new ServerBootstrap();
             bootstrap
-                .Group(bossGroup, workerGroup)
-                .Channel<TcpServerSocketChannel>()
-                .Option(ChannelOption.SoBacklog, 100)
+            .Group(bossGroup, workerGroup)
+            .Channel<TcpServerSocketChannel>()
+            .Option(ChannelOption.SoBacklog, 100)
+            .ChildOption(ChannelOption.Allocator, PooledByteBufferAllocator.Default)
                 .ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
                 {
                     var pipeline = channel.Pipeline;
@@ -77,11 +79,26 @@ namespace Rabbit.Transport.DotNetty
                         var sender = new DotNettyServerMessageSender(_transportMessageEncoder, contenxt);
                         await OnReceived(sender, message);
                     }, _logger));
-                }));
-            _channel = await bootstrap.BindAsync(endPoint);
+            }));
+            try
+            {
+                _channel = await bootstrap.BindAsync(endPoint);
+                if (_logger.IsEnabled(LogLevel.Debug))
+                    _logger.LogDebug($"服务主机启动成功，监听地址：{endPoint}。");
+            }
+            catch
+            {
+                _logger.LogError($"服务主机启动失败，监听地址：{endPoint}。 ");
+            }
+        }
 
-            if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug($"服务主机启动成功，监听地址：{endPoint}。");
+        public void CloseAsync()
+        {
+            Task.Run(async () =>
+            {
+                await _channel.EventLoop.ShutdownGracefullyAsync();
+                await _channel.CloseAsync();
+            }).Wait();
         }
 
         #region Implementation of IDisposable
@@ -115,11 +132,10 @@ namespace Rabbit.Transport.DotNetty
             public override void ChannelRead(IChannelHandlerContext context, object message)
             {
                 Task.Run(() =>
-               {
-                   var transportMessage = (TransportMessage)message;
-
-                   _readAction(context, transportMessage);
-               });
+                {
+                    var transportMessage = (TransportMessage)message;
+                    _readAction(context, transportMessage);
+                });
             }
 
             public override void ChannelReadComplete(IChannelHandlerContext context)
@@ -129,6 +145,7 @@ namespace Rabbit.Transport.DotNetty
 
             public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
             {
+                context.CloseAsync();//客户端主动断开需要应答，否则socket变成CLOSE_WAIT状态导致socket资源耗尽
                 if (_logger.IsEnabled(LogLevel.Error))
                     _logger.LogError($"与服务器：{context.Channel.RemoteAddress}通信时发送了错误。", exception);
             }
