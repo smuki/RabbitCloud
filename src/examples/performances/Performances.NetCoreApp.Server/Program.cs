@@ -76,7 +76,7 @@ namespace Performances.NetCoreApp.Server
             } while (serviceProvider == null);
 
             serviceProvider.GetRequiredService<ILoggerFactory>()
-                .AddConsole((c, l) => (int)l >= 3);
+                .AddConsole();
 
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             {
