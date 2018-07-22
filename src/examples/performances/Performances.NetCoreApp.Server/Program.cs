@@ -35,7 +35,7 @@ namespace Performances.NetCoreApp.Server
                 .AddLogging()
                 .AddRpcCore()
                 .AddServiceRuntime()
-                .UseSharedFileRouteManager("d:\\routes.txt")
+                .UseSharedFileRouteManager("c:\\proj\\routes.txt")
                 .UseDotNettyTransport();
             
             serviceCollection.AddTransient<IUserService, UserService>();
@@ -43,7 +43,7 @@ namespace Performances.NetCoreApp.Server
             IServiceProvider serviceProvider = null;
             do
             {
-                Console.WriteLine("请输入编解码器协议：");
+                Console.WriteLine(" server 请输入编解码器协议：");
                 Console.WriteLine("1.JSON");
                 Console.WriteLine("2.ProtoBuffer");
                 var codec = Console.ReadLine();

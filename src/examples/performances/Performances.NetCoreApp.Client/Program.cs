@@ -27,13 +27,13 @@ namespace Performances.NetCoreApp.Client
                 var builder = serviceCollection
                     .AddLogging()
                     .AddClient()
-                    .UseSharedFileRouteManager("d:\\routes.txt")
+                    .UseSharedFileRouteManager("c:\\proj\\routes.txt")
                     .UseDotNettyTransport();
 
                 IServiceProvider serviceProvider = null;
                 while (serviceProvider == null)
                 {
-                    Console.WriteLine("请输入编解码器协议：");
+                    Console.WriteLine("client 请输入编解码器协议：");
                     Console.WriteLine("1.JSON");
                     Console.WriteLine("2.ProtoBuffer");
                     var codec = Console.ReadLine();
@@ -74,9 +74,10 @@ namespace Performances.NetCoreApp.Client
                         Console.WriteLine("正在循环 1w次调用 GetUser.....");
                         //1w次调用
                         var watch = Stopwatch.StartNew();
-                        for (var i = 0; i < 10000; i++)
+                        for (var i = 0; i < 100; i++)
                         {
-                            await userService.GetUser(1);
+                            await userService.GetUser(i);
+                            
                         }
                         watch.Stop();
                         Console.WriteLine($"1w次调用结束，执行时间：{watch.ElapsedMilliseconds}ms");
