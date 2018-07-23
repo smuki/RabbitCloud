@@ -35,8 +35,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <param name="message">调用消息。</param>
         public async Task ExecuteAsync(IMessageSender sender, TransportMessage message)
         {
-            if (_logger.IsEnabled(LogLevel.Information))
-                _logger.LogInformation("接收到消息。");
+            if (_logger.IsEnabled(LogLevel.Debug))
+                _logger.LogDebug("接收到消息。");
 
             if (!message.IsInvokeMessage())
                 return;

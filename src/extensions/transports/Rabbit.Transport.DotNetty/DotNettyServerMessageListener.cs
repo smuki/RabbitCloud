@@ -57,8 +57,7 @@ namespace Rabbit.Transport.DotNetty
 
         public async Task StartAsync(EndPoint endPoint)
         {
-            if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug($"准备启动服务主机，监听地址：{endPoint}。");
+            _logger.LogInformation($"准备启动服务主机，监听地址：{endPoint}。");
 
             var bossGroup = new MultithreadEventLoopGroup(1);
             var workerGroup = new MultithreadEventLoopGroup();
@@ -79,12 +78,11 @@ namespace Rabbit.Transport.DotNetty
                         var sender = new DotNettyServerMessageSender(_transportMessageEncoder, contenxt);
                         await OnReceived(sender, message);
                     }, _logger));
-            }));
+                }));
             try
             {
                 _channel = await bootstrap.BindAsync(endPoint);
-                if (_logger.IsEnabled(LogLevel.Debug))
-                    _logger.LogDebug($"服务主机启动成功，监听地址：{endPoint}。");
+                _logger.LogDebug($"服务主机启动成功，监听地址：{endPoint}。");
             }
             catch
             {
