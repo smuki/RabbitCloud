@@ -57,6 +57,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.Codec.MessagePac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.Codec.Json", "src\extensions\codecs\Rabbit.Rpc.Codec.Json\Rabbit.Rpc.Codec.Json.csproj", "{EC04EA64-DC65-44D4-8D3A-94ECADA059C9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.Coordinate.Files", "src\extensions\coordinates\Rabbit.Rpc.Coordinate.Files\Rabbit.Rpc.Coordinate.Files.csproj", "{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{EC04EA64-DC65-44D4-8D3A-94ECADA059C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC04EA64-DC65-44D4-8D3A-94ECADA059C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC04EA64-DC65-44D4-8D3A-94ECADA059C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,6 +164,7 @@ Global
 		{9F43167B-C87A-4B94-8A0F-CAE853B89619} = {5BF47E16-B6D0-4D9C-A576-F91109C0B1F1}
 		{36C20737-05A9-45F3-9D36-E18B1E32A2C5} = {AA8494CA-CE39-4F1A-9034-A89554CD6AFF}
 		{EC04EA64-DC65-44D4-8D3A-94ECADA059C9} = {AA8494CA-CE39-4F1A-9034-A89554CD6AFF}
+		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45} = {38C5EBBE-B5CB-4F57-81D4-88BD8B1FEFE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A966974-630A-4C4B-8C27-70ACA5002AE6}
