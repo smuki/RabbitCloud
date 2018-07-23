@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Rabbit.Rpc.Codec.Json;
+using Rabbit.Rpc.Coordinate.Files;
 
 namespace Performances.NetCoreApp.Client
 {
@@ -30,7 +31,7 @@ namespace Performances.NetCoreApp.Client
                 var builder = serviceCollection
                     .AddLogging()
                     .AddClient()
-                    .UseSharedFileRouteManager("c:\\proj\\routes.txt")
+                    .UseFilesRouteManager("c:\\proj\\routes.txt")
                     .UseDotNettyTransport();
 
                 IServiceProvider serviceProvider = null;

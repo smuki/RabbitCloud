@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Rabbit.Rpc.Codec.Json;
+using Rabbit.Rpc.Coordinate.Files;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -38,7 +39,7 @@ namespace Performances.NetCoreApp.Server
                 .AddLogging()
                 .AddRpcCore()
                 .AddServiceRuntime()
-                .UseSharedFileRouteManager("c:\\proj\\routes.txt")
+                .UseFilesRouteManager("c:\\proj\\routes.txt")
                 .UseDotNettyTransport();
             
             serviceCollection.AddTransient<IUserService, UserService>();

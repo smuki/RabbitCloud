@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Rabbit.Transport.DotNetty;
+using Rabbit.Rpc.Coordinate.Files;
 
 namespace Echo.Client
 {
@@ -24,7 +25,7 @@ namespace Echo.Client
             serviceCollection
                 .AddLogging()
                 .AddClient()
-                .UseSharedFileRouteManager(@"c:\proj\routes.txt")
+                .UseFilesRouteManager(@"c:\proj\routes.txt")
                 .UseDotNettyTransport();
 
             var serviceProvider = serviceCollection.BuildServiceProvider();

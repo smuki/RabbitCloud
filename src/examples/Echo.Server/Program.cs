@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Rabbit.Transport.DotNetty;
+using Rabbit.Rpc.Coordinate.Files;
 
 namespace Echo.Server
 {
@@ -34,7 +35,7 @@ namespace Echo.Server
                 .AddLogging()
                 .AddRpcCore()
                 .AddServiceRuntime()
-                .UseSharedFileRouteManager(@"c:\proj\routes.txt")
+                .UseFilesRouteManager(@"c:\proj\routes.txt")
                 .UseDotNettyTransport();
             serviceCollection.AddTransient<IUserService, UserService>();
 
