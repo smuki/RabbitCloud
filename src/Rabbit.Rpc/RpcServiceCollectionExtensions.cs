@@ -132,6 +132,7 @@ namespace Rabbit.Rpc
         /// <param name="builder">Rpc服务构建者。</param>
         /// <param name="filePath">文件路径。</param>
         /// <returns>Rpc服务构建者。</returns>
+        /*
         public static IRpcBuilder UseSharedFileRouteManager(this IRpcBuilder builder, string filePath)
         {
             return builder.UseRouteManager(provider =>
@@ -141,6 +142,7 @@ namespace Rabbit.Rpc
                 provider.GetRequiredService<IServiceRouteFactory>(),
                 provider.GetRequiredService<ILogger<SharedFileServiceRouteManager>>()));
         }
+        */
 
         #region AddressSelector
 
