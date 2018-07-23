@@ -81,7 +81,9 @@ namespace Rabbit.Rpc.Routing.Implementation
         public override Task ClearAsync()
         {
             if (File.Exists(_filePath))
+            {
                 File.Delete(_filePath);
+            }
             return Task.FromResult(0);
         }
 
@@ -118,8 +120,7 @@ namespace Rabbit.Rpc.Routing.Implementation
                 {
                     try
                     {
-                        using (
-                            var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         {
                             var reader = new StreamReader(fileStream, Encoding.UTF8);
                             content = await reader.ReadToEndAsync();
@@ -133,13 +134,9 @@ namespace Rabbit.Rpc.Routing.Implementation
                 try
                 {
                     var serializer = _serializer;
-                    routes =
-                    (await
-                        _serviceRouteFactory.CreateServiceRoutesAsync(
-                            serializer.Deserialize<string, ServiceRouteDescriptor[]>(content))).ToArray();
+                    routes = (await _serviceRouteFactory.CreateServiceRoutesAsync(serializer.Deserialize<string, ServiceRouteDescriptor[]>(content))).ToArray();
                     if (_logger.IsEnabled(LogLevel.Information))
-                        _logger.LogInformation(
-                            $"成功获取到以下路由信息：{string.Join(",", routes.Select(i => i.ServiceDescriptor.Id))}。");
+                        _logger.LogInformation($"成功获取到以下路由信息：{string.Join(",", routes.Select(i => i.ServiceDescriptor.Id))}。");
                 }
                 catch (Exception exception)
                 {
@@ -182,28 +179,23 @@ namespace Rabbit.Rpc.Routing.Implementation
                 var mayModifyServiceIds = newServiceIds.Except(removeServiceIds).ToArray();
 
                 //触发服务路由创建事件。
-                OnCreated(
-                    newRoutes.Where(i => addServiceIds.Contains(i.ServiceDescriptor.Id))
+                OnCreated(newRoutes.Where(i => addServiceIds.Contains(i.ServiceDescriptor.Id))
                         .Select(route => new ServiceRouteEventArgs(route))
                         .ToArray());
 
                 //触发服务路由删除事件。
-                OnRemoved(
-                    oldRoutes.Where(i => removeServiceIds.Contains(i.ServiceDescriptor.Id))
+                OnRemoved(oldRoutes.Where(i => removeServiceIds.Contains(i.ServiceDescriptor.Id))
                         .Select(route => new ServiceRouteEventArgs(route))
                         .ToArray());
 
                 //触发服务路由变更事件。
-                var currentMayModifyRoutes =
-                    newRoutes.Where(i => mayModifyServiceIds.Contains(i.ServiceDescriptor.Id)).ToArray();
-                var oldMayModifyRoutes =
-                    oldRoutes.Where(i => mayModifyServiceIds.Contains(i.ServiceDescriptor.Id)).ToArray();
+                var currentMayModifyRoutes = newRoutes.Where(i => mayModifyServiceIds.Contains(i.ServiceDescriptor.Id)).ToArray();
+                var oldMayModifyRoutes = oldRoutes.Where(i => mayModifyServiceIds.Contains(i.ServiceDescriptor.Id)).ToArray();
 
                 foreach (var oldMayModifyRoute in oldMayModifyRoutes)
                 {
                     if (!currentMayModifyRoutes.Contains(oldMayModifyRoute))
-                        OnChanged(
-                            new ServiceRouteChangedEventArgs(
+                        OnChanged(new ServiceRouteChangedEventArgs(
                                 currentMayModifyRoutes.First(
                                     i => i.ServiceDescriptor.Id == oldMayModifyRoute.ServiceDescriptor.Id),
                                 oldMayModifyRoute));

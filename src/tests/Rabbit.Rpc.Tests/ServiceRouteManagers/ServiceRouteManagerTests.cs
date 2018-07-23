@@ -107,18 +107,14 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                 removedWait = new TaskCompletionSource<bool>();
             };
             reset();
-            ServiceRouteManager.Created +=
-                (s, e) => { createdWait.TrySetResult(route3.ServiceDescriptor.Id == e.Route.ServiceDescriptor.Id); };
-            ServiceRouteManager.Changed +=
-                (s, e) =>
-                {
+            ServiceRouteManager.Created += (s, e) => { createdWait.TrySetResult(route3.ServiceDescriptor.Id == e.Route.ServiceDescriptor.Id); };
+            ServiceRouteManager.Changed += (s, e) => {
                     changedWait.TrySetResult(
                         route2.ServiceDescriptor.Id == e.Route.ServiceDescriptor.Id
                         && route2.Address.First() == e.Route.Address.First()
                         && 2 == ((IpAddressModel)e.OldRoute.Address.First()).Port);
                 };
-            ServiceRouteManager.Removed +=
-                (s, e) => { removedWait.TrySetResult(route1.ServiceDescriptor.Id == e.Route.ServiceDescriptor.Id); };
+            ServiceRouteManager.Removed += (s, e) => { removedWait.TrySetResult(route1.ServiceDescriptor.Id == e.Route.ServiceDescriptor.Id); };
 
             await ServiceRouteManager.SetRoutesAsync(new[] { route2, route3 });
 
