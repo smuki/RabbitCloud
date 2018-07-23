@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Rabbit.Rpc.Routing;
+using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Serialization;
 using System;
 using System.Collections.Generic;
@@ -7,19 +9,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Routing.Implementation
+namespace Rabbit.Rpc.Coordinate.Files
 {
     /// <summary>
     /// 基于共享文件的服务路由管理者。
     /// </summary>
-    public class SharedFileServiceRouteManager : ServiceRouteManagerBase, IDisposable
+    public class FilesServiceRouteManager : ServiceRouteManagerBase, IDisposable
     {
         #region Field
 
         private readonly string _filePath;
         private readonly ISerializer<string> _serializer;
         private readonly IServiceRouteFactory _serviceRouteFactory;
-        private readonly ILogger<SharedFileServiceRouteManager> _logger;
+        private readonly ILogger<FilesServiceRouteManager> _logger;
         private ServiceRoute[] _routes;
         private readonly FileSystemWatcher _fileSystemWatcher;
 
@@ -27,8 +29,8 @@ namespace Rabbit.Rpc.Routing.Implementation
 
         #region Constructor
 
-        public SharedFileServiceRouteManager(string filePath, ISerializer<string> serializer,
-            IServiceRouteFactory serviceRouteFactory, ILogger<SharedFileServiceRouteManager> logger) : base(serializer)
+        public FilesServiceRouteManager(string filePath, ISerializer<string> serializer,
+            IServiceRouteFactory serviceRouteFactory, ILogger<FilesServiceRouteManager> logger) : base(serializer)
         {
             _filePath = filePath;
             _serializer = serializer;
