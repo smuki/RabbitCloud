@@ -130,6 +130,8 @@ namespace Rabbit.Rpc.ClientGenerator
 
         private static void GenerateCodeFiles()
         {
+            Console.WriteLine("GenerateCodeFiles")
+
             foreach (var syntaxTree in GetTrees())
             {
                 var compilationUnitSyntax = (CompilationUnitSyntax)syntaxTree.GetRoot();
