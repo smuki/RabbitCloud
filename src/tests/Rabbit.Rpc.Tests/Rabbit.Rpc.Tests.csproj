@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\extensions\coordinates\Rabbit.Rpc.Coordinate.Files\Rabbit.Rpc.Coordinate.Files.csproj" />
     <ProjectReference Include="..\..\Rabbit.Rpc\Rabbit.Rpc.csproj" />
     <ProjectReference Include="..\..\extensions\coordinates\Rabbit.Rpc.Coordinate.Zookeeper\Rabbit.Rpc.Coordinate.Zookeeper.csproj" />
   </ItemGroup>

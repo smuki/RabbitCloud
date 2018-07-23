@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Rabbit.Rpc.Coordinate.Files;
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Routing.Implementation;
 using System;
@@ -15,10 +16,10 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
             services
                 .AddLogging()
                 .AddRpcCore()
-                .UseSharedFileRouteManager(routeFile);
+                .UseFilesRouteManager(routeFile);
             var provider = services.BuildServiceProvider();
 
-            ServiceRouteManager = (SharedFileServiceRouteManager)provider.GetRequiredService<IServiceRouteManager>();
+            ServiceRouteManager = (FilesServiceRouteManager)provider.GetRequiredService<IServiceRouteManager>();
         }
 
         #region Overrides of ServiceRouteManagerTests
