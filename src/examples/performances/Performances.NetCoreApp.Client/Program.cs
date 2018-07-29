@@ -65,6 +65,8 @@ namespace Performances.NetCoreApp.Client
                     }
                 }
 
+                serviceProvider = RegisterAutofac(serviceCollection);
+
                 serviceProvider.GetRequiredService<ILoggerFactory>()
                     .AddConsole();
 
