@@ -44,7 +44,7 @@ namespace Performances.NetCoreApp.Server
                 .AddServiceRuntime()
                 .UseFilesRouteManager("c:\\proj\\routes.txt")
                 .UseDotNettyTransport();
-            
+
             serviceCollection.AddTransient<IUserService, UserService>();
 
             IServiceProvider serviceProvider = null;
@@ -79,7 +79,7 @@ namespace Performances.NetCoreApp.Server
                 }
             } while (serviceProvider == null);
 
-            serviceProvider= RegisterAutofac(serviceCollection);
+            serviceProvider = RegisterAutofac(serviceCollection);
             serviceProvider.GetRequiredService<ILoggerFactory>()
                 .AddConsole();
 
@@ -115,7 +115,7 @@ namespace Performances.NetCoreApp.Server
             //将Services中的服务填充到Autofac中
             builder.Populate(services);
             //新模块组件注册    
-           // builder.RegisterModule<AutofacModuleRegister>();
+            // builder.RegisterModule<AutofacModuleRegister>();
             //创建容器
             var Container = builder.Build();
             //第三方IOC接管 core内置DI容器 

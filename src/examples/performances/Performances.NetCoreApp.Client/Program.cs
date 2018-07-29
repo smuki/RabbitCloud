@@ -88,7 +88,7 @@ namespace Performances.NetCoreApp.Client
                         for (var i = 0; i < 100; i++)
                         {
                             await userService.GetUser(i);
-                            
+
                         }
                         watch.Stop();
                         Console.WriteLine($"1w次调用结束，执行时间：{watch.ElapsedMilliseconds}ms");
