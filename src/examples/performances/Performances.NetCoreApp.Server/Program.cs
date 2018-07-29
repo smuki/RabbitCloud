@@ -17,6 +17,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Rabbit.Rpc.Codec.Json;
 using Rabbit.Rpc.Coordinate.Files;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -32,6 +34,7 @@ namespace Performances.NetCoreApp.Server
         public static void Main(string[] args)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
 
             var serviceCollection = new ServiceCollection();
 
@@ -76,6 +79,7 @@ namespace Performances.NetCoreApp.Server
                 }
             } while (serviceProvider == null);
 
+            serviceProvider= RegisterAutofac(serviceCollection);
             serviceProvider.GetRequiredService<ILoggerFactory>()
                 .AddConsole();
 
@@ -103,6 +107,19 @@ namespace Performances.NetCoreApp.Server
 
             Console.WriteLine("按任意键结束本次测试。");
             Console.ReadLine();
+        }
+        private static IServiceProvider RegisterAutofac(IServiceCollection services)
+        {
+            //实例化Autofac容器
+            var builder = new ContainerBuilder();
+            //将Services中的服务填充到Autofac中
+            builder.Populate(services);
+            //新模块组件注册    
+           // builder.RegisterModule<AutofacModuleRegister>();
+            //创建容器
+            var Container = builder.Build();
+            //第三方IOC接管 core内置DI容器 
+            return new AutofacServiceProvider(Container);
         }
     }
 }
