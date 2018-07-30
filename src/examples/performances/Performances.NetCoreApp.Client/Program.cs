@@ -84,16 +84,17 @@ namespace Performances.NetCoreApp.Client
 
                     do
                     {
-                        Console.WriteLine("正在循环 1w次调用 GetUser.....");
+                        int t=100;
+                        Console.WriteLine("正在循环 "+t+"次调用 GetUser.....");
                         //1w次调用
                         var watch = Stopwatch.StartNew();
-                        for (var i = 0; i < 100; i++)
+                        for (var i = 0; i < t; i++)
                         {
                             await userService.GetUser(i);
 
                         }
                         watch.Stop();
-                        Console.WriteLine($"1w次调用结束，执行时间：{watch.ElapsedMilliseconds}ms");
+                        Console.WriteLine(t + $"次调用结束，执行时间：{watch.ElapsedMilliseconds}ms");
                         Console.ReadLine();
                     } while (true);
                 }).Wait();
