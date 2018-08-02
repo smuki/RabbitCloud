@@ -27,7 +27,7 @@ namespace Rabbit.Rpc
         /// <returns>服务描述符。</returns>
         public static ServiceDescriptor GroupName(this ServiceDescriptor descriptor, string groupName)
         {
-            descriptor.Metadatas["GroupName"] = groupName;
+            descriptor.Metadata["GroupName"] = groupName;
 
             return descriptor;
         }
@@ -40,7 +40,7 @@ namespace Rabbit.Rpc
         /// <returns></returns>
         public static ServiceDescriptor WaitExecution(this ServiceDescriptor descriptor, bool waitExecution)
         {
-            descriptor.Metadatas["WaitExecution"] = waitExecution;
+            descriptor.Metadata["WaitExecution"] = waitExecution;
             return descriptor;
         }
 
@@ -65,7 +65,7 @@ namespace Rabbit.Rpc
         /// </summary>
         public ServiceDescriptor()
         {
-            Metadatas = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            Metadata = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Rabbit.Rpc
         /// <summary>
         /// 元数据。
         /// </summary>
-        public IDictionary<string, object> Metadatas { get; set; }
+        public IDictionary<string, object> Metadata { get; set; }
 
         /// <summary>
         /// 获取一个元数据。
@@ -87,10 +87,10 @@ namespace Rabbit.Rpc
         /// <returns>元数据值。</returns>
         public T GetMetadata<T>(string name, T def = default(T))
         {
-            if (!Metadatas.ContainsKey(name))
+            if (!Metadata.ContainsKey(name))
                 return def;
 
-            return (T)Metadatas[name];
+            return (T)Metadata[name];
         }
 
         #region Equality members
@@ -110,10 +110,10 @@ namespace Rabbit.Rpc
             if (model.Id != Id)
                 return false;
 
-            return model.Metadatas.Count == Metadatas.Count && model.Metadatas.All(metadata =>
+            return model.Metadata.Count == Metadata.Count && model.Metadata.All(metadata =>
                    {
                        object value;
-                       if (!Metadatas.TryGetValue(metadata.Key, out value))
+                       if (!Metadata.TryGetValue(metadata.Key, out value))
                            return false;
 
                        if (metadata.Value == null && value == null)

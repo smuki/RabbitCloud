@@ -37,7 +37,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         /// <param name="descriptor">服务描述符。</param>
         public override void Apply(ServiceDescriptor descriptor)
         {
-            descriptor.Metadatas[Name] = Data;
+            descriptor.Metadata[Name] = Data;
         }
 
         #endregion Overrides of RpcServiceDescriptorAttribute

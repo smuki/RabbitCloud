@@ -56,7 +56,7 @@ namespace Rabbit.Rpc.Tests
                 model1 = new ServiceDescriptor
                 {
                     Id = "service1",
-                    Metadatas = new Dictionary<string, object>
+                    Metadata = new Dictionary<string, object>
                     {
                         {"key1", 1}
                     }
@@ -64,7 +64,7 @@ namespace Rabbit.Rpc.Tests
                 model2 = new ServiceDescriptor
                 {
                     Id = "service1",
-                    Metadatas = new Dictionary<string, object>
+                    Metadata = new Dictionary<string, object>
                     {
                         {"key1", 1}
                     }
@@ -83,13 +83,13 @@ namespace Rabbit.Rpc.Tests
             Assert.False(model1.Equals(model2));
 
             reset();
-            model2.Metadatas["temp"] = 2;
+            model2.Metadata["temp"] = 2;
 
             Assert.NotEqual(model1, model2);
             Assert.False(model1 == model2);
             Assert.False(model1.Equals(model2));
 
-            model1.Metadatas["temp"] = 2;
+            model1.Metadata["temp"] = 2;
 
             Assert.Equal(model1, model2);
             Assert.True(model1 == model2);
@@ -112,7 +112,7 @@ namespace Rabbit.Rpc.Tests
                         ServiceDescriptor = new ServiceDescriptor
                         {
                             Id = "service1",
-                            Metadatas = new Dictionary<string, object>
+                            Metadata = new Dictionary<string, object>
                             {
                                 {"key1", 1}
                             }
@@ -128,7 +128,7 @@ namespace Rabbit.Rpc.Tests
                         ServiceDescriptor = new ServiceDescriptor
                         {
                             Id = "service1",
-                            Metadatas = new Dictionary<string, object>
+                            Metadata = new Dictionary<string, object>
                             {
                                 {"key1", 1}
                             }
