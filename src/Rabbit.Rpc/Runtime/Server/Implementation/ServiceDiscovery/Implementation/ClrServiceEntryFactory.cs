@@ -42,7 +42,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         /// <param name="service">服务类型。</param>
         /// <param name="serviceImplementation">服务实现类型。</param>
         /// <returns>服务条目集合。</returns>
-        public IEnumerable<ServiceEntry> CreateServiceEntry(Type service, Type serviceImplementation)
+        public IEnumerable<ServiceRecord> CreateServiceEntry(Type service, Type serviceImplementation)
         {
             foreach (var methodInfo in service.GetTypeInfo().GetMethods())
             {
@@ -55,24 +55,25 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
 
         #region Private Method
 
-        private ServiceEntry Create(MethodInfo method, MethodBase implementationMethod)
+        private ServiceRecord Create(MethodInfo method, MethodBase implementationMethod)
         {
             var serviceId = _serviceIdGenerator.GenerateServiceId(method);
 
-            var serviceDescriptor = new ServiceDescriptor
-            {
-                Id = serviceId
-            };
+          //  var serviceDescriptor = new ServiceDescriptor
+          //  {
+          //      Id = serviceId
+          //  };
 
             var descriptorAttributes = method.GetCustomAttributes<RpcServiceDescriptorAttribute>();
             foreach (var descriptorAttribute in descriptorAttributes)
             {
-                descriptorAttribute.Apply(serviceDescriptor);
+                Console.WriteLine(descriptorAttribute);
+               // descriptorAttribute.Apply(descriptorAttribute);
             }
 
-            return new ServiceEntry
+            return new ServiceRecord
             {
-                Descriptor = serviceDescriptor,
+                ServiceName = serviceId,
                 Func = parameters =>
                {
                    var serviceScopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();

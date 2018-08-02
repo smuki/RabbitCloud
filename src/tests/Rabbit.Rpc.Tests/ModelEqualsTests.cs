@@ -1,5 +1,6 @@
 ﻿using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Routing;
+using Rabbit.Rpc.Runtime.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,21 +51,21 @@ namespace Rabbit.Rpc.Tests
         [Fact]
         public void ServiceDescriptorEqualsTest()
         {
-            ServiceDescriptor model1 = null, model2 = null;
+            ServiceRecord model1 = null, model2 = null;
             Action reset = () =>
             {
-                model1 = new ServiceDescriptor
+                model1 = new ServiceRecord
                 {
-                    Id = "service1",
-                    Metadatas = new Dictionary<string, object>
+                    ServiceName = "service1",
+                    Metadata = new Dictionary<string, object>
                     {
                         {"key1", 1}
                     }
                 };
-                model2 = new ServiceDescriptor
+                model2 = new ServiceRecord
                 {
-                    Id = "service1",
-                    Metadatas = new Dictionary<string, object>
+                    ServiceName = "service1",
+                    Metadata = new Dictionary<string, object>
                     {
                         {"key1", 1}
                     }
@@ -76,20 +77,20 @@ namespace Rabbit.Rpc.Tests
             Assert.True(model1 == model2);
             Assert.True(model1.Equals(model2));
 
-            model2.Id = "service2";
+            model2.ServiceName = "service2";
 
             Assert.NotEqual(model1, model2);
             Assert.False(model1 == model2);
             Assert.False(model1.Equals(model2));
 
             reset();
-            model2.Metadatas["temp"] = 2;
+            model2.Metadata["temp"] = 2;
 
             Assert.NotEqual(model1, model2);
             Assert.False(model1 == model2);
             Assert.False(model1.Equals(model2));
 
-            model1.Metadatas["temp"] = 2;
+            model1.Metadata["temp"] = 2;
 
             Assert.Equal(model1, model2);
             Assert.True(model1 == model2);
@@ -99,36 +100,36 @@ namespace Rabbit.Rpc.Tests
         [Fact]
         public void ServiceRouteEqualsTest()
         {
-            ServiceRoute model1 = null, model2 = null;
+            ServicePath model1 = null, model2 = null;
             Action reset = () =>
             {
                 model1 =
-                    new ServiceRoute
+                    new ServicePath
                     {
                         Address = new[]
                         {
                             new IpAddressModel("127.0.0.1", 1234)
                         },
-                        ServiceDescriptor = new ServiceDescriptor
+                        ServiceEntry = new ServiceRecord
                         {
-                            Id = "service1",
-                            Metadatas = new Dictionary<string, object>
+                            ServiceName = "service1",
+                            Metadata = new Dictionary<string, object>
                             {
                                 {"key1", 1}
                             }
                         }
                     };
                 model2 =
-                    new ServiceRoute
+                    new ServicePath
                     {
                         Address = new[]
                         {
                             new IpAddressModel("127.0.0.1", 1234)
                         },
-                        ServiceDescriptor = new ServiceDescriptor
+                        ServiceEntry = new ServiceRecord
                         {
-                            Id = "service1",
-                            Metadatas = new Dictionary<string, object>
+                            ServiceName = "service1",
+                            Metadata = new Dictionary<string, object>
                             {
                                 {"key1", 1}
                             }
@@ -141,13 +142,13 @@ namespace Rabbit.Rpc.Tests
             Assert.True(model1 == model2);
             Assert.True(model1.Equals(model2));
 
-            model2.ServiceDescriptor.Id = "service2";
+            model2.ServiceEntry.ServiceName = "service2";
 
             Assert.NotEqual(model1, model2);
             Assert.False(model1 == model2);
             Assert.False(model1.Equals(model2));
 
-            model1.ServiceDescriptor.Id = "service2";
+            model1.ServiceEntry.ServiceName = "service2";
 
             Assert.Equal(model1, model2);
             Assert.True(model1 == model2);

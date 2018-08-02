@@ -16,12 +16,10 @@ namespace Rabbit.Rpc.Utilities
         {
             return Current.IsRegistered<T>();
         }
-
         public static bool IsRegistered<T>(string key)
         {
             return Current.IsRegisteredWithKey<T>(key);
         }
-
         public static bool IsRegistered(Type type)
         {
             return Current.IsRegistered(type);
@@ -34,7 +32,7 @@ namespace Rabbit.Rpc.Utilities
 
         public static T ResolveKeyed<T>(string key)
         {
-       
+
             return Current.ResolveKeyed<T>(key);
         }
 

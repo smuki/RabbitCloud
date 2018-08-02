@@ -1,4 +1,5 @@
 ﻿using Rabbit.Rpc.Address;
+using Rabbit.Rpc.Runtime.Server;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors
         /// <summary>
         /// 服务描述符。
         /// </summary>
-        public ServiceDescriptor Descriptor { get; set; }
+        public ServiceRecord Descriptor { get; set; }
 
         /// <summary>
         /// 服务可用地址。

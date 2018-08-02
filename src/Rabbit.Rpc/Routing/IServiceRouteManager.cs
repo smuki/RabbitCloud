@@ -30,14 +30,14 @@ namespace Rabbit.Rpc.Routing
         /// 获取所有可用的服务路由信息。
         /// </summary>
         /// <returns>服务路由集合。</returns>
-        Task<IEnumerable<ServiceRoute>> GetRoutesAsync();
+        Task<IEnumerable<ServicePath>> GetRoutesAsync();
 
         /// <summary>
         /// 设置服务路由。
         /// </summary>
         /// <param name="routes">服务路由集合。</param>
         /// <returns>一个任务。</returns>
-        Task SetRoutesAsync(IEnumerable<ServiceRoute> routes);
+        Task SetRoutesAsync(IEnumerable<ServicePath> routes);
 
         /// <summary>
         /// 清空所有的服务路由。
@@ -57,9 +57,9 @@ namespace Rabbit.Rpc.Routing
         /// <param name="serviceRouteManager">服务路由管理者。</param>
         /// <param name="serviceId">服务Id。</param>
         /// <returns>服务路由。</returns>
-        public static async Task<ServiceRoute> GetAsync(this IServiceRouteManager serviceRouteManager, string serviceId)
+        public static async Task<ServicePath> GetAsync(this IServiceRouteManager serviceRouteManager, string serviceId)
         {
-            return (await serviceRouteManager.GetRoutesAsync()).SingleOrDefault(i => i.ServiceDescriptor.Id == serviceId);
+            return (await serviceRouteManager.GetRoutesAsync()).SingleOrDefault(i => i.ServiceEntry.ServiceName == serviceId);
         }
     }
 }

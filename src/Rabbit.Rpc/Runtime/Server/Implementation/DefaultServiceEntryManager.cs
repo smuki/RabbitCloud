@@ -11,7 +11,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
     {
         #region Field
 
-        private readonly IEnumerable<ServiceEntry> _serviceEntries;
+        private readonly IEnumerable<ServiceRecord> _serviceEntries;
 
         #endregion Field
 
@@ -19,14 +19,14 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
         public DefaultServiceEntryManager(IEnumerable<IServiceEntryProvider> providers)
         {
-            var list = new List<ServiceEntry>();
+            var list = new List<ServiceRecord>();
             foreach (var provider in providers)
             {
                 var entries = provider.GetEntries().ToArray();
                 foreach (var entry in entries)
                 {
-                    if (list.Any(i => i.Descriptor.Id == entry.Descriptor.Id))
-                        throw new InvalidOperationException($"本地包含多个Id为：{entry.Descriptor.Id} 的服务条目。");
+                    if (list.Any(i => i.ServiceName == entry.ServiceName))
+                        throw new InvalidOperationException($"本地包含多个Id为：{entry.ServiceName} 的服务条目。");
                 }
                 list.AddRange(entries);
             }
@@ -41,7 +41,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// 获取服务条目集合。
         /// </summary>
         /// <returns>服务条目集合。</returns>
-        public IEnumerable<ServiceEntry> GetEntries()
+        public IEnumerable<ServiceRecord> GetEntries()
         {
             return _serviceEntries;
         }

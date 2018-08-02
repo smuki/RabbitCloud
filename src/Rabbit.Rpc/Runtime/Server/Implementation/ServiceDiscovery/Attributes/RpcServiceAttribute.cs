@@ -27,7 +27,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         /// 应用标记。
         /// </summary>
         /// <param name="descriptor">服务描述符。</param>
-        public override void Apply(ServiceDescriptor descriptor)
+        public override void Apply(ServiceRecord descriptor)
         {
             descriptor.WaitExecution(IsWaitExecution);
         }

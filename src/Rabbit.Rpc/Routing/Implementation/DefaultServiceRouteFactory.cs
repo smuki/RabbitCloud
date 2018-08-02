@@ -26,17 +26,17 @@ namespace Rabbit.Rpc.Routing.Implementation
         /// </summary>
         /// <param name="descriptors">服务路由描述符。</param>
         /// <returns>服务路由集合。</returns>
-        public Task<IEnumerable<ServiceRoute>> CreateServiceRoutesAsync(IEnumerable<ServiceRouteDescriptor> descriptors)
+        public Task<IEnumerable<ServicePath>> CreateServiceRoutesAsync(IEnumerable<ServiceRouteDescriptor> descriptors)
         {
             if (descriptors == null)
                 throw new ArgumentNullException(nameof(descriptors));
 
             descriptors = descriptors.ToArray();
-            var routes = new List<ServiceRoute>(descriptors.Count());
-            routes.AddRange(descriptors.Select(descriptor => new ServiceRoute
+            var routes = new List<ServicePath>(descriptors.Count());
+            routes.AddRange(descriptors.Select(descriptor => new ServicePath
             {
-                Address = CreateAddress(descriptor.AddressDescriptors),
-                ServiceDescriptor = descriptor.ServiceDescriptor
+                Address = CreateAddress(descriptor.Address),
+                ServiceEntry = descriptor.ServiceDescriptor
             }));
 
             return Task.FromResult(routes.AsEnumerable());

@@ -11,6 +11,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         /// 应用标记。
         /// </summary>
         /// <param name="descriptor">服务描述符。</param>
-        public abstract void Apply(ServiceDescriptor descriptor);
+        public abstract void Apply(ServiceRecord descriptor);
     }
 }

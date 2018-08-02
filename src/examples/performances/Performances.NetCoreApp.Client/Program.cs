@@ -33,7 +33,7 @@ namespace Performances.NetCoreApp.Client
                 var builder = serviceCollection
                     .AddLogging()
                     .AddClient()
-                    .UseFilesRouteManager("c:\\proj\\routes.txt")
+                    .UseFilesRouteManager("c:\\proj\\routes.js")
                     .UseDotNettyTransport();
 
                 IServiceProvider serviceProvider = null;

@@ -22,10 +22,10 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// </summary>
         /// <param name="invokeMessage">远程调用消息。</param>
         /// <returns>服务条目。</returns>
-        public ServiceEntry Locate(RemoteInvokeMessage invokeMessage)
+        public ServiceRecord Locate(RemoteInvokeMessage invokeMessage)
         {
             var serviceEntries = _serviceEntryManager.GetEntries();
-            return serviceEntries.SingleOrDefault(i => i.Descriptor.Id == invokeMessage.ServiceId);
+            return serviceEntries.SingleOrDefault(i => i.ServiceName == invokeMessage.ServiceId);
         }
 
         #endregion Implementation of IServiceEntryLocate

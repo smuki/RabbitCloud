@@ -2,6 +2,7 @@
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Runtime.Client.HealthChecks;
+using Rabbit.Rpc.Runtime.Server;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -54,14 +55,14 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.I
 
         #region Private Method
 
-        private static string GetCacheKey(ServiceDescriptor descriptor)
+        private static string GetCacheKey(ServiceRecord descriptor)
         {
-            return descriptor.Id;
+            return descriptor.ServiceName;
         }
 
         private void ServiceRouteManager_Removed(object sender, ServiceRouteEventArgs e)
         {
-            var key = GetCacheKey(e.Route.ServiceDescriptor);
+            var key = GetCacheKey(e.Route.ServiceEntry);
             Lazy<AddressEntry> value;
             _concurrent.TryRemove(key, out value);
         }

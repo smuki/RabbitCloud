@@ -11,7 +11,7 @@ namespace Rabbit.Rpc.Routing.Implementation
     /// </summary>
     public class ServiceRouteEventArgs
     {
-        public ServiceRouteEventArgs(ServiceRoute route)
+        public ServiceRouteEventArgs(ServicePath route)
         {
             Route = route;
         }
@@ -19,7 +19,7 @@ namespace Rabbit.Rpc.Routing.Implementation
         /// <summary>
         /// 服务路由信息。
         /// </summary>
-        public ServiceRoute Route { get; private set; }
+        public ServicePath Route { get; private set; }
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ namespace Rabbit.Rpc.Routing.Implementation
     /// </summary>
     public class ServiceRouteChangedEventArgs : ServiceRouteEventArgs
     {
-        public ServiceRouteChangedEventArgs(ServiceRoute route, ServiceRoute oldRoute) : base(route)
+        public ServiceRouteChangedEventArgs(ServicePath route, ServicePath oldRoute) : base(route)
         {
             OldRoute = oldRoute;
         }
@@ -35,7 +35,7 @@ namespace Rabbit.Rpc.Routing.Implementation
         /// <summary>
         /// 旧的服务路由信息。
         /// </summary>
-        public ServiceRoute OldRoute { get; set; }
+        public ServicePath OldRoute { get; set; }
     }
 
     /// <summary>
@@ -86,26 +86,26 @@ namespace Rabbit.Rpc.Routing.Implementation
         /// 获取所有可用的服务路由信息。
         /// </summary>
         /// <returns>服务路由集合。</returns>
-        public abstract Task<IEnumerable<ServiceRoute>> GetRoutesAsync();
+        public abstract Task<IEnumerable<ServicePath>> GetRoutesAsync();
 
         /// <summary>
         /// 设置服务路由。
         /// </summary>
         /// <param name="routes">服务路由集合。</param>
         /// <returns>一个任务。</returns>
-        Task IServiceRouteManager.SetRoutesAsync(IEnumerable<ServiceRoute> routes)
+        Task IServiceRouteManager.SetRoutesAsync(IEnumerable<ServicePath> routes)
         {
             if (routes == null)
                 throw new ArgumentNullException(nameof(routes));
 
             var descriptors = routes.Where(route => route != null).Select(route => new ServiceRouteDescriptor
             {
-                AddressDescriptors = route.Address?.Select(address => new ServiceAddressDescriptor
+                Address = route.Address?.Select(address => new ServiceAddressDescriptor
                 {
                     Type = address.GetType().FullName,
                     Value = _serializer.Serialize(address)
                 }) ?? Enumerable.Empty<ServiceAddressDescriptor>(),
-                ServiceDescriptor = route.ServiceDescriptor
+                ServiceDescriptor = route.ServiceEntry
             });
 
             return SetRoutesAsync(descriptors);

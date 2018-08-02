@@ -67,7 +67,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             var resultMessage = new RemoteInvokeResultMessage();
 
             //是否需要等待执行。
-            if (entry.Descriptor.WaitExecution())
+            if (entry.WaitExecution())
             {
                 //执行本地代码。
                 await LocalExecuteAsync(entry, remoteInvokeMessage, resultMessage);
@@ -91,7 +91,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
         #region Private Method
 
-        private async Task LocalExecuteAsync(ServiceEntry entry, RemoteInvokeMessage remoteInvokeMessage, RemoteInvokeResultMessage resultMessage)
+        private async Task LocalExecuteAsync(ServiceRecord entry, RemoteInvokeMessage remoteInvokeMessage, RemoteInvokeResultMessage resultMessage)
         {
             try
             {

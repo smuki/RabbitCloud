@@ -42,7 +42,7 @@ namespace Performances.NetCoreApp.Server
                 .AddLogging()
                 .AddRpcCore()
                 .AddServiceRuntime()
-                .UseFilesRouteManager("c:\\proj\\routes.txt")
+                .UseFilesRouteManager("c:\\proj\\routes.js")
                 .UseDotNettyTransport();
 
             serviceCollection.AddTransient<IUserService, UserService>();
@@ -86,10 +86,11 @@ namespace Performances.NetCoreApp.Server
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             {
                 var serviceEntryManager = serviceProvider.GetRequiredService<IServiceEntryManager>();
-                var addressDescriptors = serviceEntryManager.GetEntries().Select(i => new ServiceRoute
+                var addressDescriptors = serviceEntryManager.GetEntries().Select(i => new ServicePath
                 {
                     Address = new[] { new IpAddressModel { Ip = "127.0.0.1", Port = 9981 } },
-                    ServiceDescriptor = i.Descriptor
+                    ServiceEntry = i
+                   //20180804
                 });
 
                 var serviceRouteManager = serviceProvider.GetRequiredService<IServiceRouteManager>();

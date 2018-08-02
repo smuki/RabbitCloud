@@ -1,5 +1,6 @@
 ﻿using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Routing;
+using Rabbit.Rpc.Runtime.Server;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,13 +21,13 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
             Assert.False(routes.Any());
 
             var newRoute =
-                new ServiceRoute
+                new ServicePath
                 {
                     Address = new[]
                     {
                         new IpAddressModel("127.0.0.1", 1)
                     },
-                    ServiceDescriptor = new ServiceDescriptor { Id = "service1" }
+                    ServiceEntry = new ServiceRecord { ServiceName = "service1" }
                 };
 
             await ServiceRouteManager.SetRoutesAsync(new[]
@@ -51,37 +52,37 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
         [Fact]
         public async Task EventTest()
         {
-            var route1 = new ServiceRoute
+            var route1 = new ServicePath
             {
                 Address = new[]
                 {
                     new IpAddressModel("127.0.0.1", 1)
                 },
-                ServiceDescriptor = new ServiceDescriptor
+                ServiceEntry = new ServiceRecord
                 {
-                    Id = "service1"
+                    ServiceName = "service1"
                 }
             };
-            var route2 = new ServiceRoute
+            var route2 = new ServicePath
             {
                 Address = new[]
                 {
                     new IpAddressModel("127.0.0.1", 2)
                 },
-                ServiceDescriptor = new ServiceDescriptor
+                ServiceEntry = new ServiceRecord
                 {
-                    Id = "service2"
+                    ServiceName = "service2"
                 }
             };
-            var route3 = new ServiceRoute
+            var route3 = new ServicePath
             {
                 Address = new[]
                 {
                     new IpAddressModel("127.0.0.1", 3)
                 },
-                ServiceDescriptor = new ServiceDescriptor
+                ServiceEntry = new ServiceRecord
                 {
-                    Id = "service3"
+                    ServiceName = "service3"
                 }
             };
 
@@ -107,14 +108,14 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                 removedWait = new TaskCompletionSource<bool>();
             };
             reset();
-            ServiceRouteManager.Created += (s, e) => { createdWait.TrySetResult(route3.ServiceDescriptor.Id == e.Route.ServiceDescriptor.Id); };
+            ServiceRouteManager.Created += (s, e) => { createdWait.TrySetResult(route3.ServiceEntry.ServiceName == e.Route.ServiceEntry.ServiceName); };
             ServiceRouteManager.Changed += (s, e) => {
                     changedWait.TrySetResult(
-                        route2.ServiceDescriptor.Id == e.Route.ServiceDescriptor.Id
+                        route2.ServiceEntry.ServiceName == e.Route.ServiceEntry.ServiceName
                         && route2.Address.First() == e.Route.Address.First()
                         && 2 == ((IpAddressModel)e.OldRoute.Address.First()).Port);
                 };
-            ServiceRouteManager.Removed += (s, e) => { removedWait.TrySetResult(route1.ServiceDescriptor.Id == e.Route.ServiceDescriptor.Id); };
+            ServiceRouteManager.Removed += (s, e) => { removedWait.TrySetResult(route1.ServiceEntry.ServiceName == e.Route.ServiceEntry.ServiceName); };
 
             await ServiceRouteManager.SetRoutesAsync(new[] { route2, route3 });
 

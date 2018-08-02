@@ -36,7 +36,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         /// 获取服务条目集合。
         /// </summary>
         /// <returns>服务条目集合。</returns>
-        public IEnumerable<ServiceEntry> GetEntries()
+        public IEnumerable<ServiceRecord> GetEntries()
         {
             var services = _types.Where(i =>
             {
@@ -52,14 +52,18 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 
             if (_logger.IsEnabled(LogLevel.Information))
             {
+                Console.WriteLine($"发现了以下服务：{string.Join(",", services.Select(i => i.ToString()))}。");
                 _logger.LogInformation($"发现了以下服务：{string.Join(",", services.Select(i => i.ToString()))}。");
             }
 
-            var entries = new List<ServiceEntry>();
+            var entries = new List<ServiceRecord>();
             foreach (var service in services)
             {
+          
                 foreach (var serviceImplementation in serviceImplementations.Where(i => service.GetTypeInfo().IsAssignableFrom(i)))
                 {
+                    Console.WriteLine("--"+serviceImplementation.ToString());
+
                     entries.AddRange(_clrServiceEntryFactory.CreateServiceEntry(service, serviceImplementation));
                 }
             }

@@ -47,13 +47,13 @@ namespace Echo.Server
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             {
                 var serviceEntryManager = serviceProvider.GetRequiredService<IServiceEntryManager>();
-                var addressDescriptors = serviceEntryManager.GetEntries().Select(i => new ServiceRoute
+                var addressDescriptors = serviceEntryManager.GetEntries().Select(i => new ServicePath
                 {
                     Address = new[]
                     {
                         new IpAddressModel { Ip = "127.0.0.1", Port = 9981 }
                     },
-                    ServiceDescriptor = i.Descriptor
+                    ServiceEntry = i
                 });
 
                 var serviceRouteManager = serviceProvider.GetRequiredService<IServiceRouteManager>();

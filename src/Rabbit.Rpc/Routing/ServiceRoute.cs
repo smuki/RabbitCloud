@@ -1,4 +1,5 @@
 ﻿using Rabbit.Rpc.Address;
+using Rabbit.Rpc.Runtime.Server;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +8,7 @@ namespace Rabbit.Rpc.Routing
     /// <summary>
     /// 服务路由。
     /// </summary>
-    public class ServiceRoute
+    public class ServicePath
     {
         /// <summary>
         /// 服务可用地址。
@@ -16,7 +17,7 @@ namespace Rabbit.Rpc.Routing
         /// <summary>
         /// 服务描述符。
         /// </summary>
-        public ServiceDescriptor ServiceDescriptor { get; set; }
+        public ServiceRecord ServiceEntry { get; set; }
 
         #region Equality members
 
@@ -25,14 +26,14 @@ namespace Rabbit.Rpc.Routing
         /// <param name="obj">The object to compare with the current object. </param>
         public override bool Equals(object obj)
         {
-            var model = obj as ServiceRoute;
+            var model = obj as ServicePath;
             if (model == null)
                 return false;
 
             if (obj.GetType() != GetType())
                 return false;
 
-            if (model.ServiceDescriptor != ServiceDescriptor)
+            if (model.ServiceEntry != ServiceEntry)
                 return false;
 
             return model.Address.Count() == Address.Count() && model.Address.All(addressModel => Address.Contains(addressModel));
@@ -45,12 +46,12 @@ namespace Rabbit.Rpc.Routing
             return ToString().GetHashCode();
         }
 
-        public static bool operator ==(ServiceRoute model1, ServiceRoute model2)
+        public static bool operator ==(ServicePath model1, ServicePath model2)
         {
             return Equals(model1, model2);
         }
 
-        public static bool operator !=(ServiceRoute model1, ServiceRoute model2)
+        public static bool operator !=(ServicePath model1, ServicePath model2)
         {
             return !Equals(model1, model2);
         }

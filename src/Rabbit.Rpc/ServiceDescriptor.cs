@@ -14,7 +14,7 @@ namespace Rabbit.Rpc
         /// </summary>
         /// <param name="descriptor">服务描述符。</param>
         /// <returns>组名称。</returns>
-        public static string GroupName(this ServiceDescriptor descriptor)
+        public static string GroupName(this ServiceDescriptorx descriptor)
         {
             return descriptor.GetMetadata<string>("GroupName");
         }
@@ -25,9 +25,9 @@ namespace Rabbit.Rpc
         /// <param name="descriptor">服务描述符。</param>
         /// <param name="groupName">组名称。</param>
         /// <returns>服务描述符。</returns>
-        public static ServiceDescriptor GroupName(this ServiceDescriptor descriptor, string groupName)
+        public static ServiceDescriptorx GroupName(this ServiceDescriptorx descriptor, string groupName)
         {
-            descriptor.Metadatas["GroupName"] = groupName;
+            descriptor.Metadata["GroupName"] = groupName;
 
             return descriptor;
         }
@@ -38,9 +38,9 @@ namespace Rabbit.Rpc
         /// <param name="descriptor">服务描述符。</param>
         /// <param name="waitExecution">如果需要等待执行则为true，否则为false，默认为true。</param>
         /// <returns></returns>
-        public static ServiceDescriptor WaitExecution(this ServiceDescriptor descriptor, bool waitExecution)
+        public static ServiceDescriptorx WaitExecution(this ServiceDescriptorx descriptor, bool waitExecution)
         {
-            descriptor.Metadatas["WaitExecution"] = waitExecution;
+            descriptor.Metadata["WaitExecution"] = waitExecution;
             return descriptor;
         }
 
@@ -49,7 +49,7 @@ namespace Rabbit.Rpc
         /// </summary>
         /// <param name="descriptor">服务描述符。</param>
         /// <returns>如果需要等待执行则为true，否则为false，默认为true。</returns>
-        public static bool WaitExecution(this ServiceDescriptor descriptor)
+        public static bool WaitExecution(this ServiceDescriptorx descriptor)
         {
             return descriptor.GetMetadata("WaitExecution", true);
         }
@@ -58,14 +58,14 @@ namespace Rabbit.Rpc
     /// <summary>
     /// 服务描述符。
     /// </summary>
-    public class ServiceDescriptor
+    public class ServiceDescriptorx
     {
         /// <summary>
         /// 初始化一个新的服务描述符。
         /// </summary>
-        public ServiceDescriptor()
+        public ServiceDescriptorx()
         {
-            Metadatas = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            Metadata = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Rabbit.Rpc
         /// <summary>
         /// 元数据。
         /// </summary>
-        public IDictionary<string, object> Metadatas { get; set; }
+        public IDictionary<string, object> Metadata { get; set; }
 
         /// <summary>
         /// 获取一个元数据。
@@ -87,10 +87,10 @@ namespace Rabbit.Rpc
         /// <returns>元数据值。</returns>
         public T GetMetadata<T>(string name, T def = default(T))
         {
-            if (!Metadatas.ContainsKey(name))
+            if (!Metadata.ContainsKey(name))
                 return def;
 
-            return (T)Metadatas[name];
+            return (T)Metadata[name];
         }
 
         #region Equality members
@@ -100,7 +100,7 @@ namespace Rabbit.Rpc
         /// <param name="obj">The object to compare with the current object. </param>
         public override bool Equals(object obj)
         {
-            var model = obj as ServiceDescriptor;
+            var model = obj as ServiceDescriptorx;
             if (model == null)
                 return false;
 
@@ -110,10 +110,10 @@ namespace Rabbit.Rpc
             if (model.Id != Id)
                 return false;
 
-            return model.Metadatas.Count == Metadatas.Count && model.Metadatas.All(metadata =>
+            return model.Metadata.Count == Metadata.Count && model.Metadata.All(metadata =>
                    {
                        object value;
-                       if (!Metadatas.TryGetValue(metadata.Key, out value))
+                       if (!Metadata.TryGetValue(metadata.Key, out value))
                            return false;
 
                        if (metadata.Value == null && value == null)
@@ -132,12 +132,12 @@ namespace Rabbit.Rpc
             return ToString().GetHashCode();
         }
 
-        public static bool operator ==(ServiceDescriptor model1, ServiceDescriptor model2)
+        public static bool operator ==(ServiceDescriptorx model1, ServiceDescriptorx model2)
         {
             return Equals(model1, model2);
         }
 
-        public static bool operator !=(ServiceDescriptor model1, ServiceDescriptor model2)
+        public static bool operator !=(ServiceDescriptorx model1, ServiceDescriptorx model2)
         {
             return !Equals(model1, model2);
         }

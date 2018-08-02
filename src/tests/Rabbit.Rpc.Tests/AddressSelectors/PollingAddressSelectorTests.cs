@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using Rabbit.Rpc.Runtime.Server;
 
 namespace Rabbit.Rpc.Tests.AddressSelectors
 {
@@ -17,7 +18,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
     {
         private class TestServiceRouteManager : ServiceRouteManagerBase
         {
-            private ServiceRoute[] _routes;
+            private ServicePath[] _routes;
             private readonly IServiceRouteFactory _serviceRouteFactory = new DefaultServiceRouteFactory(new JsonSerializer());
 
             public TestServiceRouteManager() : base(new JsonSerializer())
@@ -31,7 +32,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             /// 获取所有可用的服务路由信息。
             /// </summary>
             /// <returns>服务路由集合。</returns>
-            public override Task<IEnumerable<ServiceRoute>> GetRoutesAsync()
+            public override Task<IEnumerable<ServicePath>> GetRoutesAsync()
             {
                 return Task.FromResult(_routes.AsEnumerable());
             }
@@ -43,7 +44,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             public override Task ClearAsync()
             {
                 OnRemoved(new ServiceRouteEventArgs(_routes[0]));
-                _routes = new ServiceRoute[0];
+                _routes = new ServicePath[0];
                 return Task.CompletedTask;
             }
 
@@ -65,12 +66,12 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             {
                 _routes = new[]
                 {
-                    new ServiceRoute
+                    new ServicePath
                     {
                         Address = Enumerable.Range(1, 100).Select(i => new IpAddressModel("127.0.0.1", i)),
-                        ServiceDescriptor = new ServiceDescriptor
+                        ServiceEntry = new ServiceRecord
                         {
-                            Id = "service1"
+                            ServiceName = "service1"
                         }
                     }
                 };
@@ -85,7 +86,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             return new AddressSelectContext
             {
                 Address = route.Address,
-                Descriptor = route.ServiceDescriptor
+                Descriptor = route.ServiceEntry
             };
         }
 
@@ -219,16 +220,16 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             //更新路由信息。
             await _serviceRouteManager.SetRoutesAsync(new[]
             {
-                new ServiceRoute
+                new ServicePath
                 {
                     Address = new[]
                     {
                         new IpAddressModel("127.0.0.1", 0),
                         new IpAddressModel("127.0.0.1", 2)
                     },
-                    ServiceDescriptor = new ServiceDescriptor
+                    ServiceEntry = new ServiceRecord
                     {
-                        Id = "service1"
+                        ServiceName = "service1"
                     }
                 }
             });

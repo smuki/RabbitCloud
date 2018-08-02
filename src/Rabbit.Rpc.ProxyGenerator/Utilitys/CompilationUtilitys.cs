@@ -36,7 +36,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Utilitys
             references = new[]
             {
                 MetadataReference.CreateFromFile(typeof(Task).GetTypeInfo().Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(ServiceDescriptor).GetTypeInfo().Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ServiceDescriptorx).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(IRemoteInvokeService).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(IServiceProxyGenerater).GetTypeInfo().Assembly.Location)
             }.Concat(references);

@@ -24,7 +24,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
         private readonly ISerializer<byte[]> _serializer;
         private readonly IServiceRouteFactory _serviceRouteFactory;
         private readonly ILogger<ZooKeeperServiceRouteManager> _logger;
-        private ServiceRoute[] _routes;
+        private ServicePath[] _routes;
         private readonly ManualResetEvent _connectionWait = new ManualResetEvent(false);
 
         #endregion Field
@@ -51,7 +51,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
         /// 获取所有可用的服务路由信息。
         /// </summary>
         /// <returns>服务路由集合。</returns>
-        public override async Task<IEnumerable<ServiceRoute>> GetRoutesAsync()
+        public override async Task<IEnumerable<ServicePath>> GetRoutesAsync()
         {
             await EnterRoutes();
             return _routes;
@@ -116,8 +116,8 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
 
             if (_routes != null)
             {
-                var oldRouteIds = _routes.Select(i => i.ServiceDescriptor.Id).ToArray();
-                var newRouteIds = routes.Select(i => i.ServiceDescriptor.Id).ToArray();
+                var oldRouteIds = _routes.Select(i => i.ServiceEntry.ServiceName).ToArray();
+                var newRouteIds = routes.Select(i => i.ServiceDescriptor.ServiceName).ToArray();
                 var deletedRouteIds = oldRouteIds.Except(newRouteIds).ToArray();
                 foreach (var deletedRouteId in deletedRouteIds)
                 {
@@ -128,7 +128,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
 
             foreach (var serviceRoute in routes)
             {
-                var nodePath = $"{path}{serviceRoute.ServiceDescriptor.Id}";
+                var nodePath = $"{path}{serviceRoute.ServiceDescriptor.ServiceName}";
                 var nodeData = _serializer.Serialize(serviceRoute);
                 if (await _zooKeeper.existsAsync(nodePath) == null)
                 {
@@ -195,7 +195,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             }
         }
 
-        private async Task<ServiceRoute> GetRoute(byte[] data)
+        private async Task<ServicePath> GetRoute(byte[] data)
         {
             if (_logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug($"准备转换服务路由，配置内容：{Encoding.UTF8.GetString(data)}。");
@@ -208,7 +208,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             return (await _serviceRouteFactory.CreateServiceRoutesAsync(new[] { descriptor })).First();
         }
 
-        private async Task<ServiceRoute> GetRoute(string path)
+        private async Task<ServicePath> GetRoute(string path)
         {
             var watcher = new NodeMonitorWatcher(_zooKeeper, path,
                 async (oldData, newData) => await NodeChange(oldData, newData));
@@ -217,14 +217,14 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             return await GetRoute(data);
         }
 
-        private async Task<ServiceRoute[]> GetRoutes(IEnumerable<string> childrens)
+        private async Task<ServicePath[]> GetRoutes(IEnumerable<string> childrens)
         {
             var rootPath = _configInfo.RoutePath;
             if (!rootPath.EndsWith("/"))
                 rootPath += "/";
 
             childrens = childrens.ToArray();
-            var routes = new List<ServiceRoute>(childrens.Count());
+            var routes = new List<ServicePath>(childrens.Count());
 
             foreach (var children in childrens)
             {
@@ -257,7 +257,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             {
                 if (_logger.IsEnabled(LogLevel.Warning))
                     _logger.LogWarning($"无法获取路由信息，因为节点：{_configInfo.RoutePath}，不存在。");
-                _routes = new ServiceRoute[0];
+                _routes = new ServicePath[0];
             }
         }
 
@@ -282,14 +282,14 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
 
             var newRoute = await GetRoute(newData);
             //得到旧的路由。
-            var oldRoute = _routes.First(i => i.ServiceDescriptor.Id == newRoute.ServiceDescriptor.Id);
+            var oldRoute = _routes.First(i => i.ServiceEntry.ServiceName == newRoute.ServiceEntry.ServiceName);
 
             lock (_routes)
             {
                 //删除旧路由，并添加上新的路由。
                 _routes =
                     _routes
-                        .Where(i => i.ServiceDescriptor.Id != newRoute.ServiceDescriptor.Id)
+                        .Where(i => i.ServiceEntry.ServiceName != newRoute.ServiceEntry.ServiceName)
                         .Concat(new[] { newRoute }).ToArray();
             }
             //触发路由变更事件。
@@ -322,13 +322,13 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             {
                 _routes = _routes
                     //删除无效的节点路由。
-                    .Where(i => !deletedChildrens.Contains(i.ServiceDescriptor.Id))
+                    .Where(i => !deletedChildrens.Contains(i.ServiceEntry.ServiceName))
                     //连接上新的路由。
                     .Concat(newRoutes)
                     .ToArray();
             }
             //需要删除的路由集合。
-            var deletedRoutes = routes.Where(i => deletedChildrens.Contains(i.ServiceDescriptor.Id)).ToArray();
+            var deletedRoutes = routes.Where(i => deletedChildrens.Contains(i.ServiceEntry.ServiceName)).ToArray();
             //触发删除事件。
             OnRemoved(deletedRoutes.Select(route => new ServiceRouteEventArgs(route)).ToArray());
 
