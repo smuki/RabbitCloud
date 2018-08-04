@@ -44,10 +44,12 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
         /// <returns>服务地址模型。</returns>
         public async Task<AddressModel> Resolver(string serviceId)
         {
+            var id = serviceId.Substring(0,serviceId.LastIndexOf("."));
+            var method= serviceId.Substring(serviceId.LastIndexOf(".")+1);
             if (_logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug($"准备为服务id：{serviceId}，解析可用地址。");
             var descriptors = await _serviceRouteManager.GetRoutesAsync();
-            var descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.ServiceName == serviceId);
+            var descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.ServiceName == id);
 
             if (descriptor == null)
             {

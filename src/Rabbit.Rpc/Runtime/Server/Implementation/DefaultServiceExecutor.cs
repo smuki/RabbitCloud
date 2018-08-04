@@ -95,7 +95,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         {
             try
             {
-                var result = await entry.Func(remoteInvokeMessage.Parameters);
+                Console.WriteLine(":"+remoteInvokeMessage.ServiceKey+":");
+                var result = await entry.Call[remoteInvokeMessage.ServiceKey](remoteInvokeMessage.Parameters);
                 var task = result as Task;
 
                 if (task == null)
@@ -104,7 +105,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 }
                 else
                 {
-                    task.Wait();
+                    await task;
 
                     var taskType = task.GetType().GetTypeInfo();
                     if (taskType.IsGenericType)

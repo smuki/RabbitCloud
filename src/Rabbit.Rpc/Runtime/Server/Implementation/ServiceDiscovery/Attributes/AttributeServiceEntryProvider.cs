@@ -64,7 +64,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
                 {
                     Console.WriteLine("--"+serviceImplementation.ToString());
 
-                    entries.AddRange(_clrServiceEntryFactory.CreateServiceEntry(service, serviceImplementation));
+                    entries.Add(_clrServiceEntryFactory.CreateServiceEntry(service, serviceImplementation));
                 }
             }
             return entries;

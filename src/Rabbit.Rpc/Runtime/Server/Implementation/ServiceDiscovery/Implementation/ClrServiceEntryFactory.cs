@@ -42,27 +42,85 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         /// <param name="service">服务类型。</param>
         /// <param name="serviceImplementation">服务实现类型。</param>
         /// <returns>服务条目集合。</returns>
-        public IEnumerable<ServiceRecord> CreateServiceEntry(Type service, Type serviceImplementation)
+        public ServiceRecord CreateServiceEntry(Type service, Type serviceImplementation)
         {
+            var serviceId = $"{service.FullName}";
+
+            //  var serviceDescriptor = new ServiceDescriptor
+            //  {
+            //      Id = serviceId
+            //  };
+
+            IDictionary<string, Func<IDictionary<string, object>, Task<object>>> call = new Dictionary<string, Func<IDictionary<string, object>, Task<object>>>();
             foreach (var methodInfo in service.GetTypeInfo().GetMethods())
             {
                 var implementationMethodInfo = serviceImplementation.GetTypeInfo().GetMethod(methodInfo.Name, methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
-                yield return Create(methodInfo, implementationMethodInfo);
+                //yield return Create(methodInfo, implementationMethodInfo);
+
+                var descriptorAttributes = methodInfo.GetCustomAttributes<RpcServiceDescriptorAttribute>();
+                foreach (var descriptorAttribute in descriptorAttributes)
+                {
+                    Console.WriteLine(descriptorAttribute);
+                    // descriptorAttribute.Apply(descriptorAttribute);
+                }
+                var id = $"{service.FullName}.{methodInfo.Name}";
+                Console.WriteLine(id);
+                 id = $"{methodInfo.Name}";
+                var mparameters = methodInfo.GetParameters();
+                if (mparameters.Any())
+                {
+                    id += "_" + string.Join("_", mparameters.Select(i => i.Name));
+                }
+                call[id] = (parameters) =>
+                {
+                    var serviceScopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
+                    using (var scope = serviceScopeFactory.CreateScope())
+                    {
+                        var instance = scope.ServiceProvider.GetRequiredService(methodInfo.DeclaringType);
+
+                        var list = new List<object>();
+                        foreach (var parameterInfo in implementationMethodInfo.GetParameters())
+                        {
+                            var value = parameters[parameterInfo.Name];
+                            var parameterType = parameterInfo.ParameterType;
+
+                            var parameter = _typeConvertibleService.Convert(value, parameterType);
+                            list.Add(parameter);
+                        }
+
+                        var result = implementationMethodInfo.Invoke(instance, list.ToArray());
+
+                        return Task.FromResult(result);
+                    }
+                };
             }
+
+            return new ServiceRecord
+            {
+                ServiceName = serviceId,
+                Call= call
+            };
         }
 
         #endregion Implementation of IClrServiceEntryFactory
 
         #region Private Method
-
+        /*
         private ServiceRecord Create(MethodInfo method, MethodBase implementationMethod)
         {
             var serviceId = _serviceIdGenerator.GenerateServiceId(method);
+            if (method == null)
+                throw new ArgumentNullException(nameof(method));
+            var type = method.DeclaringType;
+            if (type == null)
+                throw new ArgumentNullException(nameof(method.DeclaringType), "方法的定义类型不能为空。");
 
-          //  var serviceDescriptor = new ServiceDescriptor
-          //  {
-          //      Id = serviceId
-          //  };
+            serviceId = $"{type.FullName}";
+
+            //  var serviceDescriptor = new ServiceDescriptor
+            //  {
+            //      Id = serviceId
+            //  };
 
             var descriptorAttributes = method.GetCustomAttributes<RpcServiceDescriptorAttribute>();
             foreach (var descriptorAttribute in descriptorAttributes)
@@ -74,7 +132,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             return new ServiceRecord
             {
                 ServiceName = serviceId,
-                Func = parameters =>
+                Call = (key, parameters) =>
                {
                    var serviceScopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
                    using (var scope = serviceScopeFactory.CreateScope())
@@ -98,6 +156,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                }
             };
         }
+        */
 
         #endregion Private Method
     }

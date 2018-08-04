@@ -24,8 +24,11 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <returns>服务条目。</returns>
         public ServiceRecord Locate(RemoteInvokeMessage invokeMessage)
         {
+            var ServiceId = invokeMessage.ServiceId;
+            var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
+
             var serviceEntries = _serviceEntryManager.GetEntries();
-            return serviceEntries.SingleOrDefault(i => i.ServiceName == invokeMessage.ServiceId);
+            return serviceEntries.SingleOrDefault(i => i.ServiceName == id);
         }
 
         #endregion Implementation of IServiceEntryLocate

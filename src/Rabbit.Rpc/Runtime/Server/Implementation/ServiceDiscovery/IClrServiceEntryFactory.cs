@@ -14,6 +14,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery
         /// <param name="service">服务类型。</param>
         /// <param name="serviceImplementation">服务实现类型。</param>
         /// <returns>服务条目集合。</returns>
-        IEnumerable<ServiceRecord> CreateServiceEntry(Type service, Type serviceImplementation);
+        ServiceRecord CreateServiceEntry(Type service, Type serviceImplementation);
     }
 }

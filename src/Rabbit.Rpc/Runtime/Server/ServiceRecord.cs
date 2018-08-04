@@ -62,7 +62,7 @@ namespace Rabbit.Rpc.Runtime.Server
         /// <returns>如果需要等待执行则为true，否则为false，默认为true。</returns>
         public bool WaitExecution()
         {
-            return this.GetMetadata("WaitExecution", true);
+            return this.GetMetadata("WaitExecution", false);
         }
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
         /// <returns>true if the specified object  is equal to the current object; otherwise, false.</returns>
