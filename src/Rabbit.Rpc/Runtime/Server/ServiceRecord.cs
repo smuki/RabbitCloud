@@ -14,8 +14,9 @@ namespace Rabbit.Rpc.Runtime.Server
         /// <summary>
         /// 执行委托。
         /// </summary>
+        //public  Func { get; set; }
         [Newtonsoft.Json.JsonIgnore()]
-        public Func<IDictionary<string, object>, Task<object>> Func { get; set; }
+        public IDictionary<string, Func<IDictionary<string, object>, Task<object>>> Call{ get; set; }
 
         /// <summary>
         /// 服务ServiceName。
@@ -78,6 +79,9 @@ namespace Rabbit.Rpc.Runtime.Server
             if (model.ServiceName != ServiceName)
                 return false;
 
+            if (model.Metadata == null)
+                return false;
+
             return model.Metadata.Count == Metadata.Count && model.Metadata.All(metadata =>
             {
                 object value;
@@ -108,9 +112,5 @@ namespace Rabbit.Rpc.Runtime.Server
         {
             return !Equals(model1, model2);
         }
-        /// <summary>
-        /// 服务描述符。
-        /// </summary>
-        public ServiceDescriptorx xDescriptor { get; set; }
     }
 }
