@@ -17,6 +17,6 @@
         /// <summary>
         /// 结果内容。
         /// </summary>
-        public object Result { get; set; }
+        public object Content { get; set; }
     }
 }

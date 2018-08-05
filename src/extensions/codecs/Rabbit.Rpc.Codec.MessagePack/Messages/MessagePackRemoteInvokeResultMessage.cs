@@ -11,7 +11,7 @@ namespace Rabbit.Rpc.Codec.MessagePack.Messages
         public MessagePackRemoteInvokeResultMessage(RemoteInvokeResultMessage message)
         {
             ExceptionMessage = message.ExceptionMessage;
-            Result = message.Result == null ? null : new DynamicItem(message.Result);
+            Result = message.Content == null ? null : new DynamicItem(message.Content);
         }
 
         public MessagePackRemoteInvokeResultMessage()
@@ -31,7 +31,7 @@ namespace Rabbit.Rpc.Codec.MessagePack.Messages
             return new RemoteInvokeResultMessage
             {
                 ExceptionMessage = ExceptionMessage,
-                Result = Result?.Get()
+                Content = Result?.Get()
             };
         }
     }

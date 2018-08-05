@@ -106,7 +106,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
                 if (task == null)
                 {
-                    resultMessage.Result = result;
+                    resultMessage.Content = result;
                 }
                 else
                 {
@@ -114,7 +114,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
                     var taskType = task.GetType().GetTypeInfo();
                     if (taskType.IsGenericType)
-                        resultMessage.Result = taskType.GetProperty("Result").GetValue(task);
+                        resultMessage.Content = taskType.GetProperty("Result").GetValue(task);
                 }
             }
             catch (Exception exception)

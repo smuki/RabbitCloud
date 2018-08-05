@@ -69,7 +69,7 @@ namespace Echo.Common
             return Task.FromResult(new UserModel
             {
                 Name = "rabbit",
-                Age = 18
+                Age = id
             });
         }
 

@@ -103,7 +103,7 @@ namespace Rabbit.Rpc.Routing.Implementation
                 Address = route.Address?.Select(address => 
                    address
                 ) ?? Enumerable.Empty<string>(),
-                ServiceDescriptor = route.ServiceEntry
+                Service = route.ServiceEntry
             });
 
             return SetRoutesAsync(descriptors);

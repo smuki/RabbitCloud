@@ -82,6 +82,12 @@ namespace Performances.NetCoreApp.Client
                     //预热
                     await userService.GetUser(1);
 
+                    await userService.GetUserName(1);
+                   var v= await userService.GetUser(1);
+                    Console.WriteLine("GetUser");
+                    Console.WriteLine(v.Name);
+                    Console.WriteLine(v.Age);
+
                     do
                     {
                         int t=100;
@@ -91,7 +97,10 @@ namespace Performances.NetCoreApp.Client
                         for (var i = 0; i < t; i++)
                         {
                             await userService.GetUser(i);
-
+                            v = await userService.GetUser(i);
+                            Console.WriteLine("GetUser");
+                            Console.WriteLine(v.Name);
+                            Console.WriteLine(v.Age);
                         }
                         watch.Stop();
                         Console.WriteLine(t + $"次调用结束，执行时间：{watch.ElapsedMilliseconds}ms");

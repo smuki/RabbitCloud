@@ -54,7 +54,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
             if (message == null)
                 return default(T);
 
-            var result = _typeConvertibleService.Convert(message.Result, typeof(T));
+            var result = _typeConvertibleService.Convert(message.Content, typeof(T));
 
             return (T)result;
         }

@@ -117,7 +117,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             if (_routes != null)
             {
                 var oldRouteIds = _routes.Select(i => i.ServiceEntry.ServiceName).ToArray();
-                var newRouteIds = routes.Select(i => i.ServiceDescriptor.ServiceName).ToArray();
+                var newRouteIds = routes.Select(i => i.Service.ServiceName).ToArray();
                 var deletedRouteIds = oldRouteIds.Except(newRouteIds).ToArray();
                 foreach (var deletedRouteId in deletedRouteIds)
                 {
@@ -128,7 +128,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
 
             foreach (var serviceRoute in routes)
             {
-                var nodePath = $"{path}{serviceRoute.ServiceDescriptor.ServiceName}";
+                var nodePath = $"{path}{serviceRoute.Service.ServiceName}";
                 var nodeData = _serializer.Serialize(serviceRoute);
                 if (await _zooKeeper.existsAsync(nodePath) == null)
                 {

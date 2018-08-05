@@ -36,7 +36,7 @@ namespace Rabbit.Rpc.Routing.Implementation
             routes.AddRange(descriptors.Select(descriptor => new ServicePath
             {
                 Address = CreateAddress(descriptor.Address),
-                ServiceEntry = descriptor.ServiceDescriptor
+                ServiceEntry = descriptor.Service
             }));
 
             return Task.FromResult(routes.AsEnumerable());

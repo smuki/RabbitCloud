@@ -46,7 +46,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         {
             var serviceId = $"{service.FullName}";
 
-            //  var serviceDescriptor = new ServiceDescriptor
+            //  var serviceDescriptor = new Service
             //  {
             //      Id = serviceId
             //  };
@@ -117,7 +117,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
 
             serviceId = $"{type.FullName}";
 
-            //  var serviceDescriptor = new ServiceDescriptor
+            //  var serviceDescriptor = new Service
             //  {
             //      Id = serviceId
             //  };
