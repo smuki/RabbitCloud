@@ -21,7 +21,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
             Assert.False(routes.Any());
 
             var newRoute =
-                new ServicePath
+                new ServiceRoute
                 {
                     Address = new[]
                     {
@@ -52,7 +52,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
         [Fact]
         public async Task EventTest()
         {
-            var route1 = new ServicePath
+            var route1 = new ServiceRoute
             {
                 Address = new[]
                 {
@@ -63,7 +63,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                     ServiceName = "service1"
                 }
             };
-            var route2 = new ServicePath
+            var route2 = new ServiceRoute
             {
                 Address = new[]
                 {
@@ -74,7 +74,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                     ServiceName = "service2"
                 }
             };
-            var route3 = new ServicePath
+            var route3 = new ServiceRoute
             {
                 Address = new[]
                 {

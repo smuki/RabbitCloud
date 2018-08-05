@@ -41,7 +41,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// 获取服务条目集合。
         /// </summary>
         /// <returns>服务条目集合。</returns>
-        public IEnumerable<ServiceRecord> GetEntries()
+        public IEnumerable<ServiceRecord> GetServiceRecords()
         {
             return _serviceEntries;
         }

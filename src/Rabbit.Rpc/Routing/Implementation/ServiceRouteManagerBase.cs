@@ -11,7 +11,7 @@ namespace Rabbit.Rpc.Routing.Implementation
     /// </summary>
     public class ServiceRouteEventArgs
     {
-        public ServiceRouteEventArgs(ServicePath route)
+        public ServiceRouteEventArgs(ServiceRoute route)
         {
             Route = route;
         }
@@ -19,7 +19,7 @@ namespace Rabbit.Rpc.Routing.Implementation
         /// <summary>
         /// 服务路由信息。
         /// </summary>
-        public ServicePath Route { get; private set; }
+        public ServiceRoute Route { get; private set; }
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ namespace Rabbit.Rpc.Routing.Implementation
     /// </summary>
     public class ServiceRouteChangedEventArgs : ServiceRouteEventArgs
     {
-        public ServiceRouteChangedEventArgs(ServicePath route, ServicePath oldRoute) : base(route)
+        public ServiceRouteChangedEventArgs(ServiceRoute route, ServiceRoute oldRoute) : base(route)
         {
             OldRoute = oldRoute;
         }
@@ -35,7 +35,7 @@ namespace Rabbit.Rpc.Routing.Implementation
         /// <summary>
         /// 旧的服务路由信息。
         /// </summary>
-        public ServicePath OldRoute { get; set; }
+        public ServiceRoute OldRoute { get; set; }
     }
 
     /// <summary>
@@ -86,14 +86,14 @@ namespace Rabbit.Rpc.Routing.Implementation
         /// 获取所有可用的服务路由信息。
         /// </summary>
         /// <returns>服务路由集合。</returns>
-        public abstract Task<IEnumerable<ServicePath>> GetRoutesAsync();
+        public abstract Task<IEnumerable<ServiceRoute>> GetRoutesAsync();
 
         /// <summary>
         /// 设置服务路由。
         /// </summary>
         /// <param name="routes">服务路由集合。</param>
         /// <returns>一个任务。</returns>
-        Task IServiceRouteManager.SetRoutesAsync(IEnumerable<ServicePath> routes)
+        Task IServiceRouteManager.SetRoutesAsync(IEnumerable<ServiceRoute> routes)
         {
             if (routes == null)
                 throw new ArgumentNullException(nameof(routes));

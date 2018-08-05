@@ -8,7 +8,7 @@ namespace Rabbit.Rpc.Routing
     /// <summary>
     /// 服务路由。
     /// </summary>
-    public class ServicePath
+    public class ServiceRoute
     {
         /// <summary>
         /// 服务可用地址。
@@ -26,7 +26,7 @@ namespace Rabbit.Rpc.Routing
         /// <param name="obj">The object to compare with the current object. </param>
         public override bool Equals(object obj)
         {
-            var model = obj as ServicePath;
+            var model = obj as ServiceRoute;
             if (model == null)
                 return false;
 
@@ -46,12 +46,12 @@ namespace Rabbit.Rpc.Routing
             return ToString().GetHashCode();
         }
 
-        public static bool operator ==(ServicePath model1, ServicePath model2)
+        public static bool operator ==(ServiceRoute model1, ServiceRoute model2)
         {
             return Equals(model1, model2);
         }
 
-        public static bool operator !=(ServicePath model1, ServicePath model2)
+        public static bool operator !=(ServiceRoute model1, ServiceRoute model2)
         {
             return !Equals(model1, model2);
         }

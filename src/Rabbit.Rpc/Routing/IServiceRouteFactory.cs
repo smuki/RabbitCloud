@@ -13,6 +13,6 @@ namespace Rabbit.Rpc.Routing
         /// </summary>
         /// <param name="descriptors">服务路由描述符。</param>
         /// <returns>服务路由集合。</returns>
-        Task<IEnumerable<ServicePath>> CreateServiceRoutesAsync(IEnumerable<ServiceRouteDescriptor> descriptors);
+        Task<IEnumerable<ServiceRoute>> CreateServiceRoutesAsync(IEnumerable<ServiceRouteDescriptor> descriptors);
     }
 }

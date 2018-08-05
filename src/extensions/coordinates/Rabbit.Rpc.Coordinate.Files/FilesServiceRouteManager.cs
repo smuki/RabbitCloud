@@ -22,7 +22,7 @@ namespace Rabbit.Rpc.Coordinate.Files
         private readonly ISerializer<string> _serializer;
         private readonly IServiceRouteFactory _serviceRouteFactory;
         private readonly ILogger<FilesServiceRouteManager> _logger;
-        private ServicePath[] _routes;
+        private ServiceRoute[] _routes;
         private readonly FileSystemWatcher _fileSystemWatcher;
 
         #endregion Field
@@ -69,7 +69,7 @@ namespace Rabbit.Rpc.Coordinate.Files
         ///     获取所有可用的服务路由信息。
         /// </summary>
         /// <returns>服务路由集合。</returns>
-        public override async Task<IEnumerable<ServicePath>> GetRoutesAsync()
+        public override async Task<IEnumerable<ServiceRoute>> GetRoutesAsync()
         {
             if (_routes == null)
                 await EntryRoutes(_filePath);
@@ -111,9 +111,9 @@ namespace Rabbit.Rpc.Coordinate.Files
 
         #region Private Method
 
-        private async Task<IEnumerable<ServicePath>> GetRoutes(string file)
+        private async Task<IEnumerable<ServiceRoute>> GetRoutes(string file)
         {
-            ServicePath[] routes;
+            ServiceRoute[] routes;
             if (File.Exists(file))
             {
                 if (_logger.IsEnabled(LogLevel.Debug))
@@ -145,14 +145,14 @@ namespace Rabbit.Rpc.Coordinate.Files
                 {
                     if (_logger.IsEnabled(LogLevel.Error))
                         _logger.LogError("获取路由信息时发生了错误。", exception);
-                    routes = new ServicePath[0];
+                    routes = new ServiceRoute[0];
                 }
             }
             else
             {
                 if (_logger.IsEnabled(LogLevel.Warning))
                     _logger.LogWarning($"无法获取路由信息，因为文件：{file}不存在。");
-                routes = new ServicePath[0];
+                routes = new ServiceRoute[0];
             }
             return routes;
         }

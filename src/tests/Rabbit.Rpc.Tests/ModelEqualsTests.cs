@@ -102,11 +102,11 @@ namespace Rabbit.Rpc.Tests
         [Fact]
         public void ServiceRouteEqualsTest()
         {
-            ServicePath model1 = null, model2 = null;
+            ServiceRoute model1 = null, model2 = null;
             Action reset = () =>
             {
                 model1 =
-                    new ServicePath
+                    new ServiceRoute
                     {
                         Address = new[]
                         {
@@ -122,7 +122,7 @@ namespace Rabbit.Rpc.Tests
                         }
                     };
                 model2 =
-                    new ServicePath
+                    new ServiceRoute
                     {
                         Address = new[]
                         {

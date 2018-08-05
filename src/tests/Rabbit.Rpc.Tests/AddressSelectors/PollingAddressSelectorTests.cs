@@ -18,7 +18,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
     {
         private class TestServiceRouteManager : ServiceRouteManagerBase
         {
-            private ServicePath[] _routes;
+            private ServiceRoute[] _routes;
             private readonly IServiceRouteFactory _serviceRouteFactory = new DefaultServiceRouteFactory(new JsonSerializer());
 
             public TestServiceRouteManager() : base(new JsonSerializer())
@@ -32,7 +32,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             /// 获取所有可用的服务路由信息。
             /// </summary>
             /// <returns>服务路由集合。</returns>
-            public override Task<IEnumerable<ServicePath>> GetRoutesAsync()
+            public override Task<IEnumerable<ServiceRoute>> GetRoutesAsync()
             {
                 return Task.FromResult(_routes.AsEnumerable());
             }
@@ -44,7 +44,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             public override Task ClearAsync()
             {
                 OnRemoved(new ServiceRouteEventArgs(_routes[0]));
-                _routes = new ServicePath[0];
+                _routes = new ServiceRoute[0];
                 return Task.CompletedTask;
             }
 
@@ -66,7 +66,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             {
                 _routes = new[]
                 {
-                    new ServicePath
+                    new ServiceRoute
                     {
                         Address = Enumerable.Range(1, 100).Select(i => ("127.0.0.1:"+ i.ToString())),
                         ServiceEntry = new ServiceRecord
@@ -220,7 +220,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
             //更新路由信息。
             await _serviceRouteManager.SetRoutesAsync(new[]
             {
-                new ServicePath
+                new ServiceRoute
                 {
                     Address = new[]
                     {

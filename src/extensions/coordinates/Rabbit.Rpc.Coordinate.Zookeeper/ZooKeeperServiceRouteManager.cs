@@ -24,7 +24,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
         private readonly ISerializer<byte[]> _serializer;
         private readonly IServiceRouteFactory _serviceRouteFactory;
         private readonly ILogger<ZooKeeperServiceRouteManager> _logger;
-        private ServicePath[] _routes;
+        private ServiceRoute[] _routes;
         private readonly ManualResetEvent _connectionWait = new ManualResetEvent(false);
 
         #endregion Field
@@ -51,7 +51,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
         /// 获取所有可用的服务路由信息。
         /// </summary>
         /// <returns>服务路由集合。</returns>
-        public override async Task<IEnumerable<ServicePath>> GetRoutesAsync()
+        public override async Task<IEnumerable<ServiceRoute>> GetRoutesAsync()
         {
             await EnterRoutes();
             return _routes;
@@ -195,7 +195,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             }
         }
 
-        private async Task<ServicePath> GetRoute(byte[] data)
+        private async Task<ServiceRoute> GetRoute(byte[] data)
         {
             if (_logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug($"准备转换服务路由，配置内容：{Encoding.UTF8.GetString(data)}。");
@@ -208,7 +208,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             return (await _serviceRouteFactory.CreateServiceRoutesAsync(new[] { descriptor })).First();
         }
 
-        private async Task<ServicePath> GetRoute(string path)
+        private async Task<ServiceRoute> GetRoute(string path)
         {
             var watcher = new NodeMonitorWatcher(_zooKeeper, path,
                 async (oldData, newData) => await NodeChange(oldData, newData));
@@ -217,14 +217,14 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             return await GetRoute(data);
         }
 
-        private async Task<ServicePath[]> GetRoutes(IEnumerable<string> childrens)
+        private async Task<ServiceRoute[]> GetRoutes(IEnumerable<string> childrens)
         {
             var rootPath = _configInfo.RoutePath;
             if (!rootPath.EndsWith("/"))
                 rootPath += "/";
 
             childrens = childrens.ToArray();
-            var routes = new List<ServicePath>(childrens.Count());
+            var routes = new List<ServiceRoute>(childrens.Count());
 
             foreach (var children in childrens)
             {
@@ -257,7 +257,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             {
                 if (_logger.IsEnabled(LogLevel.Warning))
                     _logger.LogWarning($"无法获取路由信息，因为节点：{_configInfo.RoutePath}，不存在。");
-                _routes = new ServicePath[0];
+                _routes = new ServiceRoute[0];
             }
         }
 
