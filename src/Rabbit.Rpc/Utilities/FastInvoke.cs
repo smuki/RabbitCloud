@@ -58,7 +58,7 @@ namespace Rabbit.Rpc.Utilities
                     il.Emit(OpCodes.Ldloc, locals[i]);
             }
             if (methodInfo.IsStatic)
-                il.EmitCall(OpCodes.Call, methodInfo, null);
+                il.EmitCall(OpCodes.CallContext , methodInfo, null);
             else
                 il.EmitCall(OpCodes.Callvirt, methodInfo, null);
             if (methodInfo.ReturnType == typeof(void))
