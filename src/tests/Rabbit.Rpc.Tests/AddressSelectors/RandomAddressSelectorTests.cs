@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors;
 using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.Implementation;
 using Rabbit.Rpc.Runtime.Server;
@@ -17,7 +17,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
 
             var context = GetSelectContext();
 
-            var list = new List<AddressModel>();
+            var list = new List<string>();
             for (var i = 0; i < 100; i++)
                 list.Add(await selector.SelectAsync(context));
 
@@ -33,7 +33,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
         {
             return new AddressSelectContext
             {
-                Address = Enumerable.Range(1, 100).Select(i => new IpAddressModel("127.0.0.1", i)),
+                Address = Enumerable.Range(1, 100).Select(i => "127.0.0.1:"+ i.ToString()),
                 Descriptor = new ServiceRecord
                 {
                     ServiceName = "service1"
