@@ -29,7 +29,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         /// </summary>
         public object Data { get; }
 
-        #region Overrides of RpcServiceDescriptorAttribute
+        #region Overrides of ServiceDescriptorAttribute
 
         /// <summary>
         /// 应用标记。

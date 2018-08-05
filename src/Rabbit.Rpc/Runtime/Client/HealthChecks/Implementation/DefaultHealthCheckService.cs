@@ -63,7 +63,7 @@ namespace Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>健康返回true，否则返回false。</returns>
-        public Task<bool> IsHealth(string address)
+        public ValueTask<bool> IsHealth(string address)
         {
             return Task.Run(() =>
             {

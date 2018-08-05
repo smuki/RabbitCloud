@@ -42,7 +42,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
         /// </summary>
         /// <param name="serviceId">服务Id。</param>
         /// <returns>服务地址模型。</returns>
-        public async Task<string> Resolver(string serviceId)
+        public async ValueTask<string> Resolver(string serviceId)
         {
             var id = serviceId.Substring(0,serviceId.LastIndexOf("."));
             var method= serviceId.Substring(serviceId.LastIndexOf(".")+1);

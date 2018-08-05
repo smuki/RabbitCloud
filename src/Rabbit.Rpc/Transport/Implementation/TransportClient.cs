@@ -76,7 +76,7 @@ namespace Rabbit.Rpc.Transport.Implementation
             catch (Exception exception)
             {
                 if (_logger.IsEnabled(LogLevel.Error))
-                    _logger.LogError("消息发送失败。", exception);
+                    _logger.LogError(exception, "消息发送失败。");
                 throw;
             }
         }
@@ -128,8 +128,8 @@ namespace Rabbit.Rpc.Transport.Implementation
 
         private async Task MessageListener_Received(IMessageSender sender, TransportMessage message)
         {
-            if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("接收到消息。");
+            if (_logger.IsEnabled(LogLevel.Trace))
+                _logger.LogTrace("服务消费者接收到消息。");
 
             TaskCompletionSource<TransportMessage> task;
             if (!_resultDictionary.TryGetValue(message.Id, out task))
