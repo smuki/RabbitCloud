@@ -43,8 +43,4 @@
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
-
 </Project>
