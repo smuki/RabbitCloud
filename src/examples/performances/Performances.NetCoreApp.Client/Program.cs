@@ -75,7 +75,7 @@ namespace Performances.NetCoreApp.Client
                 var services = serviceProxyGenerater.GenerateProxys(new[] { typeof(IUserService) }).ToArray();
 
                 //创建IUserService的代理。
-                var userService = serviceProxyFactory.CreateProxy<IUserService>(services.Single(typeof(IUserService).GetTypeInfo().IsAssignableFrom));
+                var userService = serviceProxyFactory.Resolve<IUserService>(services.Single(typeof(IUserService).GetTypeInfo().IsAssignableFrom));
 
                 Task.Run(async () =>
                 {

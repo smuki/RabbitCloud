@@ -27,7 +27,7 @@ namespace Rabbit.Rpc.ProxyGenerator
         /// <param name="serviceProxyFactory">服务代理工厂。</param>
         /// <param name="proxyType">代理类型。</param>
         /// <returns>服务代理实例。</returns>
-        public static T CreateProxy<T>(this IServiceProxyFactory serviceProxyFactory, Type proxyType)
+        public static T Resolve<T>(this IServiceProxyFactory serviceProxyFactory, Type proxyType)
         {
             return (T)serviceProxyFactory.CreateProxy(proxyType);
         }
