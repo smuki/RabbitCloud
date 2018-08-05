@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Rpc.Serialization;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ namespace Rabbit.Rpc.Routing
     /// <summary>
     /// 服务地址描述符。
     /// </summary>
-    public class ServiceAddressDescriptor
+    public class ServiceAddressDescriptorx
     {
         /// <summary>
         /// 地址类型。
@@ -27,14 +27,16 @@ namespace Rabbit.Rpc.Routing
         /// <param name="address">地址模型实例。</param>
         /// <param name="serializer">序列化器。</param>
         /// <returns>服务地址描述符。</returns>
-        public static ServiceAddressDescriptor CreateDescriptor<T>(T address, ISerializer<string> serializer) where T : AddressModel, new()
+        /*
+        public static ServiceAddressDescriptorx CreateDescriptor<T>(T address, ISerializer<string> serializer) where T : AddressModel, new()
         {
-            return new ServiceAddressDescriptor
+            return new ServiceAddressDescriptorx
             {
                 Type = typeof(T).FullName,
                 Value = address.ToString()
             };
         }
+        */
     }
 
     /// <summary>
@@ -45,7 +47,7 @@ namespace Rabbit.Rpc.Routing
         /// <summary>
         /// 服务地址描述符集合。
         /// </summary>
-        public IEnumerable<ServiceAddressDescriptor> Address { get; set; }
+        public IEnumerable<string> Address { get; set; }
 
         /// <summary>
         /// 服务描述符。
