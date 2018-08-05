@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,7 +48,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.I
         /// </summary>
         /// <param name="context">地址选择上下文。</param>
         /// <returns>地址模型。</returns>
-        protected override Task<AddressModel> SelectAsync(AddressSelectContext context)
+        protected override Task<string> SelectAsync(AddressSelectContext context)
         {
             var address = context.Address.ToArray();
             var length = address.Length;
