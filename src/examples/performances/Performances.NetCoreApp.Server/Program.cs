@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc;
-using Rabbit.Rpc.Address;
+//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Codec.ProtoBuffer;
 using Rabbit.Rpc.Codec.MessagePack;
 
@@ -88,7 +88,7 @@ namespace Performances.NetCoreApp.Server
                 var serviceEntryManager = serviceProvider.GetRequiredService<IServiceEntryManager>();
                 var addressDescriptors = serviceEntryManager.GetEntries().Select(i => new ServicePath
                 {
-                    Address = new[] { new IpAddressModel { Ip = "127.0.0.1", Port = 9981 } },
+                    Address = new string[]{ "127.0.0.1:9981" },
                     ServiceEntry = i
                    //20180804
                 });
