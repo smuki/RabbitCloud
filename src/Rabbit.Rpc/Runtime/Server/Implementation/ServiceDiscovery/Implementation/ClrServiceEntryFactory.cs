@@ -58,7 +58,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                     // descriptorAttribute.Apply(descriptorAttribute);
                 }
                 var id = $"{service.FullName}.{methodInfo.Name}";
-                Console.WriteLine(id);
+                //Console.WriteLine(id);
                  id = $"{methodInfo.Name}";
                 var mparameters = methodInfo.GetParameters();
                 if (mparameters.Any())
