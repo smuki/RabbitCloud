@@ -25,7 +25,7 @@ namespace Echo.Client
             serviceCollection
                 .AddLogging()
                 .AddClient()
-                .UseFilesRouteManager(@"c:\proj\routes.txt")
+                .UseFilesRouteManager(@"c:\proj\routes.js")
                 .UseDotNettyTransport();
 
             var serviceProvider = serviceCollection.BuildServiceProvider();

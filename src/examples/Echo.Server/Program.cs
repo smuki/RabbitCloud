@@ -35,7 +35,7 @@ namespace Echo.Server
                 .AddLogging()
                 .AddRpcCore()
                 .AddServiceRuntime()
-                .UseFilesRouteManager(@"c:\proj\routes.txt")
+                .UseFilesRouteManager(@"c:\proj\routes.js")
                 .UseDotNettyTransport();
             serviceCollection.AddTransient<IUserService, UserService>();
 
