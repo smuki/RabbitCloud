@@ -5,7 +5,7 @@ namespace Rabbit.Rpc.Runtime.Server
     /// <summary>
     /// 一个抽象的服务条目定位器。
     /// </summary>
-    public interface IServiceEntryLocate
+    public interface IServiceLocator
     {
         /// <summary>
         /// 定位服务条目。

@@ -45,7 +45,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         {
             return _serviceEntries;
         }
-
         #endregion Implementation of IServiceEntryManager
     }
 }

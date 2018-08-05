@@ -11,14 +11,14 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
     {
         #region Field
 
-        private readonly IServiceEntryLocate _serviceEntryLocate;
+        private readonly IServiceLocator _serviceEntryLocate;
         private readonly ILogger<DefaultServiceExecutor> _logger;
 
         #endregion Field
 
         #region Constructor
 
-        public DefaultServiceExecutor(IServiceEntryLocate serviceEntryLocate, ILogger<DefaultServiceExecutor> logger)
+        public DefaultServiceExecutor(IServiceLocator serviceEntryLocate, ILogger<DefaultServiceExecutor> logger)
         {
             _serviceEntryLocate = serviceEntryLocate;
             _logger = logger;

@@ -6,14 +6,14 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
     /// Rpc服务元数据标记。
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class RpcServiceMetadataAttribute : RpcServiceDescriptorAttribute
+    public class ServiceMetadataAttribute : ServiceDescriptorAttribute
     {
         /// <summary>
         /// 初始化一个新的Rpc服务元数据标记。
         /// </summary>
         /// <param name="name">名称。</param>
         /// <param name="data">数据。</param>
-        public RpcServiceMetadataAttribute(string name, object data)
+        public ServiceMetadataAttribute(string name, object data)
         {
             Name = name;
             Data = data;

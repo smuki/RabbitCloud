@@ -41,7 +41,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
             var services = _types.Where(i =>
             {
                 var typeInfo = i.GetTypeInfo();
-                return typeInfo.IsInterface && typeInfo.GetCustomAttribute<RpcServiceBundleAttribute>() != null;
+                return typeInfo.IsInterface && typeInfo.GetCustomAttribute<ServiceBundleAttribute>() != null;
             }).ToArray();
             var serviceImplementations = _types.Where(i =>
             {

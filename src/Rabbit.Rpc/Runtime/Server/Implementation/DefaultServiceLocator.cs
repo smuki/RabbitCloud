@@ -6,11 +6,11 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
     /// <summary>
     /// 默认的服务条目定位器。
     /// </summary>
-    public class DefaultServiceEntryLocate : IServiceEntryLocate
+    public class DefaultServiceLocator : IServiceLocator
     {
         private readonly IServiceEntryManager _serviceEntryManager;
 
-        public DefaultServiceEntryLocate(IServiceEntryManager serviceEntryManager)
+        public DefaultServiceLocator(IServiceEntryManager serviceEntryManager)
         {
             _serviceEntryManager = serviceEntryManager;
         }

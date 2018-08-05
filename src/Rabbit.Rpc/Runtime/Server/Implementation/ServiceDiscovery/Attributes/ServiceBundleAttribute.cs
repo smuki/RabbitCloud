@@ -6,7 +6,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
     /// 服务集标记。
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface)]
-    public class RpcServiceBundleAttribute : Attribute
+    public class ServiceBundleAttribute : Attribute
     {
     }
 }

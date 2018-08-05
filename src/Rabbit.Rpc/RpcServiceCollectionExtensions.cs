@@ -303,7 +303,7 @@ namespace Rabbit.Rpc
                     provider.GetRequiredService<ILogger<AttributeServiceEntryProvider>>());
             });
             services.AddSingleton<IServiceEntryManager, DefaultServiceEntryManager>();
-            services.AddSingleton<IServiceEntryLocate, DefaultServiceEntryLocate>();
+            services.AddSingleton<IServiceLocator, DefaultServiceLocator>();
             services.AddSingleton<IServiceExecutor, DefaultServiceExecutor>();
 
             return builder;

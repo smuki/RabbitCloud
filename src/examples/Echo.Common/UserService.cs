@@ -16,7 +16,7 @@ namespace Echo.Common
         public int Age { get; set; }
     }
 
-    [RpcServiceBundle]
+    [ServiceBundle]
     public interface IUserService
     {
         Task<string> GetUserName(int id);
@@ -33,7 +33,7 @@ namespace Echo.Common
 
         Task<IDictionary<string, string>> GetDictionary();
 
-        [RpcService(IsWaitExecution = false)]
+        [Service(IsWaitExecution = false)]
         Task Try();
 
         Task TryThrowException();

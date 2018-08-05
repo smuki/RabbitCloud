@@ -6,12 +6,12 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
     /// 服务标记。
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    public class RpcServiceAttribute : RpcServiceDescriptorAttribute
+    public class ServiceAttribute : ServiceDescriptorAttribute
     {
         /// <summary>
         /// 初始化一个新的Rpc服务标记。
         /// </summary>
-        public RpcServiceAttribute()
+        public ServiceAttribute()
         {
             IsWaitExecution = true;
         }
