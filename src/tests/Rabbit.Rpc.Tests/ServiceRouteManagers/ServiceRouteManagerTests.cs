@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Runtime.Server;
 using System;
@@ -25,7 +25,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                 {
                     Address = new[]
                     {
-                        new IpAddressModel("127.0.0.1", 1)
+                        "127.0.0.1:1"
                     },
                     ServiceEntry = new ServiceRecord { ServiceName = "service1" }
                 };
@@ -56,7 +56,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
             {
                 Address = new[]
                 {
-                    new IpAddressModel("127.0.0.1", 1)
+                    "127.0.0.1:1"
                 },
                 ServiceEntry = new ServiceRecord
                 {
@@ -67,7 +67,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
             {
                 Address = new[]
                 {
-                    new IpAddressModel("127.0.0.1", 2)
+                     "127.0.0.1:2"
                 },
                 ServiceEntry = new ServiceRecord
                 {
@@ -78,7 +78,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
             {
                 Address = new[]
                 {
-                    new IpAddressModel("127.0.0.1", 3)
+                      "127.0.0.1:3"
                 },
                 ServiceEntry = new ServiceRecord
                 {
@@ -97,7 +97,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
 
             route2.Address = new[]
             {
-                new IpAddressModel("127.0.0.1", 11)
+                 "127.0.0.1:11"
             };
 
             TaskCompletionSource<bool> createdWait = null, changedWait = null, removedWait = null;
@@ -113,7 +113,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                     changedWait.TrySetResult(
                         route2.ServiceEntry.ServiceName == e.Route.ServiceEntry.ServiceName
                         && route2.Address.First() == e.Route.Address.First()
-                        && 2 == ((IpAddressModel)e.OldRoute.Address.First()).Port);
+                        && "127.0.0.1:2" == e.OldRoute.Address.First());
                 };
             ServiceRouteManager.Removed += (s, e) => { removedWait.TrySetResult(route1.ServiceEntry.ServiceName == e.Route.ServiceEntry.ServiceName); };
 
