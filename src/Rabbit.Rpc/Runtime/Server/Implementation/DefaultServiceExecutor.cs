@@ -81,10 +81,11 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 //确保新起一个线程执行，不堵塞当前线程。
                 await Task.Factory.StartNew(async () =>
                 {
-                    //执行本地代码。
-                    await LocalExecuteAsync(entry, remoteInvokeMessage, resultMessage);
+                        //执行本地代码。
+                        await LocalExecuteAsync(entry, remoteInvokeMessage, resultMessage);
                 }, TaskCreationOptions.LongRunning);
             }
+
         }
 
         #endregion Implementation of IServiceExecutor
@@ -95,8 +96,12 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         {
             try
             {
-                Console.WriteLine(":"+remoteInvokeMessage.ServiceKey+":");
-                var result = await entry.Call[remoteInvokeMessage.ServiceKey](remoteInvokeMessage.Parameters);
+                //Console.WriteLine(":"+remoteInvokeMessage.ServiceKey+":");
+                var ServiceId = remoteInvokeMessage.ServiceId;
+                var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
+                var method = ServiceId.Substring(ServiceId.LastIndexOf(".")+1);
+
+                var result = await entry.CallContext [method](remoteInvokeMessage.Parameters);
                 var task = result as Task;
 
                 if (task == null)
