@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Runtime.Server;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Rabbit.Rpc.Routing
         /// <summary>
         /// 服务可用地址。
         /// </summary>
-        public IEnumerable<AddressModel> Address { get; set; }
+        public IEnumerable<string> Address { get; set; }
         /// <summary>
         /// 服务描述符。
         /// </summary>
