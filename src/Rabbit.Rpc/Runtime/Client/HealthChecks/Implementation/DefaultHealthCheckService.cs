@@ -1,5 +1,6 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Routing;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>一个任务。</returns>
-        public Task Monitor(AddressModel address)
+        public Task Monitor(string address)
         {
             return Task.Run(() => { _dictionary.GetOrAdd(address.ToString(), k => new MonitorEntry(address)); });
         }
@@ -62,7 +63,7 @@ namespace Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>健康返回true，否则返回false。</returns>
-        public Task<bool> IsHealth(AddressModel address)
+        public Task<bool> IsHealth(string address)
         {
             return Task.Run(() =>
             {
@@ -78,7 +79,7 @@ namespace Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>一个任务。</returns>
-        public Task MarkFailure(AddressModel address)
+        public Task MarkFailure(string address)
         {
             return Task.Run(() =>
             {
@@ -102,7 +103,7 @@ namespace Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation
 
         #region Private Method
 
-        private void Remove(IEnumerable<AddressModel> addressModels)
+        private void Remove(IEnumerable<string> addressModels)
         {
             foreach (var addressModel in addressModels)
             {
@@ -119,7 +120,7 @@ namespace Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation
                 {
                     try
                     {
-                        socket.Connect(entry.EndPoint);
+                        socket.Connect(AddrUtil.CreateEndPoint(entry.EndPoint));
                         entry.Health = true;
                     }
                     catch
@@ -157,13 +158,13 @@ namespace Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation
 
         protected class MonitorEntry
         {
-            public MonitorEntry(AddressModel addressModel, bool health = true)
+            public MonitorEntry(string addressModel, bool health = true)
             {
-                EndPoint = addressModel.CreateEndPoint();
+                EndPoint = addressModel;
                 Health = health;
             }
 
-            public EndPoint EndPoint { get; set; }
+            public string EndPoint { get; set; }
             public bool Health { get; set; }
         }
 
