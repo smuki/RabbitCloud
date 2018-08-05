@@ -1,8 +1,9 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Runtime.Client.HealthChecks;
 using Rabbit.Rpc.Runtime.Server;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -37,16 +38,16 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.I
         /// </summary>
         /// <param name="context">地址选择上下文。</param>
         /// <returns>地址模型。</returns>
-        protected override async Task<AddressModel> SelectAsync(AddressSelectContext context)
+        protected override async Task<string> SelectAsync(AddressSelectContext context)
         {
             var key = GetCacheKey(context.Descriptor);
             //根据服务id缓存服务地址。
             var addressEntry = _concurrent.GetOrAdd(key, k => new Lazy<AddressEntry>(() => new AddressEntry(context.Address))).Value;
 
-            AddressModel addressModel;
+            string addressModel=null;
             do
             {
-                addressModel = addressEntry.GetAddress();
+                addressModel =addressEntry.GetAddress();
             } while (await _healthCheckService.IsHealth(addressModel) == false);
             return addressModel;
         }
@@ -78,13 +79,13 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.I
             private int _index;
             private int _lock;
             private readonly int _maxIndex;
-            private readonly AddressModel[] _address;
+            private readonly string[] _address;
 
             #endregion Field
 
             #region Constructor
 
-            public AddressEntry(IEnumerable<AddressModel> address)
+            public AddressEntry(IEnumerable<string> address)
             {
                 _address = address.ToArray();
                 _maxIndex = _address.Length - 1;
@@ -94,7 +95,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.I
 
             #region Public Method
 
-            public AddressModel GetAddress()
+            public string GetAddress()
             {
                 while (true)
                 {
