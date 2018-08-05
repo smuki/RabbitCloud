@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Address;
+//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors;
 using Rabbit.Rpc.Runtime.Client.HealthChecks;
@@ -42,7 +42,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
         /// </summary>
         /// <param name="serviceId">服务Id。</param>
         /// <returns>服务地址模型。</returns>
-        public async Task<AddressModel> Resolver(string serviceId)
+        public async Task<string> Resolver(string serviceId)
         {
             var id = serviceId.Substring(0,serviceId.LastIndexOf("."));
             var method= serviceId.Substring(serviceId.LastIndexOf(".")+1);
@@ -58,7 +58,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
                 return null;
             }
 
-            var address = new List<AddressModel>();
+            var address = new List<string>();
             foreach (var addressModel in descriptor.Address)
             {
                 await _healthCheckService.Monitor(addressModel);
