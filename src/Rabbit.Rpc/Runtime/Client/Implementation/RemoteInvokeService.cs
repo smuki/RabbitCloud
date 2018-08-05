@@ -4,6 +4,7 @@ using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Runtime.Client.Address.Resolvers;
 using Rabbit.Rpc.Runtime.Client.HealthChecks;
 using Rabbit.Rpc.Transport;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +52,7 @@ namespace Rabbit.Rpc.Runtime.Client.Implementation
 
             try
             {
-                var endPoint = address.CreateEndPoint();
+                var endPoint = AddrUtil.CreateEndPoint(address);
 
                 if (_logger.IsEnabled(LogLevel.Debug))
                     _logger.LogDebug($"使用地址：'{endPoint}'进行调用。");
