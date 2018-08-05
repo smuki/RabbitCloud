@@ -65,7 +65,7 @@ namespace Echo.Common
 
         public Task<UserModel> GetUser(int id)
         {
-            Console.Write(".");
+           // Console.Write(".");
             return Task.FromResult(new UserModel
             {
                 Name = "rabbit",
