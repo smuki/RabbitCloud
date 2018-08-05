@@ -39,12 +39,15 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         /// <returns>调用结果。</returns>
         protected async Task<T> Invoke<T>(IDictionary<string, object> parameters, string serviceId)
         {
+            var id = serviceId.Substring(0, serviceId.LastIndexOf("."));
+            var key= serviceId.Substring(serviceId.LastIndexOf(".")+1);
             var message = await _remoteInvokeService.InvokeAsync(new RemoteInvokeContext
             {
                 InvokeMessage = new RemoteInvokeMessage
                 {
                     Parameters = parameters,
-                    ServiceId = serviceId
+                    ServiceId = serviceId,
+                    ServiceKey= key
                 }
             });
 
