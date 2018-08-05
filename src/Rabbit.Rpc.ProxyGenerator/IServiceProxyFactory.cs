@@ -12,7 +12,7 @@ namespace Rabbit.Rpc.ProxyGenerator
         /// </summary>
         /// <param name="proxyType">代理类型。</param>
         /// <returns>服务代理实例。</returns>
-        object CreateProxy(Type proxyType);
+        object Resolve(Type proxyType);
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ namespace Rabbit.Rpc.ProxyGenerator
         /// <returns>服务代理实例。</returns>
         public static T Resolve<T>(this IServiceProxyFactory serviceProxyFactory, Type proxyType)
         {
-            return (T)serviceProxyFactory.CreateProxy(proxyType);
+            return (T)serviceProxyFactory.Resolve(proxyType);
         }
     }
 }
