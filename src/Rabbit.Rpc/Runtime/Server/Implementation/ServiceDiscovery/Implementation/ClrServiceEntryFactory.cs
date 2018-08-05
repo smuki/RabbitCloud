@@ -98,7 +98,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             return new ServiceRecord
             {
                 ServiceName = serviceId,
-                Call= call
+                CallContext = call
             };
         }
 
@@ -132,7 +132,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             return new ServiceRecord
             {
                 ServiceName = serviceId,
-                Call = (key, parameters) =>
+                CallContext  = (key, parameters) =>
                {
                    var serviceScopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
                    using (var scope = serviceScopeFactory.CreateScope())
