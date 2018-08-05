@@ -16,7 +16,7 @@ namespace Rabbit.Rpc.Runtime.Server
         /// </summary>
         //public  Func { get; set; }
         [Newtonsoft.Json.JsonIgnore()]
-        public IDictionary<string, Func<IDictionary<string, object>, Task<object>>> Call{ get; set; }
+        public IDictionary<string, Func<IDictionary<string, object>, Task<object>>> CallContext { get; set; }
 
         /// <summary>
         /// 服务ServiceName。
@@ -37,8 +37,13 @@ namespace Rabbit.Rpc.Runtime.Server
         /// <returns>元数据值。</returns>
         public T GetMetadata<T>(string name, T def = default(T))
         {
-            if (!Metadata.ContainsKey(name))
+            if (Metadata == null)
+            {
                 return def;
+            }
+            if (!Metadata.ContainsKey(name)) {
+                return def;
+            }
 
             return (T)Metadata[name];
         }
@@ -62,7 +67,7 @@ namespace Rabbit.Rpc.Runtime.Server
         /// <returns>如果需要等待执行则为true，否则为false，默认为true。</returns>
         public bool WaitExecution()
         {
-            return this.GetMetadata("WaitExecution", false);
+            return this.GetMetadata("WaitExecution", true);
         }
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
         /// <returns>true if the specified object  is equal to the current object; otherwise, false.</returns>
