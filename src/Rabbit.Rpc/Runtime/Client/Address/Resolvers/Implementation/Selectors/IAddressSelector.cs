@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Runtime.Server;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,7 +18,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors
         /// <summary>
         /// 服务可用地址。
         /// </summary>
-        public IEnumerable<AddressModel> Address { get; set; }
+        public IEnumerable<string> Address { get; set; }
     }
 
     /// <summary>
@@ -31,6 +31,6 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors
         /// </summary>
         /// <param name="context">地址选择上下文。</param>
         /// <returns>地址模型。</returns>
-        Task<AddressModel> SelectAsync(AddressSelectContext context);
+        Task<string> SelectAsync(AddressSelectContext context);
     }
 }
