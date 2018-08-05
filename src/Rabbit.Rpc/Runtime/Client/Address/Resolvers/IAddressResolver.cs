@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using System.Threading.Tasks;
 
 namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers
@@ -13,6 +13,6 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers
         /// </summary>
         /// <param name="serviceId">服务Id。</param>
         /// <returns>服务地址模型。</returns>
-        Task<AddressModel> Resolver(string serviceId);
+        Task<string> Resolver(string serviceId);
     }
 }
