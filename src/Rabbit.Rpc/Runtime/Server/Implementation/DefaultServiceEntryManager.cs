@@ -22,7 +22,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             var list = new List<ServiceRecord>();
             foreach (var provider in providers)
             {
-                var entries = provider.GetEntries().ToArray();
+                var entries = provider.GetServiceRecords().ToArray();
                 foreach (var entry in entries)
                 {
                     if (list.Any(i => i.ServiceName == entry.ServiceName))

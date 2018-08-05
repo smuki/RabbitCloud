@@ -36,13 +36,10 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         /// 获取服务条目集合。
         /// </summary>
         /// <returns>服务条目集合。</returns>
-        public IEnumerable<ServiceRecord> GetEntries()
+        public IEnumerable<ServiceRecord> GetServiceRecords()
         {
-            var services = _types.Where(i =>
-            {
-                var typeInfo = i.GetTypeInfo();
-                return typeInfo.IsInterface && typeInfo.GetCustomAttribute<ServiceBundleAttribute>() != null;
-            }).ToArray();
+            var services = GetTypes();
+			
             var serviceImplementations = _types.Where(i =>
             {
                 var typeInfo = i.GetTypeInfo();
@@ -68,6 +65,16 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
                 }
             }
             return entries;
+        }
+		
+        public IEnumerable<Type> GetTypes()
+        {
+            var services = _types.Where(i =>
+            {
+                var typeInfo = i.GetTypeInfo();
+                return typeInfo.IsInterface && typeInfo.GetCustomAttribute<ServiceBundleAttribute>() != null;
+            }).Distinct().ToArray();
+            return services;
         }
 
         #endregion Implementation of IServiceEntryProvider

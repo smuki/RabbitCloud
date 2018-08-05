@@ -17,7 +17,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.I
         /// </summary>
         /// <param name="context">地址选择上下文。</param>
         /// <returns>地址模型。</returns>
-        ValueTask<string> IAddressSelector.SelectAsync(AddressSelectContext context)
+        Task<string> IAddressSelector.SelectAsync(AddressSelectContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
