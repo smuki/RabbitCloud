@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using System.Threading.Tasks;
 
 namespace Rabbit.Rpc.Runtime.Client.HealthChecks
@@ -13,20 +13,20 @@ namespace Rabbit.Rpc.Runtime.Client.HealthChecks
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>一个任务。</returns>
-        Task Monitor(AddressModel address);
+        Task Monitor(string address);
 
         /// <summary>
         /// 判断一个地址是否健康。
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>健康返回true，否则返回false。</returns>
-        Task<bool> IsHealth(AddressModel address);
+        Task<bool> IsHealth(string address);
 
         /// <summary>
         /// 标记一个地址为失败的。
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>一个任务。</returns>
-        Task MarkFailure(AddressModel address);
+        Task MarkFailure(string address);
     }
 }
