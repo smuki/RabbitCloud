@@ -1,4 +1,4 @@
-﻿using Rabbit.Rpc.Address;
+﻿//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Serialization;
 using System;
 using System.Collections.Generic;
@@ -44,15 +44,14 @@ namespace Rabbit.Rpc.Routing.Implementation
 
         #endregion Implementation of IServiceRouteFactory
 
-        private IEnumerable<AddressModel> CreateAddress(IEnumerable<ServiceAddressDescriptor> descriptors)
+        private IEnumerable<string> CreateAddress(IEnumerable<string> descriptors)
         {
             if (descriptors == null)
                 yield break;
 
             foreach (var descriptor in descriptors)
             {
-                var addressType = Type.GetType(descriptor.Type);
-                yield return (AddressModel)_serializer.Deserialize(descriptor.Value, addressType);
+                yield return descriptor;
             }
         }
     }
