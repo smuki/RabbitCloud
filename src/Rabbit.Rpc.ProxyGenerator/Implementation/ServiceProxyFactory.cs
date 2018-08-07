@@ -11,11 +11,10 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
     /// </summary>
     public class ServiceProxyFactory : IServiceProxyFactory
     {
-        #region Field
 
+        #region Field
         private readonly IRemoteInvokeService _remoteInvokeService;
         private readonly ITypeConvertibleService _typeConvertibleService;
-
         #endregion Field
 
         #region Constructor
@@ -29,6 +28,8 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         #endregion Constructor
 
         #region Implementation of IServiceProxyFactory
+
+
 
         /// <summary>
         /// 创建服务代理。

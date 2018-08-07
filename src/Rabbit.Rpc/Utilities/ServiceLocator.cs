@@ -26,7 +26,7 @@ namespace Rabbit.Rpc.Utilities
         }
 
         public static bool IsRegisteredWithKey(string key, Type type)
-        {
+        { 
             return Current.IsRegisteredWithKey(key, type);
         }
 
