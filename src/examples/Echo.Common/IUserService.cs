@@ -8,7 +8,7 @@ namespace Echo.Common
 {
 
     [ServiceBundle("api/{Service}")]
-    [ServiceMetadata("xx",true)]
+    [Service(IsWaitExecution = false)]
     public interface IUserService
     {
         Task<string> GetUserName(int id);
@@ -25,7 +25,7 @@ namespace Echo.Common
 
         Task<IDictionary<string, string>> GetDictionary();
 
-        [Service(IsWaitExecution = false)]
+   
         Task Try();
 
         Task TryThrowException();

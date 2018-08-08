@@ -5,7 +5,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
     /// <summary>
     /// 服务标记。
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Interface, Inherited = false)]
     public class ServiceAttribute : ServiceDescriptorAttribute
     {
         /// <summary>
