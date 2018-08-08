@@ -1,4 +1,4 @@
-using ProtoBuf;
+
 using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 using System;
 using System.Collections.Generic;
@@ -6,39 +6,6 @@ using System.Threading.Tasks;
 
 namespace Echo.Common
 {
-    [ProtoContract]
-    public class UserModel
-    {
-        [ProtoMember(1)]
-        public string Name { get; set; }
-
-        [ProtoMember(2)]
-        public int Age { get; set; }
-    }
-
-    [ServiceBundle]
-    public interface IUserService
-    {
-        Task<string> GetUserName(int id);
-
-        Task<bool> Exists(int id);
-
-        Task<int> GetUserId(string userName);
-
-        Task<DateTime> GetUserLastSignInTime(int id);
-
-        Task<UserModel> GetUser(int id);
-
-        Task<bool> Update(int id, UserModel model);
-
-        Task<IDictionary<string, string>> GetDictionary();
-
-        [Service(IsWaitExecution = false)]
-        Task Try();
-
-        Task TryThrowException();
-    }
-
     public class UserService : IUserService
     {
         #region Implementation of IUserService
@@ -72,7 +39,6 @@ namespace Echo.Common
                 Age = id
             });
         }
-
         public Task<bool> Update(int id, UserModel model)
         {
             return Task.FromResult(true);

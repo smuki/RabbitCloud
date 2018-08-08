@@ -5,7 +5,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
     /// <summary>
     /// Rpc服务元数据标记。
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public class ServiceMetadataAttribute : ServiceDescriptorAttribute
     {
         /// <summary>

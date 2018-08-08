@@ -8,5 +8,10 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
     [AttributeUsage(AttributeTargets.Interface)]
     public class ServiceBundleAttribute : Attribute
     {
+        public ServiceBundleAttribute(string name)
+        {
+            Name = name;
+        }
+        public string Name { get; }
     }
 }

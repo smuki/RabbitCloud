@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using System.Threading.Tasks;
+
+namespace Echo.Common
+{
+
+    [ServiceBundle("api/{Service}")]
+    [ServiceMetadata("xx",true)]
+    public interface IUserService
+    {
+        Task<string> GetUserName(int id);
+
+        Task<bool> Exists(int id);
+
+        Task<int> GetUserId(string userName);
+
+        Task<DateTime> GetUserLastSignInTime(int id);
+
+        Task<UserModel> GetUser(int id);
+
+        Task<bool> Update(int id, UserModel model);
+
+        Task<IDictionary<string, string>> GetDictionary();
+
+        [Service(IsWaitExecution = false)]
+        Task Try();
+
+        Task TryThrowException();
+
+    }
+}
