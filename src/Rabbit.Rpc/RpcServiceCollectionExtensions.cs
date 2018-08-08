@@ -126,24 +126,6 @@ namespace Rabbit.Rpc
 
         #endregion RouteManager
 
-        /// <summary>
-        /// 设置共享文件路由管理者。
-        /// </summary>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <param name="filePath">文件路径。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        /*
-        public static IRpcBuilder UseSharedFileRouteManager(this IRpcBuilder builder, string filePath)
-        {
-            return builder.UseRouteManager(provider =>
-            new SharedFileServiceRouteManager(
-                filePath,
-                provider.GetRequiredService<ISerializer<string>>(),
-                provider.GetRequiredService<IServiceRouteFactory>(),
-                provider.GetRequiredService<ILogger<SharedFileServiceRouteManager>>()));
-        }
-        */
-
         #region AddressSelector
 
         /// <summary>
@@ -251,16 +233,6 @@ namespace Rabbit.Rpc
         }
 
         #endregion Codec Factory
-
-        ///// <summary>
-        ///// 使用Json编解码器。
-        ///// </summary>
-        ///// <param name="builder">Rpc服务构建者。</param>
-        ///// <returns>Rpc服务构建者。</returns>
-        //public static IRpcBuilder UseJsonCodec(this IRpcBuilder builder)
-        //{
-        //    return builder.UseCodec<JsonTransportMessageCodecFactory>();
-        //}
 
         /// <summary>
         /// 添加客户端运行时服务。
