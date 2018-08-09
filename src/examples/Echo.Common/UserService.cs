@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Echo.Common
 {
+    [ServiceMetadata("WaitExecution", true)]
     public class UserService : IUserService
     {
         #region Implementation of IUserService
