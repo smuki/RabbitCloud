@@ -8,7 +8,6 @@ namespace Echo.Common
 {
 
     [ServiceBundle("api/{Service}")]
-    [Service(IsWaitExecution = false)]
     public interface IUserService
     {
         Task<string> GetUserName(int id);

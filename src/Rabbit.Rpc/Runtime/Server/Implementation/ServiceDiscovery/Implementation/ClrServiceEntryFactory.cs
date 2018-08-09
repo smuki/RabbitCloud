@@ -51,7 +51,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             {
                 var implementationMethodInfo = serviceImplementation.GetTypeInfo().GetMethod(methodInfo.Name, methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
 
-                var descriptorAttributes = methodInfo.GetCustomAttributes<ServiceDescriptorAttribute>();
+                var descriptorAttributes = methodInfo.GetCustomAttributes<ServiceAttribute>();
                 foreach (var descriptorAttribute in descriptorAttributes)
                 {
                     Console.WriteLine(descriptorAttribute);

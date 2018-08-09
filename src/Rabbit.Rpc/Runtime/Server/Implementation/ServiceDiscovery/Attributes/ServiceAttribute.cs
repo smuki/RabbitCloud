@@ -3,35 +3,14 @@
 namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 {
     /// <summary>
-    /// 服务标记。
+    /// Rpc服务描述符标记。
     /// </summary>
-    [AttributeUsage(AttributeTargets.Interface, Inherited = false)]
-    public class ServiceAttribute : ServiceDescriptorAttribute
+    public abstract class ServiceAttribute : Attribute
     {
-        /// <summary>
-        /// 初始化一个新的Rpc服务标记。
-        /// </summary>
-        public ServiceAttribute()
-        {
-            IsWaitExecution = true;
-        }
-
-        /// <summary>
-        /// 是否需要等待服务执行。
-        /// </summary>
-        public bool IsWaitExecution { get; set; }
-
-        #region Overrides of RpcServiceDescriptorAttribute
-
         /// <summary>
         /// 应用标记。
         /// </summary>
         /// <param name="descriptor">服务描述符。</param>
-        public override void Apply(ServiceRecord descriptor)
-        {
-            descriptor.WaitExecution(IsWaitExecution);
-        }
-
-        #endregion Overrides of RpcServiceDescriptorAttribute
+        public abstract void Apply(ServiceRecord descriptor);
     }
 }
