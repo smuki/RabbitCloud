@@ -65,7 +65,6 @@ namespace Performances.NetCoreApp.Server
                         serviceProvider = serviceCollection.BuildServiceProvider();
                         break;
 
-
                     case "3":
                         builder.UseMessagePackCodec();
                         serviceProvider = serviceCollection.BuildServiceProvider();
@@ -101,10 +100,9 @@ namespace Performances.NetCoreApp.Server
             {
                 //启动主机
                 await serviceHost.StartAsync(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9981));
-                Console.WriteLine($"Server startup.");
+                Console.Write($"Server startup.");
             }).Wait();
 
-            Console.WriteLine("按任意键结束本次测试。");
             Console.ReadLine();
         }
         private static IServiceProvider RegisterAutofac(IServiceCollection services)
