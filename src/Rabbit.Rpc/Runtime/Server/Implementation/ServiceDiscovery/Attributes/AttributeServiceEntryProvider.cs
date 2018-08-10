@@ -49,18 +49,14 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                Console.WriteLine($"发现了以下服务：{string.Join(",", services.Select(i => i.ToString()))}。");
-                _logger.LogInformation($"发现了以下服务：{string.Join(",", services.Select(i => i.ToString()))}。");
+                _logger.LogInformation($"Discovery Following Service:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
             }
 
             var entries = new List<ServiceRecord>();
             foreach (var service in services)
             {
-          
                 foreach (var serviceImplementation in serviceImplementations.Where(i => service.GetTypeInfo().IsAssignableFrom(i)))
                 {
-                    Console.WriteLine("--"+serviceImplementation.ToString());
-
                     entries.Add(_clrServiceEntryFactory.CreateServiceEntry(service, serviceImplementation));
                 }
             }

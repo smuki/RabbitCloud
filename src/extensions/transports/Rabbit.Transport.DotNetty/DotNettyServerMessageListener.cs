@@ -57,7 +57,7 @@ namespace Rabbit.Transport.DotNetty
 
         public async Task StartAsync(EndPoint endPoint)
         {
-            _logger.LogInformation($"准备启动服务主机，监听地址：{endPoint}。");
+            _logger.LogInformation($"RPC Server setting is listening on {endPoint}");
 
             var bossGroup = new MultithreadEventLoopGroup(1);
             var workerGroup = new MultithreadEventLoopGroup();
@@ -82,11 +82,11 @@ namespace Rabbit.Transport.DotNetty
             try
             {
                 _channel = await bootstrap.BindAsync(endPoint);
-                _logger.LogDebug($"服务主机启动成功，监听地址：{endPoint}。");
+                _logger.LogInformation($"RPC Server started and listening on:{endPoint}");
             }
             catch
             {
-                _logger.LogError($"服务主机启动失败，监听地址：{endPoint}。 ");
+                _logger.LogError($"RPC Server startup failure on:{endPoint}");
             }
         }
 
@@ -144,8 +144,7 @@ namespace Rabbit.Transport.DotNetty
             public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
             {
                 context.CloseAsync();//客户端主动断开需要应答，否则socket变成CLOSE_WAIT状态导致socket资源耗尽
-                if (_logger.IsEnabled(LogLevel.Error))
-                    _logger.LogError($"与服务器：{context.Channel.RemoteAddress}通信时发送了错误。", exception);
+                _logger.LogError($"与服务器：{context.Channel.RemoteAddress}通信时发送了错误。", exception);
             }
 
             #endregion Overrides of ChannelHandlerAdapter
