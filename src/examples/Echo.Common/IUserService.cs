@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Echo.Common
 {
 
-    [ServiceBundle("api/{Service}")]
+    [ServiceName("api/{Service}")]
     public interface IUserService
     {
         Task<string> GetUserName(int id);

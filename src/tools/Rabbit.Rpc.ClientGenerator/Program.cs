@@ -149,7 +149,7 @@ namespace Rabbit.Rpc.ClientGenerator
         {
             var services = Assemblies
                 .SelectMany(assembly => assembly.GetExportedTypes())
-                .Where(i => i.GetTypeInfo().IsInterface && i.GetTypeInfo().GetCustomAttribute<ServiceBundleAttribute>() != null);
+                .Where(i => i.GetTypeInfo().IsInterface && i.GetTypeInfo().GetCustomAttribute<ServiceNameAttribute>() != null);
             return services.Select(service => ServiceProxyGenerater.GenerateProxyTree(service));
         }
 
