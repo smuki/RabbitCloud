@@ -17,6 +17,7 @@ using Rabbit.Rpc.Codec.Json;
 using Rabbit.Rpc.Coordinate.Files;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Rabbit.Rpc.Utilities;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -99,7 +100,7 @@ namespace Performances.NetCoreApp.Server
             Task.Factory.StartNew(async () =>
             {
                 //启动主机
-                await serviceHost.StartAsync(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9981));
+                await serviceHost.StartAsync(new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981));
                 Console.Write($"Server startup.");
             }).Wait();
 
