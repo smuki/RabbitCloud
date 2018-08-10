@@ -86,7 +86,7 @@ namespace Performances.NetCoreApp.Server
                 var serviceEntryManager = serviceProvider.GetRequiredService<IServiceEntryManager>();
                 var addressDescriptors = serviceEntryManager.GetServiceRecords().Select(i => new ServiceRoute
                 {
-                    Address = new string[]{ "127.0.0.1:9981" },
+                    Address = new string[]{ AddrUtil.GetNetworkAddress().ToString()+":9981" },
                     ServiceEntry = i
                    //20180804
                 });
