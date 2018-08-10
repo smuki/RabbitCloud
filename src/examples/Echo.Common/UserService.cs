@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Echo.Common
+namespace Jacob.Common
 {
     [ServiceMetadata("WaitExecution", true)]
     public class UserService : IUserService

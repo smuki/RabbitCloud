@@ -1,4 +1,4 @@
-﻿using Echo.Common;
+﻿using Jacob.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Rabbit.Transport.DotNetty;
 using Rabbit.Rpc.Coordinate.Files;
 
-namespace Echo.Client
+namespace Jacob.Client
 {
     public class Program
     {

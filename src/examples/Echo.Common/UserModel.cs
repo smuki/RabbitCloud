@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ProtoBuf;
-namespace Echo.Common
+namespace Jacob.Common
 {
     [ProtoContract]
     public class UserModel

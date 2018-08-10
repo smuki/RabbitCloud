@@ -1,4 +1,4 @@
-﻿using Echo.Common;
+﻿using Jacob.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc;

@@ -4,7 +4,7 @@ using System.Text;
 using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 using System.Threading.Tasks;
 
-namespace Echo.Common
+namespace Jacob.Common
 {
 
     [ServiceName("api/{Service}")]
