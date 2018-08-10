@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-//using Rabbit.Rpc.Address;
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors;
 using Rabbit.Rpc.Runtime.Client.HealthChecks;

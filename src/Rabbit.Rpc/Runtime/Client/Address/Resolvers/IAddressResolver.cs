@@ -1,5 +1,4 @@
-﻿//using Rabbit.Rpc.Address;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers
 {

@@ -1,5 +1,4 @@
-﻿//using Rabbit.Rpc.Address;
-using Rabbit.Rpc.Serialization;
+﻿using Rabbit.Rpc.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
