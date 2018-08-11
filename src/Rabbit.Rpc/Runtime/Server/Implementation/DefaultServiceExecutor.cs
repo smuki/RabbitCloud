@@ -35,8 +35,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <param name="message">调用消息。</param>
         public async Task ExecuteAsync(IMessageSender sender, TransportMessage message)
         {
-            if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("接收到消息。");
+            _logger.LogDebug("接收到消息。");
 
             if (!message.IsInvokeMessage())
                 return;
@@ -52,23 +51,22 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 return;
             }
 
-            ServiceRecord entry=null;
+            ServiceRecord entry = null;
             try
             {
-                entry=_serviceEntryLocate.Locate(remoteInvokeMessage);
-            }catch(Exception exception)
+                entry = _serviceEntryLocate.Locate(remoteInvokeMessage);
+            }
+            catch (Exception exception)
             {
                 _logger.LogError("发生了错误。", exception);
             }
             if (entry == null)
             {
-                if (_logger.IsEnabled(LogLevel.Error))
-                    _logger.LogError($"根据服务Id：{remoteInvokeMessage.ServiceName}，找不到服务条目。");
+                _logger.LogError($"根据服务Id：{remoteInvokeMessage.ServiceName}，找不到服务条目。");
                 return;
             }
 
-            if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug("准备执行本地逻辑。");
+            _logger.LogDebug("准备执行本地逻辑。");
 
             var resultMessage = new RemoteInvokeResultMessage();
 
@@ -87,8 +85,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 //确保新起一个线程执行，不堵塞当前线程。
                 await Task.Factory.StartNew(async () =>
                 {
-                        //执行本地代码。
-                        await LocalExecuteAsync(entry, remoteInvokeMessage, resultMessage);
+                    //执行本地代码。
+                    await LocalExecuteAsync(entry, remoteInvokeMessage, resultMessage);
                 }, TaskCreationOptions.LongRunning);
             }
 
@@ -105,9 +103,9 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 //Console.WriteLine(":"+remoteInvokeMessage.ServiceTag+":");
                 var ServiceId = remoteInvokeMessage.ServiceName;
                 var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
-                var method = ServiceId.Substring(ServiceId.LastIndexOf(".")+1);
+                var method = ServiceId.Substring(ServiceId.LastIndexOf(".") + 1);
 
-                var result = await entry.CallContext [method](remoteInvokeMessage.Parameters);
+                var result = await entry.CallContext[method](remoteInvokeMessage.Parameters);
                 var task = result as Task;
 
                 if (task == null)
@@ -125,8 +123,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             }
             catch (Exception exception)
             {
-                if (_logger.IsEnabled(LogLevel.Error))
-                    _logger.LogError("执行本地逻辑时候发生了错误。", exception);
+                _logger.LogError("执行本地逻辑时候发生了错误。", exception);
                 resultMessage.ExceptionMessage = GetExceptionMessage(exception);
             }
         }
@@ -135,17 +132,14 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         {
             try
             {
-                if (_logger.IsEnabled(LogLevel.Debug))
-                    _logger.LogDebug("准备发送响应消息。");
+                _logger.LogDebug("准备发送响应消息。");
 
                 await sender.SendAndFlushAsync(TransportMessage.CreateInvokeResultMessage(messageId, resultMessage));
-                if (_logger.IsEnabled(LogLevel.Debug))
-                    _logger.LogDebug("响应消息发送成功。");
+                _logger.LogDebug("响应消息发送成功。");
             }
             catch (Exception exception)
             {
-                if (_logger.IsEnabled(LogLevel.Error))
-                    _logger.LogError("发送响应消息时候发生了异常。", exception);
+                _logger.LogError("发送响应消息时候发生了异常。", exception);
             }
         }
 
