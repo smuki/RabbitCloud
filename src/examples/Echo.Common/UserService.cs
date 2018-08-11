@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Jacob.Common
 {
     [ServiceMetadata("WaitExecution", true)]
+    [ServiceName("api/user")]
     public class UserService : IUserService
     {
         #region Implementation of IUserService

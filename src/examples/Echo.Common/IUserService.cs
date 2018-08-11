@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace Jacob.Common
 {
 
-    [ServiceName("api/{Service}")]
     public interface IUserService
     {
         Task<string> GetUserName(int id);
@@ -23,7 +22,6 @@ namespace Jacob.Common
         Task<bool> Update(int id, UserModel model);
 
         Task<IDictionary<string, string>> GetDictionary();
-
    
         Task Try();
 

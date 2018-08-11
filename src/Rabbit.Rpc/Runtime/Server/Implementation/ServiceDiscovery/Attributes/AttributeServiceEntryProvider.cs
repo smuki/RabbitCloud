@@ -49,7 +49,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation($"Discovery Following Service:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
+                _logger.LogInformation($"Discovery Following Type:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
             }
 
             var entries = new List<ServiceRecord>();
@@ -68,7 +68,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
             var services = _types.Where(i =>
             {
                 var typeInfo = i.GetTypeInfo();
-                return typeInfo.IsInterface && typeInfo.GetCustomAttribute<ServiceNameAttribute>() != null;
+                return typeInfo.GetCustomAttribute<ServiceNameAttribute>() != null;
             }).Distinct().ToArray();
             return services;
         }

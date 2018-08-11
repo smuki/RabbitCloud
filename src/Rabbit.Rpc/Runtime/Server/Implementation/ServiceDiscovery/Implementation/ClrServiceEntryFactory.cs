@@ -45,18 +45,32 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         public ServiceRecord CreateServiceEntry(Type service, Type serviceImplementation)
         {
             var serviceId = $"{service.FullName}";
+            var serviceName = $"{service.FullName}";
+
+            var nameAttributes = service.GetCustomAttributes<ServiceNameAttribute>().FirstOrDefault();
+            if (nameAttributes != null)
+            {
+                serviceName = ((ServiceNameAttribute)nameAttributes).Name;
+            }
+            
+            var serviceRecord= new ServiceRecord
+            {
+                Type = serviceId,
+                Name = serviceName
+            };
+
+            var descriptorAttributes = service.GetCustomAttributes<ServiceAttribute>();
+            foreach (var descriptorAttribute in descriptorAttributes)
+            {
+                Console.WriteLine(descriptorAttribute);
+                 descriptorAttribute.Apply(serviceRecord);
+            }
 
             IDictionary<string, Func<IDictionary<string, object>, Task<object>>> call = new Dictionary<string, Func<IDictionary<string, object>, Task<object>>>();
             foreach (var methodInfo in service.GetTypeInfo().GetMethods())
             {
                 var implementationMethodInfo = serviceImplementation.GetTypeInfo().GetMethod(methodInfo.Name, methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
-
-                var descriptorAttributes = methodInfo.GetCustomAttributes<ServiceAttribute>();
-                foreach (var descriptorAttribute in descriptorAttributes)
-                {
-                    Console.WriteLine(descriptorAttribute);
-                    // descriptorAttribute.Apply(descriptorAttribute);
-                }
+               
                 var id = $"{service.FullName}.{methodInfo.Name}";
                 //Console.WriteLine(id);
                  id = $"{methodInfo.Name}";
@@ -88,12 +102,9 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                     }
                 };
             }
+            serviceRecord.CallContext = call;
 
-            return new ServiceRecord
-            {
-                ServiceName = serviceId,
-                CallContext = call
-            };
+            return serviceRecord;
         }
         #endregion Implementation of IClrServiceEntryFactory
     }

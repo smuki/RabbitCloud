@@ -10,17 +10,26 @@ namespace Rabbit.Rpc.Runtime.Server
     /// </summary>
     public class ServiceRecord
     {
+        public ServiceRecord()
+        {
+            Metadata = new Dictionary<string, object>();
+        }
         /// <summary>
         /// 执行委托。
         /// </summary>
-        //public  Func { get; set; }
+            //public  Func { get; set; }
         [Newtonsoft.Json.JsonIgnore()]
         public IDictionary<string, Func<IDictionary<string, object>, Task<object>>> CallContext { get; set; }
 
         /// <summary>
         /// 服务ServiceName。
         /// </summary>
-        public string ServiceName { get; set; }
+        public string Type { get; set; }
+
+        /// <summary>
+        /// 服务ServiceName。
+        /// </summary>
+        public string Name { get; set; }
 
         /// <summary>
         /// 元数据。
@@ -80,7 +89,7 @@ namespace Rabbit.Rpc.Runtime.Server
             if (obj.GetType() != GetType())
                 return false;
 
-            if (model.ServiceName != ServiceName)
+            if (model.Type != Type)
                 return false;
 
             if (model.Metadata == null)

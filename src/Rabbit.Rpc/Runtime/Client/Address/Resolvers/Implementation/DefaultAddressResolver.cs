@@ -48,7 +48,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
             if (_logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug($"准备为服务id：{serviceId}，解析可用地址。");
             var descriptors = await _serviceRouteManager.GetRoutesAsync();
-            var descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.ServiceName == id);
+            var descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.Type == id);
 
             if (descriptor == null)
             {

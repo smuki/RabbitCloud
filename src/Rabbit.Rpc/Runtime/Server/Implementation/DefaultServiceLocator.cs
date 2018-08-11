@@ -27,7 +27,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             var ServiceId = invokeMessage.ServiceId;
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
             var serviceEntries = _serviceEntryManager.GetServiceRecords();
-            return serviceEntries.SingleOrDefault(i => i.ServiceName == id);
+            return serviceEntries.SingleOrDefault(i => i.Type == id);
         }
 
         #endregion Implementation of IServiceEntryLocate

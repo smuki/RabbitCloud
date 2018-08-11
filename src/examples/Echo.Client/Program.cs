@@ -33,9 +33,11 @@ namespace Jacob.Client
             serviceProvider.GetRequiredService<ILoggerFactory>()
                 .AddConsole((c, l) => (int)l >= 3);
 
+            string[] xx = new string[0];
+
             var serviceProxyGenerater = serviceProvider.GetRequiredService<IServiceProxyGenerater>();
             var serviceProxyFactory = serviceProvider.GetRequiredService<IServiceProxyFactory>();
-            var services = serviceProxyGenerater.GenerateProxys(new[] { typeof(IUserService) }).ToArray();
+            var services = serviceProxyGenerater.GenerateProxys(new[] { typeof(IUserService) },xx).ToArray();
 
             //创建IUserService的代理。
             var userService = serviceProxyFactory.Resolve<IUserService>(services.Single(typeof(IUserService).GetTypeInfo().IsAssignableFrom));

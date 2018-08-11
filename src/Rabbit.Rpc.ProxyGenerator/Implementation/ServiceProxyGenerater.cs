@@ -50,7 +50,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         /// </summary>
         /// <param name="interfacTypes">需要被代理的接口类型。</param>
         /// <returns>服务代理实现。</returns>
-        public IEnumerable<Type> GenerateProxys(IEnumerable<Type> interfacTypes)
+        public IEnumerable<Type> GenerateProxys(IEnumerable<Type> interfacTypes, IEnumerable<string> namespaces)
         {
 #if NET
             var assemblys = AppDomain.CurrentDomain.GetAssemblies();
@@ -58,7 +58,13 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
             var assemblys = DependencyContext.Default.RuntimeLibraries.SelectMany(i => i.GetDefaultAssemblyNames(DependencyContext.Default).Select(z => Assembly.Load(new AssemblyName(z.Name))));
 #endif
             assemblys = assemblys.Where(i => i.IsDynamic == false).ToArray();
-            var trees = interfacTypes.Select(GenerateProxyTree).ToList();
+            var types = assemblys.Select(p => p.GetType());
+            types = interfacTypes.Except(types);
+            foreach (var t in types)
+            {
+                assemblys = assemblys.Append(t.Assembly);
+            }
+            var trees = interfacTypes.Select(p=>GenerateProxyTree(p,namespaces)).ToList();
             var stream = CompilationUtilitys.CompileClientProxy(trees,
                 assemblys
                     .Select(a => MetadataReference.CreateFromFile(a.Location))
@@ -85,7 +91,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         /// </summary>
         /// <param name="interfaceType">需要被代理的接口类型。</param>
         /// <returns>代码树。</returns>
-        public SyntaxTree GenerateProxyTree(Type interfaceType)
+        public SyntaxTree GenerateProxyTree(Type interfaceType, IEnumerable<string> namespaces)
         {
             var className = interfaceType.Name.StartsWith("I") ? interfaceType.Name.Substring(1) : interfaceType.Name;
             className += "ClientProxy";
@@ -97,7 +103,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
 
             members.AddRange(GenerateMethodDeclarations(interfaceType.GetMethods()));
             return CompilationUnit()
-                .WithUsings(GetUsings())
+                .WithUsings(GetUsings(namespaces))
                 .WithMembers(
                     SingletonList<MemberDeclarationSyntax>(
                         NamespaceDeclaration(
@@ -152,8 +158,13 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
             return left;
         }
 
-        private static SyntaxList<UsingDirectiveSyntax> GetUsings()
+        private static SyntaxList<UsingDirectiveSyntax> GetUsings(IEnumerable<string> namespaces)
         {
+            var directives = new List<UsingDirectiveSyntax>();
+           foreach(var name in namespaces)
+            {
+                directives.Add(UsingDirective(GetQualifiedNameSyntax(name)));
+            }
             return List(
                 new[]
                 {
@@ -186,7 +197,12 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
                                 Parameter(
                                     Identifier("typeConvertibleService"))
                                     .WithType(
-                                        IdentifierName("ITypeConvertibleService"))
+                                        IdentifierName("ITypeConvertibleService")),
+                                Token(SyntaxKind.CommaToken),
+                                Parameter(
+                                    Identifier("serviceKey"))
+                                    .WithType(
+                                        IdentifierName("String")),
                             })))
                 .WithInitializer(
                         ConstructorInitializer(
@@ -198,7 +214,10 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
                                             IdentifierName("remoteInvokeService")),
                                         Token(SyntaxKind.CommaToken),
                                         Argument(
-                                            IdentifierName("typeConvertibleService"))}))))
+                                            IdentifierName("typeConvertibleService")),
+                                          Token(SyntaxKind.CommaToken),
+                                        Argument(
+                                            IdentifierName("serviceKey"))}))))
                 .WithBody(Block());
         }
 
@@ -244,9 +263,19 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
 
             foreach (var parameter in method.GetParameters())
             {
+                if (parameter.ParameterType.IsGenericType)
+                {
                 parameterDeclarationList.Add(Parameter(
                                     Identifier(parameter.Name))
-                                    .WithType(GetQualifiedNameSyntax(parameter.ParameterType)));
+                                     .WithType(GetTypeSyntax(parameter.ParameterType)));
+                }
+                else
+                {
+                    parameterDeclarationList.Add(Parameter(
+                                        Identifier(parameter.Name))
+                                        .WithType(GetQualifiedNameSyntax(parameter.ParameterType)));
+
+                }
                 parameterDeclarationList.Add(Token(SyntaxKind.CommaToken));
 
                 parameterList.Add(InitializerExpression(
@@ -278,7 +307,8 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
             if (method.ReturnType != typeof(Task))
             {
                 expressionSyntax = GenericName(
-                    Identifier("Invoke")).WithTypeArgumentList(((GenericNameSyntax)returnDeclaration).TypeArgumentList);
+                Identifier("Invoke")).WithTypeArgumentList(((GenericNameSyntax)returnDeclaration).TypeArgumentList);
+
             }
             else
             {
@@ -332,6 +362,11 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
                             SingletonList(statementSyntax)));
 
             return declaration;
+        }
+
+        public void Dispose()
+        { 
+            GC.SuppressFinalize(this);
         }
 
         #endregion Private Method

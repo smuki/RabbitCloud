@@ -147,10 +147,12 @@ namespace Rabbit.Rpc.ClientGenerator
 
         private static IEnumerable<SyntaxTree> GetTrees()
         {
+            string[] xx = new string[0];
+
             var services = Assemblies
                 .SelectMany(assembly => assembly.GetExportedTypes())
                 .Where(i => i.GetTypeInfo().IsInterface && i.GetTypeInfo().GetCustomAttribute<ServiceNameAttribute>() != null);
-            return services.Select(service => ServiceProxyGenerater.GenerateProxyTree(service));
+            return services.Select(service => ServiceProxyGenerater.GenerateProxyTree(service, xx));
         }
 
         private static ClassDeclarationSyntax FindClassDeclaration(IEnumerable<MemberDeclarationSyntax> members)

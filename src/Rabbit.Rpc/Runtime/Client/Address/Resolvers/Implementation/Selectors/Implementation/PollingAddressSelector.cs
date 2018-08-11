@@ -56,7 +56,7 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.I
 
         private static string GetCacheKey(ServiceRecord descriptor)
         {
-            return descriptor.ServiceName;
+            return descriptor.Type;
         }
 
         private void ServiceRouteManager_Removed(object sender, ServiceRouteEventArgs e)
