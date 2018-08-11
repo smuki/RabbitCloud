@@ -113,7 +113,7 @@ namespace Performances.NetCoreApp.Server
             //将Services中的服务填充到Autofac中
             builder.Populate(services);
             //新模块组件注册    
-            // builder.RegisterModule<AutofacModuleRegister>();
+             builder.RegisterType<UserService>();
             //创建容器
             var Container = builder.Build();
             //第三方IOC接管 core内置DI容器 

@@ -35,7 +35,7 @@ namespace Rabbit.Rpc.Codec.Codec.MessagePack.Messages
     {
         public MessagePackRemoteInvokeMessage(RemoteInvokeMessage message)
         {
-            ServiceId = message.ServiceName;
+            ServiceName = message.ServiceName;
             ServiceTag = message.ServiceTag;
             Parameters = message.Parameters?.Select(i => new ParameterItem(i)).ToArray();
         }
@@ -48,10 +48,10 @@ namespace Rabbit.Rpc.Codec.Codec.MessagePack.Messages
         /// 服务Id。
         /// </summary>
         [Key(0)]
-        public string ServiceId { get; set; }
+        public string ServiceName { get; set; }
 
         /// <summary>
-        /// 服务参数。
+        /// 服务Tag
         /// </summary>
         [Key(1)]
 
@@ -65,7 +65,8 @@ namespace Rabbit.Rpc.Codec.Codec.MessagePack.Messages
             return new RemoteInvokeMessage
             {
                 Parameters = Parameters?.ToDictionary(i => i.Key, i => i.Value?.Get()),
-                ServiceName = ServiceId
+                ServiceName = ServiceName,
+                ServiceTag = ServiceTag
             };
         }
     }
