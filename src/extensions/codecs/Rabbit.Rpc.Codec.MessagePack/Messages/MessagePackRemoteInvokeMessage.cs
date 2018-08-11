@@ -36,6 +36,7 @@ namespace Rabbit.Rpc.Codec.Codec.MessagePack.Messages
         public MessagePackRemoteInvokeMessage(RemoteInvokeMessage message)
         {
             ServiceId = message.ServiceName;
+            ServiceTag = message.ServiceTag;
             Parameters = message.Parameters?.Select(i => new ParameterItem(i)).ToArray();
         }
 
@@ -53,6 +54,10 @@ namespace Rabbit.Rpc.Codec.Codec.MessagePack.Messages
         /// 服务参数。
         /// </summary>
         [Key(1)]
+
+        public string ServiceTag { get; set; }
+
+        [Key(2)]
         public ParameterItem[] Parameters { get; set; }
 
         public RemoteInvokeMessage GetRemoteInvokeMessage()

@@ -1,4 +1,5 @@
 ﻿using Rabbit.Rpc.Messages;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Rabbit.Rpc.Runtime.Server.Implementation
@@ -27,7 +28,16 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             var ServiceId = invokeMessage.ServiceName;
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
             var serviceEntries = _serviceEntryManager.GetServiceRecords();
-            ServiceRecord x= serviceEntries.SingleOrDefault(i => i.ServiceName == id);
+            List<ServiceRecord> Match = new List<ServiceRecord>();
+            foreach (ServiceRecord r in serviceEntries)
+            {
+                if (r.ServiceTag.IndexOf(id) >= 0)
+                {
+                    Match.Add(r);
+                }
+            }
+            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceName == invokeMessage.ServiceTag);
+
             return x;
         }
 

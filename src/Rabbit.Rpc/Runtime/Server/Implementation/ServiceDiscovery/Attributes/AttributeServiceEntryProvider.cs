@@ -55,10 +55,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
             var entries = new List<ServiceRecord>();
             foreach (var service in services)
             {
-              //  foreach (var serviceImplementation in serviceImplementations.Where(i => service.GetTypeInfo().IsAssignableFrom(i)))
-               // {
-                    entries.Add(_clrServiceEntryFactory.CreateServiceEntry(service));
-                //}
+                entries.Add(_clrServiceEntryFactory.CreateServiceEntry(service));
             }
             return entries;
         }

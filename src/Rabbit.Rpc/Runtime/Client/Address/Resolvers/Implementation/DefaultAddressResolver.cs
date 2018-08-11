@@ -44,16 +44,22 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
         public async Task<string> Resolver(string serviceId,string ServiceTag)
         {
             var ServiceName = serviceId.Substring(0, serviceId.LastIndexOf("."));
-            var method = serviceId.Substring(serviceId.LastIndexOf(".") + 1);
 
             _logger.LogDebug($"准备为服务id：{serviceId}，解析可用地址。");
             var descriptors = await _serviceRouteManager.GetRoutesAsync();
-            var descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.ServiceName == ServiceName);
-            if (descriptor == null)
+    
+            List<ServiceRoute> Match = new List<ServiceRoute>();
+            foreach (ServiceRoute r in descriptors)
             {
-                string tag = ServiceTag + ",";
-                descriptor = descriptors.FirstOrDefault(i => tag.IndexOf(i.ServiceEntry.ServiceTag+",")>=0);
+                if (r.ServiceEntry.ServiceTag.IndexOf(ServiceName) >=0) {
+                    Match.Add(r);
+                    _logger.LogInformation(r.ServiceEntry.ServiceName);
+                }
             }
+
+
+            var descriptor = Match.FirstOrDefault(i => i.ServiceEntry.ServiceTag.IndexOf(ServiceTag)>= 0 );
+
             if (descriptor == null)
             {
                 _logger.LogWarning($"根据服务id：{serviceId}，找不到相关服务信息。");

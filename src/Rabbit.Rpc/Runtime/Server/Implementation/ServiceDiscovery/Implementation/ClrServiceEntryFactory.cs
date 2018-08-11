@@ -45,7 +45,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         public ServiceRecord CreateServiceEntry(Type service)
         {
             var serviceId = $"{service.FullName}";
-            var serviceTag = "";
+            var serviceTag = $"{service.FullName}";
             var Interfaces = service.GetInterfaces();
             foreach (Type Interface in Interfaces)
             {
@@ -60,30 +60,24 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             {
                 serviceTag = serviceTag + "," + ((ServiceTagAttributeAttribute)nameAttributes).Tag;
             }
-            Console.WriteLine("serviceTag=" + serviceTag);
-            Console.WriteLine("serviceId=" + serviceId);
 
             var serviceRecord = new ServiceRecord
             {
                 ServiceName = serviceId,
-                ServiceTag = serviceTag.TrimStart(',')
+                ServiceTag = serviceTag
             };
 
             var descriptorAttributes = service.GetCustomAttributes<ServiceAttribute>();
             foreach (var descriptorAttribute in descriptorAttributes)
             {
-                Console.WriteLine(descriptorAttribute);
-                 descriptorAttribute.Apply(serviceRecord);
+                descriptorAttribute.Apply(serviceRecord);
             }
 
             IDictionary<string, Func<IDictionary<string, object>, Task<object>>> call = new Dictionary<string, Func<IDictionary<string, object>, Task<object>>>();
             foreach (var methodInfo in service.GetTypeInfo().GetMethods())
             {
-                //var implementationMethodInfo = serviceImplementation.GetTypeInfo().GetMethod(methodInfo.Name, methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
-               
                 var id = $"{service.FullName}.{methodInfo.Name}";
-                //Console.WriteLine(id);
-                 id = $"{methodInfo.Name}";
+                id = $"{methodInfo.Name}";
                 var mparameters = methodInfo.GetParameters();
                 if (mparameters.Any())
                 {
