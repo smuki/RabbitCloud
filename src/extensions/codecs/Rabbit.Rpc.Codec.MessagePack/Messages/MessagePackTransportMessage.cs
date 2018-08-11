@@ -1,6 +1,6 @@
 using MessagePack;
 using Rabbit.Rpc.Codec.Codec.MessagePack.Messages;
-using Rabbit.Rpc.Codec.MessagePack.Utilitys;
+using Rabbit.Rpc.Codec.MessagePack.Utilities;
 using Rabbit.Rpc.Messages;
 using System;
 

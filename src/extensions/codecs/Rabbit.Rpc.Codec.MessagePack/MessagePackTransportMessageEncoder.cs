@@ -1,5 +1,5 @@
 ﻿using Rabbit.Rpc.Codec.MessagePack.Messages;
-using Rabbit.Rpc.Codec.MessagePack.Utilitys;
+using Rabbit.Rpc.Codec.MessagePack.Utilities;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Transport.Codec;
 

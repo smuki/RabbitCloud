@@ -3,7 +3,7 @@ using MessagePack.Resolvers;
 using System;
 using System.IO;
 
-namespace Rabbit.Rpc.Codec.MessagePack.Utilitys
+namespace Rabbit.Rpc.Codec.MessagePack.Utilities
 {
     public class SerializerUtilitys
     {

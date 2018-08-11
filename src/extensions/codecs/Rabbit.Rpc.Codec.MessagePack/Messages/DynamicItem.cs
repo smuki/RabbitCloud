@@ -1,7 +1,7 @@
 using MessagePack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Rabbit.Rpc.Codec.MessagePack.Utilitys;
+using Rabbit.Rpc.Codec.MessagePack.Utilities;
 using System;
 
 namespace Rabbit.Rpc.Codec.MessagePack.Messages
