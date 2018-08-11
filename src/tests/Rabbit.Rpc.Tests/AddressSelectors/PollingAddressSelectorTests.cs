@@ -71,7 +71,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
                         Address = Enumerable.Range(1, 100).Select(i => ("127.0.0.1:"+ i.ToString())),
                         ServiceEntry = new ServiceRecord
                         {
-                            TypeName = "service1"
+                            ServiceName = "service1"
                         }
                     }
                 };
@@ -229,7 +229,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
                     },
                     ServiceEntry = new ServiceRecord
                     {
-                        TypeName = "service1"
+                        ServiceName = "service1"
                     }
                 }
             });

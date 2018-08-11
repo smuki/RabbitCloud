@@ -58,7 +58,7 @@ namespace Rabbit.Rpc.Tests
             {
                 model1 = new ServiceRecord
                 {
-                    TypeName = "service1",
+                    ServiceName = "service1",
                     Metadata = new Dictionary<string, object>
                     {
                         {"key1", 1}
@@ -66,7 +66,7 @@ namespace Rabbit.Rpc.Tests
                 };
                 model2 = new ServiceRecord
                 {
-                    TypeName = "service1",
+                    ServiceName = "service1",
                     Metadata = new Dictionary<string, object>
                     {
                         {"key1", 1}
@@ -79,7 +79,7 @@ namespace Rabbit.Rpc.Tests
             Assert.True(model1 == model2);
             Assert.True(model1.Equals(model2));
 
-            model2.TypeName = "service2";
+            model2.ServiceName = "service2";
 
             Assert.NotEqual(model1, model2);
             Assert.False(model1 == model2);
@@ -114,7 +114,7 @@ namespace Rabbit.Rpc.Tests
                         },
                         ServiceEntry = new ServiceRecord
                         {
-                            TypeName = "service1",
+                            ServiceName = "service1",
                             Metadata = new Dictionary<string, object>
                             {
                                 {"key1", 1}
@@ -130,7 +130,7 @@ namespace Rabbit.Rpc.Tests
                         },
                         ServiceEntry = new ServiceRecord
                         {
-                            TypeName = "service1",
+                            ServiceName = "service1",
                             Metadata = new Dictionary<string, object>
                             {
                                 {"key1", 1}
@@ -144,13 +144,13 @@ namespace Rabbit.Rpc.Tests
             Assert.True(model1 == model2);
             Assert.True(model1.Equals(model2));
 
-            model2.ServiceEntry.TypeName = "service2";
+            model2.ServiceEntry.ServiceName = "service2";
 
             Assert.NotEqual(model1, model2);
             Assert.False(model1 == model2);
             Assert.False(model1.Equals(model2));
 
-            model1.ServiceEntry.TypeName = "service2";
+            model1.ServiceEntry.ServiceName = "service2";
 
             Assert.Equal(model1, model2);
             Assert.True(model1 == model2);

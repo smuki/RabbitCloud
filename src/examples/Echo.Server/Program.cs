@@ -45,7 +45,7 @@ namespace Jacob.Server
 
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             {
-                var serviceEntryManager = serviceProvider.GetRequiredService<IServiceEntryManager>();
+                var serviceEntryManager = serviceProvider.GetRequiredService<IServiceTable>();
                 var addressDescriptors = serviceEntryManager.GetServiceRecords().Select(i => new ServiceRoute
                 {
                     Address =  new string[] { "127.0.0.1:9981" },

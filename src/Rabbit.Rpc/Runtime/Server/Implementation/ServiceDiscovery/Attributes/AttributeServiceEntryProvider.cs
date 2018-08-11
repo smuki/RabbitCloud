@@ -49,16 +49,16 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation($"Discovery Following TypeName:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
+                _logger.LogInformation($"Discovery Following ServiceName:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
             }
 
             var entries = new List<ServiceRecord>();
             foreach (var service in services)
             {
-                foreach (var serviceImplementation in serviceImplementations.Where(i => service.GetTypeInfo().IsAssignableFrom(i)))
-                {
-                    entries.Add(_clrServiceEntryFactory.CreateServiceEntry(service, serviceImplementation));
-                }
+              //  foreach (var serviceImplementation in serviceImplementations.Where(i => service.GetTypeInfo().IsAssignableFrom(i)))
+               // {
+                    entries.Add(_clrServiceEntryFactory.CreateServiceEntry(service));
+                //}
             }
             return entries;
         }
@@ -68,7 +68,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
             var services = _types.Where(i =>
             {
                 var typeInfo = i.GetTypeInfo();
-                return typeInfo.GetCustomAttribute<ServiceNameAttribute>() != null;
+                return typeInfo.GetCustomAttribute<ServiceTagAttributeAttribute>() != null;
             }).Distinct().ToArray();
             return services;
         }

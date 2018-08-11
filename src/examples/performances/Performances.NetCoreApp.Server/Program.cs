@@ -79,11 +79,11 @@ namespace Performances.NetCoreApp.Server
 
             serviceProvider = RegisterAutofac(serviceCollection);
             serviceProvider.GetRequiredService<ILoggerFactory>()
-                .AddConsole();
+                .AddConsole(LogLevel.Debug);
 
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             {
-                var serviceEntryManager = serviceProvider.GetRequiredService<IServiceEntryManager>();
+                var serviceEntryManager = serviceProvider.GetRequiredService<IServiceTable>();
                 var addressDescriptors = serviceEntryManager.GetServiceRecords().Select(i => new ServiceRoute
                 {
                     Address = new string[]{ AddrUtil.GetNetworkAddress().ToString()+":9981" },

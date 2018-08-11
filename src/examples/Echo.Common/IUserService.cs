@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Jacob.Common
 {
 
+    [ServiceTagAttribute("IUserService")]
     public interface IUserService
     {
         Task<string> GetUserName(int id);

@@ -7,7 +7,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
     /// <summary>
     /// 默认的服务条目管理者。
     /// </summary>
-    public class DefaultServiceEntryManager : IServiceEntryManager
+    public class DefaultServiceTable : IServiceTable
     {
         #region Field
 
@@ -17,7 +17,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
         #region Constructor
 
-        public DefaultServiceEntryManager(IEnumerable<IServiceEntryProvider> providers)
+        public DefaultServiceTable(IEnumerable<IServiceEntryProvider> providers)
         {
             var list = new List<ServiceRecord>();
             foreach (var provider in providers)
@@ -25,8 +25,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 var entries = provider.GetServiceRecords().ToArray();
                 foreach (var entry in entries)
                 {
-                    if (list.Any(i => i.TypeName == entry.TypeName))
-                        throw new InvalidOperationException($"本地包含多个Id为：{entry.TypeName} 的服务条目。");
+                    if (list.Any(i => i.ServiceName == entry.ServiceName))
+                        throw new InvalidOperationException($"本地包含多个Id为：{entry.ServiceName} 的服务条目。");
                 }
                 list.AddRange(entries);
             }

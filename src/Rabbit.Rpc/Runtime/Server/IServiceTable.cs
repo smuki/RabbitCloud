@@ -5,7 +5,7 @@ namespace Rabbit.Rpc.Runtime.Server
     /// <summary>
     /// 一个抽象的服务条目管理者。
     /// </summary>
-    public interface IServiceEntryManager
+    public interface IServiceTable
     {
         /// <summary>
         /// 获取服务条目集合。

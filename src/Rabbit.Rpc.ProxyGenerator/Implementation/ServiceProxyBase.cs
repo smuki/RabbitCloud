@@ -15,19 +15,19 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
 
         private readonly IRemoteInvokeService _remoteInvokeService;
         private readonly ITypeConvertibleService _typeConvertibleService;
-        private readonly string _serviceKey;
+        private readonly string _serviceTag;
         #endregion Field
 
         #region Constructor
 
         protected ServiceProxyBase(IRemoteInvokeService remoteInvokeService,
             ITypeConvertibleService typeConvertibleService,
-            string serviceKey
+            string serviceTag
         )
         {
             _remoteInvokeService = remoteInvokeService;
             _typeConvertibleService = typeConvertibleService;
-            _serviceKey = serviceKey;
+            _serviceTag = serviceTag;
         }
 
         #endregion Constructor
@@ -43,19 +43,14 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         /// <returns>调用结果。</returns>
         protected async Task<T> Invoke<T>(IDictionary<string, object> parameters, string serviceId)
         {
-            var id = serviceId.Substring(0, serviceId.LastIndexOf("."));
-            var key= serviceId.Substring(serviceId.LastIndexOf(".")+1);
-            if (!string.IsNullOrEmpty(_serviceKey))
-            {
-                id = _serviceKey;
-            }
+
             var message = await _remoteInvokeService.InvokeAsync(new RemoteInvokeContext
             {
                 InvokeMessage = new RemoteInvokeMessage
                 {
                     Parameters = parameters,
-                    ServiceId = serviceId,
-                    ServiceKey= key
+                    ServiceName = serviceId,
+                    ServiceTag = _serviceTag
                 }
             });
 
@@ -75,19 +70,13 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         /// <returns>调用任务。</returns>
         protected async Task Invoke(IDictionary<string, object> parameters, string serviceId)
         {
-            var id = serviceId.Substring(0, serviceId.LastIndexOf("."));
-            var key = serviceId.Substring(serviceId.LastIndexOf(".") + 1);
-            if (!string.IsNullOrEmpty(_serviceKey))
-            {
-                id = _serviceKey;
-            }
             await _remoteInvokeService.InvokeAsync(new RemoteInvokeContext
             {
                 InvokeMessage = new RemoteInvokeMessage
                 {
                     Parameters = parameters,
-                    ServiceId = serviceId,
-                    ServiceKey = key
+                    ServiceName = serviceId,
+                    ServiceTag = _serviceTag
                 }
             });
         }

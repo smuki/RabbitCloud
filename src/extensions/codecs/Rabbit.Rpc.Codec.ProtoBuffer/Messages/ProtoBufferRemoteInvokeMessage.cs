@@ -34,7 +34,7 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
     {
         public ProtoBufferRemoteInvokeMessage(RemoteInvokeMessage message)
         {
-            ServiceId = message.ServiceId;
+            ServiceId = message.ServiceName;
             Parameters = message.Parameters?.Select(i => new ParameterItem(i)).ToArray();
         }
 
@@ -59,7 +59,7 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
             return new RemoteInvokeMessage
             {
                 Parameters = Parameters?.ToDictionary(i => i.Key, i => i.Value?.Get()),
-                ServiceId = ServiceId
+                ServiceName = ServiceId
             };
         }
     }

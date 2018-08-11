@@ -41,21 +41,20 @@ namespace Rabbit.Rpc.Runtime.Client.Implementation
             if (context.InvokeMessage == null)
                 throw new ArgumentNullException(nameof(context.InvokeMessage));
 
-            if (string.IsNullOrEmpty(context.InvokeMessage.ServiceId))
-                throw new ArgumentException("服务Id不能为空。", nameof(context.InvokeMessage.ServiceId));
+            if (string.IsNullOrEmpty(context.InvokeMessage.ServiceName))
+                throw new ArgumentException("服务Id不能为空。", nameof(context.InvokeMessage.ServiceName));
 
             var invokeMessage = context.InvokeMessage;
-            var address = await _addressResolver.Resolver(invokeMessage.ServiceId, invokeMessage.ServiceKey);
+            var address = await _addressResolver.Resolver(invokeMessage.ServiceName, invokeMessage.ServiceTag);
 
             if (address == null)
-                throw new RpcException($"无法解析服务Id：{invokeMessage.ServiceId}的地址信息。");
+                throw new RpcException($"无法解析服务Id：{invokeMessage.ServiceName}的地址信息。");
 
             try
             {
                 var endPoint = AddrUtil.CreateEndPoint(address);
 
-                if (_logger.IsEnabled(LogLevel.Debug))
-                    _logger.LogDebug($"使用地址：'{endPoint}'进行调用。");
+                _logger.LogDebug($"使用地址：'{endPoint}'进行调用。");
 
                 var client = _transportClientFactory.CreateClient(endPoint);
                 return await client.SendAsync(context.InvokeMessage);
@@ -67,7 +66,7 @@ namespace Rabbit.Rpc.Runtime.Client.Implementation
             }
             catch (Exception exception)
             {
-                _logger.LogError($"发起请求中发生了错误，服务Id：{invokeMessage.ServiceId}。", exception);
+                _logger.LogError($"发起请求中发生了错误，服务Id：{invokeMessage.ServiceName}。", exception);
                 throw;
             }
         }

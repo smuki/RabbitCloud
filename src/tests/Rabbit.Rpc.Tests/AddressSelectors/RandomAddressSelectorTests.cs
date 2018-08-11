@@ -36,7 +36,7 @@ namespace Rabbit.Rpc.Tests.AddressSelectors
                 Address = Enumerable.Range(1, 100).Select(i => "127.0.0.1:"+ i.ToString()),
                 Descriptor = new ServiceRecord
                 {
-                    TypeName = "service1"
+                    ServiceName = "service1"
                 }
             };
         }

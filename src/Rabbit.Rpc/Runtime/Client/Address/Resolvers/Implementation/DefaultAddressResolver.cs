@@ -41,18 +41,18 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
         /// </summary>
         /// <param name="serviceId">服务Id。</param>
         /// <returns>服务地址模型。</returns>
-        public async Task<string> Resolver(string serviceId,string ServiceKey)
+        public async Task<string> Resolver(string serviceId,string ServiceTag)
         {
-            var id = serviceId.Substring(0, serviceId.LastIndexOf("."));
+            var ServiceName = serviceId.Substring(0, serviceId.LastIndexOf("."));
             var method = serviceId.Substring(serviceId.LastIndexOf(".") + 1);
 
             _logger.LogDebug($"准备为服务id：{serviceId}，解析可用地址。");
             var descriptors = await _serviceRouteManager.GetRoutesAsync();
-            var descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.TypeName == id);
+            var descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.ServiceName == ServiceName);
             if (descriptor == null)
             {
-                descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.Name == ServiceKey);
-
+                string tag = ServiceTag + ",";
+                descriptor = descriptors.FirstOrDefault(i => tag.IndexOf(i.ServiceEntry.ServiceTag+",")>=0);
             }
             if (descriptor == null)
             {

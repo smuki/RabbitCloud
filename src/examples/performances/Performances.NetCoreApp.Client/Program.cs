@@ -69,7 +69,8 @@ namespace Performances.NetCoreApp.Client
                     serviceProvider = RegisterAutofac(serviceCollection);
 
                     serviceProvider.GetRequiredService<ILoggerFactory>()
-                        .AddConsole();
+                        .AddConsole(LogLevel.Debug);
+
                     string[] xx = new string[0];
 
                     var serviceProxyGenerater = serviceProvider.GetRequiredService<IServiceProxyGenerater>();
@@ -77,7 +78,7 @@ namespace Performances.NetCoreApp.Client
                     var services = serviceProxyGenerater.GenerateProxys(new[] { typeof(IUserService) }, xx).ToArray();
 
                     //创建IUserService的代理。
-                    var userService = serviceProxyFactory.Resolve<IUserService>(services.Single(typeof(IUserService).GetTypeInfo().IsAssignableFrom));
+                    var userService = serviceProxyFactory.Resolve<IUserService>(services.Single(typeof(IUserService).GetTypeInfo().IsAssignableFrom),typeof(UserService).ToString());
 
                     Task.Run(async () =>
                     {

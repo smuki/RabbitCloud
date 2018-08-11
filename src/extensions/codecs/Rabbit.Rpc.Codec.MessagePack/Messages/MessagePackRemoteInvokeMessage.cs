@@ -35,7 +35,7 @@ namespace Rabbit.Rpc.Codec.Codec.MessagePack.Messages
     {
         public MessagePackRemoteInvokeMessage(RemoteInvokeMessage message)
         {
-            ServiceId = message.ServiceId;
+            ServiceId = message.ServiceName;
             Parameters = message.Parameters?.Select(i => new ParameterItem(i)).ToArray();
         }
 
@@ -60,7 +60,7 @@ namespace Rabbit.Rpc.Codec.Codec.MessagePack.Messages
             return new RemoteInvokeMessage
             {
                 Parameters = Parameters?.ToDictionary(i => i.Key, i => i.Value?.Get()),
-                ServiceId = ServiceId
+                ServiceName = ServiceId
             };
         }
     }

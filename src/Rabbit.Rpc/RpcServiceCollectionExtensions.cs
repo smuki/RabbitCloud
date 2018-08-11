@@ -273,7 +273,7 @@ namespace Rabbit.Rpc
                 return new AttributeServiceEntryProvider(types, provider.GetRequiredService<IClrServiceEntryFactory>(),
                     provider.GetRequiredService<ILogger<AttributeServiceEntryProvider>>());
             });
-            services.AddSingleton<IServiceEntryManager, DefaultServiceEntryManager>();
+            services.AddSingleton<IServiceTable, DefaultServiceTable>();
             services.AddSingleton<IServiceLocator, DefaultServiceLocator>();
             services.AddSingleton<IServiceExecutor, DefaultServiceExecutor>();
 

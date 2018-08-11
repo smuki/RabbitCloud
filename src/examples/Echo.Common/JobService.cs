@@ -7,7 +7,7 @@ namespace Jacob.Common
 {
 
     [ServiceMetadata("WaitExecution", true)]
-    [ServiceName("api/job")]
+    [ServiceTagAttribute("api/job")]
     public class JobService : IUserService
     {
         #region Implementation of IUserService

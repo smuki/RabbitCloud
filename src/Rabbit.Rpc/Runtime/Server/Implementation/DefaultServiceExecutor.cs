@@ -52,12 +52,18 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 return;
             }
 
-            var entry = _serviceEntryLocate.Locate(remoteInvokeMessage);
-
+            ServiceRecord entry=null;
+            try
+            {
+                entry=_serviceEntryLocate.Locate(remoteInvokeMessage);
+            }catch(Exception exception)
+            {
+                _logger.LogError("发生了错误。", exception);
+            }
             if (entry == null)
             {
                 if (_logger.IsEnabled(LogLevel.Error))
-                    _logger.LogError($"根据服务Id：{remoteInvokeMessage.ServiceId}，找不到服务条目。");
+                    _logger.LogError($"根据服务Id：{remoteInvokeMessage.ServiceName}，找不到服务条目。");
                 return;
             }
 
@@ -96,8 +102,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         {
             try
             {
-                //Console.WriteLine(":"+remoteInvokeMessage.ServiceKey+":");
-                var ServiceId = remoteInvokeMessage.ServiceId;
+                //Console.WriteLine(":"+remoteInvokeMessage.ServiceTag+":");
+                var ServiceId = remoteInvokeMessage.ServiceName;
                 var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
                 var method = ServiceId.Substring(ServiceId.LastIndexOf(".")+1);
 

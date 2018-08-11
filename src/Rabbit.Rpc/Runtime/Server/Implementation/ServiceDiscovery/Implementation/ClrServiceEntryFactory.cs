@@ -42,21 +42,31 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         /// <param name="service">服务类型。</param>
         /// <param name="serviceImplementation">服务实现类型。</param>
         /// <returns>服务条目集合。</returns>
-        public ServiceRecord CreateServiceEntry(Type service, Type serviceImplementation)
+        public ServiceRecord CreateServiceEntry(Type service)
         {
             var serviceId = $"{service.FullName}";
-            var serviceName = $"{service.FullName}";
+            var serviceTag = "";
+            var Interfaces = service.GetInterfaces();
+            foreach (Type Interface in Interfaces)
+            {
+                if (Interface.GetCustomAttribute<ServiceTagAttributeAttribute>() != null)
+                {
+                    serviceTag = serviceTag + "," + Interface.FullName;
+                }
+            }
 
-            var nameAttributes = service.GetCustomAttributes<ServiceNameAttribute>().FirstOrDefault();
+            var nameAttributes = service.GetCustomAttributes<ServiceTagAttributeAttribute>().FirstOrDefault();
             if (nameAttributes != null)
             {
-                serviceName = ((ServiceNameAttribute)nameAttributes).Name;
+                serviceTag = serviceTag + "," + ((ServiceTagAttributeAttribute)nameAttributes).Tag;
             }
-            
-            var serviceRecord= new ServiceRecord
+            Console.WriteLine("serviceTag=" + serviceTag);
+            Console.WriteLine("serviceId=" + serviceId);
+
+            var serviceRecord = new ServiceRecord
             {
-                TypeName = serviceId,
-                Name = serviceName
+                ServiceName = serviceId,
+                ServiceTag = serviceTag.TrimStart(',')
             };
 
             var descriptorAttributes = service.GetCustomAttributes<ServiceAttribute>();
@@ -69,7 +79,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             IDictionary<string, Func<IDictionary<string, object>, Task<object>>> call = new Dictionary<string, Func<IDictionary<string, object>, Task<object>>>();
             foreach (var methodInfo in service.GetTypeInfo().GetMethods())
             {
-                var implementationMethodInfo = serviceImplementation.GetTypeInfo().GetMethod(methodInfo.Name, methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
+                //var implementationMethodInfo = serviceImplementation.GetTypeInfo().GetMethod(methodInfo.Name, methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
                
                 var id = $"{service.FullName}.{methodInfo.Name}";
                 //Console.WriteLine(id);
@@ -87,7 +97,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                         var instance = scope.ServiceProvider.GetRequiredService(methodInfo.DeclaringType);
 
                         var list = new List<object>();
-                        foreach (var parameterInfo in implementationMethodInfo.GetParameters())
+                        foreach (var parameterInfo in methodInfo.GetParameters())
                         {
                             var value = parameters[parameterInfo.Name];
                             var parameterType = parameterInfo.ParameterType;
@@ -96,7 +106,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                             list.Add(parameter);
                         }
 
-                        var result = implementationMethodInfo.Invoke(instance, list.ToArray());
+                        var result = methodInfo.Invoke(instance, list.ToArray());
 
                         return Task.FromResult(result);
                     }

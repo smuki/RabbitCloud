@@ -8,9 +8,9 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
     /// </summary>
     public class DefaultServiceLocator : IServiceLocator
     {
-        private readonly IServiceEntryManager _serviceEntryManager;
+        private readonly IServiceTable _serviceEntryManager;
 
-        public DefaultServiceLocator(IServiceEntryManager serviceEntryManager)
+        public DefaultServiceLocator(IServiceTable serviceEntryManager)
         {
             _serviceEntryManager = serviceEntryManager;
         }
@@ -24,10 +24,11 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <returns>服务条目。</returns>
         public ServiceRecord Locate(RemoteInvokeMessage invokeMessage)
         {
-            var ServiceId = invokeMessage.ServiceId;
+            var ServiceId = invokeMessage.ServiceName;
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
             var serviceEntries = _serviceEntryManager.GetServiceRecords();
-            return serviceEntries.SingleOrDefault(i => i.TypeName == id);
+            ServiceRecord x= serviceEntries.SingleOrDefault(i => i.ServiceName == id);
+            return x;
         }
 
         #endregion Implementation of IServiceEntryLocate
