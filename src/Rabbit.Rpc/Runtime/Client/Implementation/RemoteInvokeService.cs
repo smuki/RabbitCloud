@@ -45,7 +45,7 @@ namespace Rabbit.Rpc.Runtime.Client.Implementation
                 throw new ArgumentException("服务Id不能为空。", nameof(context.InvokeMessage.ServiceId));
 
             var invokeMessage = context.InvokeMessage;
-            var address = await _addressResolver.Resolver(invokeMessage.ServiceId);
+            var address = await _addressResolver.Resolver(invokeMessage.ServiceId, invokeMessage.ServiceKey);
 
             if (address == null)
                 throw new RpcException($"无法解析服务Id：{invokeMessage.ServiceId}的地址信息。");

@@ -29,14 +29,15 @@ namespace Rabbit.Rpc.ProxyGenerator.Utilitys
             {
                 "System.Runtime",
                 "mscorlib",
-                "System.Threading.Tasks"
+                "System.Threading.Tasks",
+                 "System.Collections"
             };
             references = assemblys.Select(i => MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName(i)).Location)).Concat(references);
 #endif
             references = new[]
             {
                 MetadataReference.CreateFromFile(typeof(Task).GetTypeInfo().Assembly.Location),
-              //  MetadataReference.CreateFromFile(typeof(ServiceDescriptorx).GetTypeInfo().Assembly.Location),
+                //MetadataReference.CreateFromFile(typeof(ServiceDescriptor).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(IRemoteInvokeService).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(IServiceProxyGenerater).GetTypeInfo().Assembly.Location)
             }.Concat(references);

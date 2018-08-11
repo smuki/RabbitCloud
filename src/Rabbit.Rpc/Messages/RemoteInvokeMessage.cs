@@ -12,7 +12,11 @@ namespace Rabbit.Rpc.Messages
         /// </summary>
         public string ServiceId { get; set; }
 
+        /// <summary>
+        /// 服务Key。
+        /// </summary>
         public string ServiceKey { get; set; }
+
         /// <summary>
         /// 服务参数。
         /// </summary>

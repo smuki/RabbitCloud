@@ -35,10 +35,11 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         /// 创建服务代理。
         /// </summary>
         /// <param name="proxyType">代理类型。</param>
+        /// <param name="Name">服务名称。</param>
         /// <returns>服务代理实例。</returns>
-        public object Resolve(Type proxyType)
+        public object Resolve(Type proxyType, string Name = null)
         {
-            var instance = proxyType.GetTypeInfo().GetConstructors().First().Invoke(new object[] { _remoteInvokeService, _typeConvertibleService });
+            var instance = proxyType.GetTypeInfo().GetConstructors().First().Invoke(new object[] { _remoteInvokeService, _typeConvertibleService, Name });
             return instance;
         }
 

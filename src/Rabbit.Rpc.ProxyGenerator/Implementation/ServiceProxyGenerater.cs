@@ -217,7 +217,8 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
                                             IdentifierName("typeConvertibleService")),
                                           Token(SyntaxKind.CommaToken),
                                         Argument(
-                                            IdentifierName("serviceKey"))}))))
+                                            IdentifierName("serviceKey"))
+									}))))
                 .WithBody(Block());
         }
 

@@ -15,15 +15,19 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
 
         private readonly IRemoteInvokeService _remoteInvokeService;
         private readonly ITypeConvertibleService _typeConvertibleService;
-
+        private readonly string _serviceKey;
         #endregion Field
 
         #region Constructor
 
-        protected ServiceProxyBase(IRemoteInvokeService remoteInvokeService, ITypeConvertibleService typeConvertibleService)
+        protected ServiceProxyBase(IRemoteInvokeService remoteInvokeService,
+            ITypeConvertibleService typeConvertibleService,
+            string serviceKey
+        )
         {
             _remoteInvokeService = remoteInvokeService;
             _typeConvertibleService = typeConvertibleService;
+            _serviceKey = serviceKey;
         }
 
         #endregion Constructor
@@ -41,6 +45,10 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         {
             var id = serviceId.Substring(0, serviceId.LastIndexOf("."));
             var key= serviceId.Substring(serviceId.LastIndexOf(".")+1);
+            if (!string.IsNullOrEmpty(_serviceKey))
+            {
+                id = _serviceKey;
+            }
             var message = await _remoteInvokeService.InvokeAsync(new RemoteInvokeContext
             {
                 InvokeMessage = new RemoteInvokeMessage
@@ -67,12 +75,19 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         /// <returns>调用任务。</returns>
         protected async Task Invoke(IDictionary<string, object> parameters, string serviceId)
         {
+            var id = serviceId.Substring(0, serviceId.LastIndexOf("."));
+            var key = serviceId.Substring(serviceId.LastIndexOf(".") + 1);
+            if (!string.IsNullOrEmpty(_serviceKey))
+            {
+                id = _serviceKey;
+            }
             await _remoteInvokeService.InvokeAsync(new RemoteInvokeContext
             {
                 InvokeMessage = new RemoteInvokeMessage
                 {
                     Parameters = parameters,
-                    ServiceId = serviceId
+                    ServiceId = serviceId,
+                    ServiceKey = key
                 }
             });
         }

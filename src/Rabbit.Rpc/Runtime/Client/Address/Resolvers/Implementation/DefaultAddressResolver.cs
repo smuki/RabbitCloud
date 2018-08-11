@@ -41,19 +41,22 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
         /// </summary>
         /// <param name="serviceId">服务Id。</param>
         /// <returns>服务地址模型。</returns>
-        public async Task<string> Resolver(string serviceId)
+        public async Task<string> Resolver(string serviceId,string ServiceKey)
         {
-            var id = serviceId.Substring(0,serviceId.LastIndexOf("."));
-            var method= serviceId.Substring(serviceId.LastIndexOf(".")+1);
-            if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug($"准备为服务id：{serviceId}，解析可用地址。");
+            var id = serviceId.Substring(0, serviceId.LastIndexOf("."));
+            var method = serviceId.Substring(serviceId.LastIndexOf(".") + 1);
+
+            _logger.LogDebug($"准备为服务id：{serviceId}，解析可用地址。");
             var descriptors = await _serviceRouteManager.GetRoutesAsync();
             var descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.TypeName == id);
-
             if (descriptor == null)
             {
-                if (_logger.IsEnabled(LogLevel.Warning))
-                    _logger.LogWarning($"根据服务id：{serviceId}，找不到相关服务信息。");
+                descriptor = descriptors.FirstOrDefault(i => i.ServiceEntry.Name == ServiceKey);
+
+            }
+            if (descriptor == null)
+            {
+                _logger.LogWarning($"根据服务id：{serviceId}，找不到相关服务信息。");
                 return null;
             }
 
@@ -70,13 +73,11 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
             var hasAddress = address.Any();
             if (!hasAddress)
             {
-                if (_logger.IsEnabled(LogLevel.Warning))
-                    _logger.LogWarning($"根据服务id：{serviceId}，找不到可用的地址。");
+                _logger.LogWarning($"根据服务id：{serviceId}，找不到可用的地址。");
                 return null;
             }
 
-            if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug($"根据服务id：{serviceId}，找到以下可用地址：{string.Join(",", address.Select(i => i.ToString()))}。");
+            _logger.LogDebug($"根据服务id：{serviceId}，找到以下可用地址：{string.Join(",", address.Select(i => i.ToString()))}。");
 
             return await _addressSelector.SelectAsync(new AddressSelectContext
             {

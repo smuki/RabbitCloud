@@ -25,90 +25,98 @@ namespace Performances.NetCoreApp.Client
         public static void Main(string[] args)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-            while (true)
+            try
             {
-                var serviceCollection = new ServiceCollection();
-
-                var builder = serviceCollection
-                    .AddLogging()
-                    .AddClient()
-                    .UseFilesRouteManager("c:\\proj\\routes.js")
-                    .UseDotNettyTransport();
-
-                IServiceProvider serviceProvider = null;
-                while (serviceProvider == null)
+                while (true)
                 {
-                    Console.WriteLine("client 请输入编解码器协议：");
-                    Console.WriteLine("1.JSON");
-                    Console.WriteLine("2.ProtoBuffer");
-                    Console.WriteLine("3.MessagePack");
-                    var codec = Console.ReadLine();
-                    switch (codec)
+                    var serviceCollection = new ServiceCollection();
+
+                    var builder = serviceCollection
+                        .AddLogging()
+                        .AddClient()
+                        .UseFilesRouteManager("c:\\proj\\routes.js")
+                        .UseDotNettyTransport();
+
+                    IServiceProvider serviceProvider = null;
+                    while (serviceProvider == null)
                     {
-                        case "1":
-                            builder.UseJsonCodec();
-                            serviceProvider = serviceCollection.BuildServiceProvider();
-                            break;
-
-                        case "2":
-                            builder.UseProtoBufferCodec();
-                            serviceProvider = serviceCollection.BuildServiceProvider();
-                            break;
-                        case "3":
-                            builder.UseMessagePackCodec();
-                            serviceProvider = serviceCollection.BuildServiceProvider();
-                            break;
-                        default:
-                            Console.WriteLine("输入错误。");
-                            continue;
-                    }
-                }
-
-                serviceProvider = RegisterAutofac(serviceCollection);
-
-                serviceProvider.GetRequiredService<ILoggerFactory>()
-                    .AddConsole();
-                string[] xx = new string[0];
-
-                var serviceProxyGenerater = serviceProvider.GetRequiredService<IServiceProxyGenerater>();
-                var serviceProxyFactory = serviceProvider.GetRequiredService<IServiceProxyFactory>();
-                var services = serviceProxyGenerater.GenerateProxys(new[] { typeof(IUserService) }, xx).ToArray();
-
-                //创建IUserService的代理。
-                var userService = serviceProxyFactory.Resolve<IUserService>(services.Single(typeof(IUserService).GetTypeInfo().IsAssignableFrom));
-
-                Task.Run(async () =>
-                {
-                    //预热
-                    await userService.GetUser(1);
-
-                    await userService.GetUserName(1);
-                   var v= await userService.GetUser(1);
-                    Console.WriteLine("GetUser");
-                    Console.WriteLine(v.Name);
-                    Console.WriteLine(v.Age);
-
-                    do
-                    {
-                        int t=100;
-                        Console.WriteLine("正在循环 "+t+"次调用 GetUser.....");
-                        //1w次调用
-                        var watch = Stopwatch.StartNew();
-                        for (var i = 0; i < t; i++)
+                        Console.WriteLine("client 请输入编解码器协议：");
+                        Console.WriteLine("1.JSON");
+                        Console.WriteLine("2.ProtoBuffer");
+                        Console.WriteLine("3.MessagePack");
+                        var codec = Console.ReadLine();
+                        switch (codec)
                         {
-                            await userService.GetUser(i);
-                            v = await userService.GetUser(i);
-                            Console.WriteLine("GetUser");
-                            Console.WriteLine(v.Name);
-                            Console.WriteLine(v.Age);
+                            case "1":
+                                builder.UseJsonCodec();
+                                serviceProvider = serviceCollection.BuildServiceProvider();
+                                break;
+
+                            case "2":
+                                builder.UseProtoBufferCodec();
+                                serviceProvider = serviceCollection.BuildServiceProvider();
+                                break;
+                            case "3":
+                                builder.UseMessagePackCodec();
+                                serviceProvider = serviceCollection.BuildServiceProvider();
+                                break;
+                            default:
+                                Console.WriteLine("输入错误。");
+                                continue;
                         }
-                        watch.Stop();
-                        Console.WriteLine(t + $"次调用结束，执行时间：{watch.ElapsedMilliseconds}ms");
-                        Console.ReadLine();
-                    } while (true);
-                }).Wait();
+                    }
+
+                    serviceProvider = RegisterAutofac(serviceCollection);
+
+                    serviceProvider.GetRequiredService<ILoggerFactory>()
+                        .AddConsole();
+                    string[] xx = new string[0];
+
+                    var serviceProxyGenerater = serviceProvider.GetRequiredService<IServiceProxyGenerater>();
+                    var serviceProxyFactory = serviceProvider.GetRequiredService<IServiceProxyFactory>();
+                    var services = serviceProxyGenerater.GenerateProxys(new[] { typeof(IUserService) }, xx).ToArray();
+
+                    //创建IUserService的代理。
+                    var userService = serviceProxyFactory.Resolve<IUserService>(services.Single(typeof(IUserService).GetTypeInfo().IsAssignableFrom));
+
+                    Task.Run(async () =>
+                    {
+                        //预热
+                        await userService.GetUser(1);
+
+                        await userService.GetUserName(1);
+                        var v = await userService.GetUser(1);
+                        Console.WriteLine("GetUser");
+                        Console.WriteLine(v.Name);
+                        Console.WriteLine(v.Age);
+
+                        do
+                        {
+                            int t = 100;
+                            Console.WriteLine("正在循环 " + t + "次调用 GetUser.....");
+                            //1w次调用
+                            var watch = Stopwatch.StartNew();
+                            for (var i = 0; i < t; i++)
+                            {
+                                await userService.GetUser(i);
+                                v = await userService.GetUser(i);
+                                Console.WriteLine("GetUser");
+                                Console.WriteLine(v.Name);
+                                Console.WriteLine(v.Age);
+                            }
+                            watch.Stop();
+                            Console.WriteLine(t + $"次调用结束，执行时间：{watch.ElapsedMilliseconds}ms");
+                            Console.ReadLine();
+                        } while (true);
+                    }).Wait();
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace.ToString());
+                Console.ReadLine();
+            }
+
         }
         private static IServiceProvider RegisterAutofac(IServiceCollection services)
         {
