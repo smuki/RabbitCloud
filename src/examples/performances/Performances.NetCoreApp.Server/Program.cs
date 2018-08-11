@@ -79,7 +79,7 @@ namespace Performances.NetCoreApp.Server
 
             serviceProvider = RegisterAutofac(serviceCollection);
             serviceProvider.GetRequiredService<ILoggerFactory>()
-                .AddConsole(LogLevel.Debug);
+                .AddConsole(LogLevel.Information);
 
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             {

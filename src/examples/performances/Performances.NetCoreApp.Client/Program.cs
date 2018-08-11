@@ -69,7 +69,7 @@ namespace Performances.NetCoreApp.Client
                     serviceProvider = RegisterAutofac(serviceCollection);
 
                     serviceProvider.GetRequiredService<ILoggerFactory>()
-                        .AddConsole(LogLevel.Debug);
+                        .AddConsole(LogLevel.Information);
 
                     string[] xx = new string[0];
 

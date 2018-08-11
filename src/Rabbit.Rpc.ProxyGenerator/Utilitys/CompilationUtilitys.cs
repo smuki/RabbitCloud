@@ -65,7 +65,29 @@ namespace Rabbit.Rpc.ProxyGenerator.Utilitys
                 return null;
             }
             stream.Seek(0, SeekOrigin.Begin);
+
+            //StreamToFile(stream, @"c:\proj\x.dll");
+
             return stream;
+        }
+
+        public static void StreamToFile(Stream stream, string fileName)
+        {
+            // 把 Stream 转换成 byte[] 
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+            // 设置当前流的位置为流的开始 
+            stream.Seek(0, SeekOrigin.Begin);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+            // 把 byte[] 写入文件 
+            FileStream fs = new FileStream(fileName, FileMode.Create);
+            BinaryWriter bw = new BinaryWriter(fs);
+            bw.Write(bytes);
+            bw.Close();
+            fs.Close();
         }
 
         #endregion Public Method
