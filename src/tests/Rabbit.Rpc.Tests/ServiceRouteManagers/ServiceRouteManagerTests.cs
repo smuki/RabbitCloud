@@ -27,7 +27,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                     {
                         "127.0.0.1:1"
                     },
-                    ServiceEntry = new ServiceRecord { Type = "service1" }
+                    ServiceEntry = new ServiceRecord { TypeName = "service1" }
                 };
 
             await ServiceRouteManager.SetRoutesAsync(new[]
@@ -60,7 +60,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                 },
                 ServiceEntry = new ServiceRecord
                 {
-                    Type = "service1"
+                    TypeName = "service1"
                 }
             };
             var route2 = new ServiceRoute
@@ -71,7 +71,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                 },
                 ServiceEntry = new ServiceRecord
                 {
-                    Type = "service2"
+                    TypeName = "service2"
                 }
             };
             var route3 = new ServiceRoute
@@ -82,7 +82,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                 },
                 ServiceEntry = new ServiceRecord
                 {
-                    Type = "service3"
+                    TypeName = "service3"
                 }
             };
 
@@ -108,14 +108,14 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
                 removedWait = new TaskCompletionSource<bool>();
             };
             reset();
-            ServiceRouteManager.Created += (s, e) => { createdWait.TrySetResult(route3.ServiceEntry.Type == e.Route.ServiceEntry.Type); };
+            ServiceRouteManager.Created += (s, e) => { createdWait.TrySetResult(route3.ServiceEntry.TypeName == e.Route.ServiceEntry.TypeName); };
             ServiceRouteManager.Changed += (s, e) => {
                     changedWait.TrySetResult(
-                        route2.ServiceEntry.Type == e.Route.ServiceEntry.Type
+                        route2.ServiceEntry.TypeName == e.Route.ServiceEntry.TypeName
                         && route2.Address.First() == e.Route.Address.First()
                         && "127.0.0.1:2" == e.OldRoute.Address.First());
                 };
-            ServiceRouteManager.Removed += (s, e) => { removedWait.TrySetResult(route1.ServiceEntry.Type == e.Route.ServiceEntry.Type); };
+            ServiceRouteManager.Removed += (s, e) => { removedWait.TrySetResult(route1.ServiceEntry.TypeName == e.Route.ServiceEntry.TypeName); };
 
             await ServiceRouteManager.SetRoutesAsync(new[] { route2, route3 });
 

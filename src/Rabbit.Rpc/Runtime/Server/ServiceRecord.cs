@@ -24,7 +24,7 @@ namespace Rabbit.Rpc.Runtime.Server
         /// <summary>
         /// 服务ServiceName。
         /// </summary>
-        public string Type { get; set; }
+        public string TypeName { get; set; }
 
         /// <summary>
         /// 服务ServiceName。
@@ -89,7 +89,7 @@ namespace Rabbit.Rpc.Runtime.Server
             if (obj.GetType() != GetType())
                 return false;
 
-            if (model.Type != Type)
+            if (model.TypeName != TypeName)
                 return false;
 
             if (model.Metadata == null)

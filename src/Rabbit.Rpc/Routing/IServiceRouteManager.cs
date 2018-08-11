@@ -59,7 +59,7 @@ namespace Rabbit.Rpc.Routing
         /// <returns>服务路由。</returns>
         public static async Task<ServiceRoute> GetAsync(this IServiceRouteManager serviceRouteManager, string serviceId)
         {
-            return (await serviceRouteManager.GetRoutesAsync()).SingleOrDefault(i => i.ServiceEntry.Type == serviceId);
+            return (await serviceRouteManager.GetRoutesAsync()).SingleOrDefault(i => i.ServiceEntry.TypeName == serviceId);
         }
     }
 }

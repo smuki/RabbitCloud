@@ -55,7 +55,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             
             var serviceRecord= new ServiceRecord
             {
-                Type = serviceId,
+                TypeName = serviceId,
                 Name = serviceName
             };
 

@@ -139,7 +139,7 @@ namespace Rabbit.Rpc.Coordinate.Files
                     var serializer = _serializer;
                     routes = (await _serviceRouteFactory.CreateServiceRoutesAsync(serializer.Deserialize<string, ServiceRouteDescriptor[]>(content))).ToArray();
                     if (_logger.IsEnabled(LogLevel.Information))
-                        _logger.LogInformation($"成功获取到以下路由信息：{string.Join(",", routes.Select(i => i.ServiceEntry.Type))}。");
+                        _logger.LogInformation($"成功获取到以下路由信息：{string.Join(",", routes.Select(i => i.ServiceEntry.TypeName))}。");
                 }
                 catch (Exception exception)
                 {
@@ -170,9 +170,9 @@ namespace Rabbit.Rpc.Coordinate.Files
             else
             {
                 //旧的服务Id集合。
-                var oldServiceIds = oldRoutes.Select(i => i.ServiceEntry.Type).ToArray();
+                var oldServiceIds = oldRoutes.Select(i => i.ServiceEntry.TypeName).ToArray();
                 //新的服务Id集合。
-                var newServiceIds = newRoutes.Select(i => i.ServiceEntry.Type).ToArray();
+                var newServiceIds = newRoutes.Select(i => i.ServiceEntry.TypeName).ToArray();
 
                 //被删除的服务Id集合
                 var removeServiceIds = oldServiceIds.Except(newServiceIds).ToArray();
@@ -182,25 +182,25 @@ namespace Rabbit.Rpc.Coordinate.Files
                 var mayModifyServiceIds = newServiceIds.Except(removeServiceIds).ToArray();
 
                 //触发服务路由创建事件。
-                OnCreated(newRoutes.Where(i => addServiceIds.Contains(i.ServiceEntry.Type))
+                OnCreated(newRoutes.Where(i => addServiceIds.Contains(i.ServiceEntry.TypeName))
                         .Select(route => new ServiceRouteEventArgs(route))
                         .ToArray());
 
                 //触发服务路由删除事件。
-                OnRemoved(oldRoutes.Where(i => removeServiceIds.Contains(i.ServiceEntry.Type))
+                OnRemoved(oldRoutes.Where(i => removeServiceIds.Contains(i.ServiceEntry.TypeName))
                         .Select(route => new ServiceRouteEventArgs(route))
                         .ToArray());
 
                 //触发服务路由变更事件。
-                var currentMayModifyRoutes = newRoutes.Where(i => mayModifyServiceIds.Contains(i.ServiceEntry.Type)).ToArray();
-                var oldMayModifyRoutes = oldRoutes.Where(i => mayModifyServiceIds.Contains(i.ServiceEntry.Type)).ToArray();
+                var currentMayModifyRoutes = newRoutes.Where(i => mayModifyServiceIds.Contains(i.ServiceEntry.TypeName)).ToArray();
+                var oldMayModifyRoutes = oldRoutes.Where(i => mayModifyServiceIds.Contains(i.ServiceEntry.TypeName)).ToArray();
 
                 foreach (var oldMayModifyRoute in oldMayModifyRoutes)
                 {
                     if (!currentMayModifyRoutes.Contains(oldMayModifyRoute))
                         OnChanged(new ServiceRouteChangedEventArgs(
                                 currentMayModifyRoutes.First(
-                                    i => i.ServiceEntry.Type == oldMayModifyRoute.ServiceEntry.Type),
+                                    i => i.ServiceEntry.TypeName == oldMayModifyRoute.ServiceEntry.TypeName),
                                 oldMayModifyRoute));
                 }
             }

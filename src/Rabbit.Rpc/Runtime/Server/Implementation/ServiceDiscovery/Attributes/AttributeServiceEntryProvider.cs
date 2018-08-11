@@ -49,7 +49,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation($"Discovery Following Type:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
+                _logger.LogInformation($"Discovery Following TypeName:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
             }
 
             var entries = new List<ServiceRecord>();

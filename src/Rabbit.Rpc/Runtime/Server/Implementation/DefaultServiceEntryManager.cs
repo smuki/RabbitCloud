@@ -25,8 +25,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 var entries = provider.GetServiceRecords().ToArray();
                 foreach (var entry in entries)
                 {
-                    if (list.Any(i => i.Type == entry.Type))
-                        throw new InvalidOperationException($"本地包含多个Id为：{entry.Type} 的服务条目。");
+                    if (list.Any(i => i.TypeName == entry.TypeName))
+                        throw new InvalidOperationException($"本地包含多个Id为：{entry.TypeName} 的服务条目。");
                 }
                 list.AddRange(entries);
             }

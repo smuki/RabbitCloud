@@ -21,10 +21,10 @@ namespace Rabbit.Rpc.Utilities
 /*
         public static FastInvokeHandler GetMethodInvoker(MethodInfo methodInfo)
         {
-            DynamicMethod dynamicMethod = new DynamicMethod(string.Empty, typeof(object), new Type[] { typeof(object), typeof(object[]) }, methodInfo.DeclaringType.Module);
+            DynamicMethod dynamicMethod = new DynamicMethod(string.Empty, typeof(object), new TypeName[] { typeof(object), typeof(object[]) }, methodInfo.DeclaringType.Module);
             ILGenerator il = dynamicMethod.GetILGenerator();
             ParameterInfo[] ps = methodInfo.GetParameters();
-            Type[] paramTypes = new Type[ps.Length];
+            TypeName[] paramTypes = new TypeName[ps.Length];
             for (int i = 0; i < paramTypes.Length; i++)
             {
                 if (ps[i].ParameterType.IsByRef)
@@ -84,7 +84,7 @@ namespace Rabbit.Rpc.Utilities
             return invoder;
         }
        
-        private static void EmitCastToReference(ILGenerator il, System.Type type)
+        private static void EmitCastToReference(ILGenerator il, System.TypeName type)
         {
             if (type.IsValueType)
             {
@@ -96,7 +96,7 @@ namespace Rabbit.Rpc.Utilities
             }
         }
 
-        private static void EmitBoxIfNeeded(ILGenerator il, System.Type type)
+        private static void EmitBoxIfNeeded(ILGenerator il, System.TypeName type)
         {
             if (type.IsValueType)
             {
