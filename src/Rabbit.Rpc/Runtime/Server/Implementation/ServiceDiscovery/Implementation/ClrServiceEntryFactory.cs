@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Rabbit.Rpc.Convertibles;
-using Rabbit.Rpc.Ids;
+//using Rabbit.Rpc.Ids;
 using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 using System;
 using System.Collections.Generic;
@@ -18,17 +18,18 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         #region Field
 
         private readonly IServiceProvider _serviceProvider;
-        private readonly IServiceIdGenerator _serviceIdGenerator;
+       // private readonly IServiceIdGenerator _serviceIdGenerator;
         private readonly ITypeConvertibleService _typeConvertibleService;
 
         #endregion Field
 
         #region Constructor
 
-        public ClrServiceEntryFactory(IServiceProvider serviceProvider, IServiceIdGenerator serviceIdGenerator, ITypeConvertibleService typeConvertibleService)
+        //public ClrServiceEntryFactory(IServiceProvider serviceProvider, IServiceIdGenerator serviceIdGenerator, ITypeConvertibleService typeConvertibleService)
+        public ClrServiceEntryFactory(IServiceProvider serviceProvider, ITypeConvertibleService typeConvertibleService)
         {
             _serviceProvider = serviceProvider;
-            _serviceIdGenerator = serviceIdGenerator;
+            //_serviceIdGenerator = serviceIdGenerator;
             _typeConvertibleService = typeConvertibleService;
         }
 

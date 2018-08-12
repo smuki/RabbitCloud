@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Convertibles;
 using Rabbit.Rpc.Convertibles.Implementation;
-using Rabbit.Rpc.Ids;
-using Rabbit.Rpc.Ids.Implementation;
+//using Rabbit.Rpc.Ids;
+//using Rabbit.Rpc.Ids.Implementation;
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Runtime.Client;
@@ -290,7 +290,7 @@ namespace Rabbit.Rpc
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            services.AddSingleton<IServiceIdGenerator, DefaultServiceIdGenerator>();
+            //services.AddSingleton<IServiceIdGenerator, DefaultServiceIdGenerator>();
 
             services.AddSingleton<ITypeConvertibleProvider, DefaultTypeConvertibleProvider>();
             services.AddSingleton<ITypeConvertibleService, DefaultTypeConvertibleService>();

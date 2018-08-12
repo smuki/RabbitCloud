@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Rabbit.Rpc.Convertibles;
-using Rabbit.Rpc.Ids;
+//using Rabbit.Rpc.Ids;
 using Rabbit.Rpc.ProxyGenerator.Utilitys;
 using Rabbit.Rpc.Runtime.Client;
 using Rabbit.Rpc.Serialization;
@@ -28,16 +28,16 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
     {
         #region Field
 
-        private readonly IServiceIdGenerator _serviceIdGenerator;
+       // private readonly IServiceIdGenerator _serviceIdGenerator;
         private readonly ILogger<ServiceProxyGenerater> _logger;
 
         #endregion Field
 
         #region Constructor
 
-        public ServiceProxyGenerater(IServiceIdGenerator serviceIdGenerator, ILogger<ServiceProxyGenerater> logger)
+        public ServiceProxyGenerater(/*IServiceIdGenerator serviceIdGenerator,*/ ILogger<ServiceProxyGenerater> logger)
         {
-            _serviceIdGenerator = serviceIdGenerator;
+            //_serviceIdGenerator = serviceIdGenerator;
             _logger = logger;
         }
 
@@ -256,7 +256,14 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
 
         private MemberDeclarationSyntax GenerateMethodDeclaration(MethodInfo method)
         {
-            var serviceId = _serviceIdGenerator.GenerateServiceId(method);
+            var type = method.DeclaringType;
+            var serviceId = $"{type.FullName}.{method.Name}";
+            var parameters = method.GetParameters();
+            if (parameters.Any())
+            {
+                serviceId += "_" + string.Join("_", parameters.Select(i => i.Name));
+            }
+           // var serviceId = _serviceIdGenerator.GenerateServiceId(method);
             var returnDeclaration = GetTypeSyntax(method.ReturnType);
 
             var parameterList = new List<SyntaxNodeOrToken>();
