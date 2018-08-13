@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Routing;
-using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors;
 using Rabbit.Rpc.Runtime.Client.HealthChecks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,19 +17,23 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
 
         private readonly IServiceRouteManager _serviceRouteManager;
         private readonly ILogger<DefaultAddressResolver> _logger;
-        private readonly IAddressSelector _addressSelector;
+        //private readonly IAddressSelector _addressSelector;
         private readonly IHealthCheckService _healthCheckService;
+        private readonly Func<int, int, int> _generate;
+        private readonly Random _random;
 
         #endregion Field
 
         #region Constructor
 
-        public DefaultAddressResolver(IServiceRouteManager serviceRouteManager, ILogger<DefaultAddressResolver> logger, IAddressSelector addressSelector, IHealthCheckService healthCheckService)
+        public DefaultAddressResolver(IServiceRouteManager serviceRouteManager, ILogger<DefaultAddressResolver> logger,/* IAddressSelector addressSelector,*/ IHealthCheckService healthCheckService)
         {
             _serviceRouteManager = serviceRouteManager;
             _logger = logger;
-            _addressSelector = addressSelector;
+            //_addressSelector = addressSelector;
             _healthCheckService = healthCheckService;
+            _random = new Random();
+            _generate = (min, max) => _random.Next(min, max);
         }
 
         #endregion Constructor
@@ -85,11 +89,11 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
 
             _logger.LogDebug($"根据服务id：{serviceId}，找到以下可用地址：{string.Join(",", address.Select(i => i.ToString()))}。");
 
-            return await _addressSelector.SelectAsync(new AddressSelectContext
-            {
-                Descriptor = descriptor.ServiceEntry,
-                Address = address
-            });
+
+            var length = address.Count;
+
+            var index = _generate(0, length);
+            return address[index];
         }
 
         #endregion Implementation of IAddressResolver

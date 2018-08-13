@@ -9,8 +9,8 @@ using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Runtime.Client;
 using Rabbit.Rpc.Runtime.Client.Address.Resolvers;
 using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation;
-using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors;
-using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.Implementation;
+//using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors;
+//using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.Implementation;
 using Rabbit.Rpc.Runtime.Client.HealthChecks;
 using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
 using Rabbit.Rpc.Runtime.Client.Implementation;
@@ -133,11 +133,14 @@ namespace Rabbit.Rpc
         /// <typeparam name="T">地址选择器实现类型。</typeparam>
         /// <param name="builder">Rpc服务构建者。</param>
         /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseAddressSelector<T>(this IRpcBuilder builder) where T : class, IAddressSelector
+
+        /*
+         public static IRpcBuilder UseAddressSelector<T>(this IRpcBuilder builder) where T : class, IAddressSelector
         {
             builder.Services.AddSingleton<IAddressSelector, T>();
             return builder;
         }
+        */
 
         /// <summary>
         /// 设置服务地址选择器。
@@ -145,6 +148,7 @@ namespace Rabbit.Rpc
         /// <param name="builder">Rpc服务构建者。</param>
         /// <param name="factory">服务地址选择器实例工厂。</param>
         /// <returns>Rpc服务构建者。</returns>
+        /*
         public static IRpcBuilder UseAddressSelector(this IRpcBuilder builder,
             Func<IServiceProvider, IAddressSelector> factory)
         {
@@ -152,6 +156,7 @@ namespace Rabbit.Rpc
 
             return builder;
         }
+        */
 
         /// <summary>
         /// 设置服务地址选择器。
@@ -159,12 +164,12 @@ namespace Rabbit.Rpc
         /// <param name="builder">Rpc服务构建者。</param>
         /// <param name="instance">地址选择器实例。</param>
         /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseAddressSelector(this IRpcBuilder builder, IAddressSelector instance)
-        {
-            builder.Services.AddSingleton(instance);
+        //public static IRpcBuilder UseAddressSelector(this IRpcBuilder builder, IAddressSelector instance)
+        //{
+        //    builder.Services.AddSingleton(instance);
 
-            return builder;
-        }
+        //    return builder;
+        //}
 
         #endregion AddressSelector
 
@@ -173,22 +178,22 @@ namespace Rabbit.Rpc
         /// </summary>
         /// <param name="builder">Rpc服务构建者。</param>
         /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UsePollingAddressSelector(this IRpcBuilder builder)
-        {
-            builder.Services.AddSingleton<IAddressSelector, PollingAddressSelector>();
-            return builder;
-        }
+        //public static IRpcBuilder UsePollingAddressSelector(this IRpcBuilder builder)
+        //{
+        //    builder.Services.AddSingleton<IAddressSelector, PollingAddressSelector>();
+        //    return builder;
+        //}
 
         /// <summary>
         /// 使用随机的地址选择器。
         /// </summary>
         /// <param name="builder">Rpc服务构建者。</param>
         /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseRandomAddressSelector(this IRpcBuilder builder)
-        {
-            builder.Services.AddSingleton<IAddressSelector, RandomAddressSelector>();
-            return builder;
-        }
+        //public static IRpcBuilder UseRandomAddressSelector(this IRpcBuilder builder)
+        //{
+        //    builder.Services.AddSingleton<IAddressSelector, RandomAddressSelector>();
+        //    return builder;
+        //}
 
         #region Codec Factory
 
@@ -246,7 +251,8 @@ namespace Rabbit.Rpc
             services.AddSingleton<IAddressResolver, DefaultAddressResolver>();
             services.AddSingleton<IRemoteInvokeService, RemoteInvokeService>();
 
-            return builder.UsePollingAddressSelector();
+            // return builder.UsePollingAddressSelector();
+            return builder;
         }
 
         /// <summary>
