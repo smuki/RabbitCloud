@@ -2,8 +2,8 @@
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
-//using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors;
-//using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.Implementation;
+//using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation.Selectors;
+//using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation.Selectors.Implementation;
 using Rabbit.Rpc.Serialization.Implementation;
 using System.Collections.Generic;
 using System.Linq;

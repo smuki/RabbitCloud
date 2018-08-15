@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Exceptions;
 using Rabbit.Rpc.Messages;
-using Rabbit.Rpc.Runtime.Client.Address.Resolvers;
+using Rabbit.Rpc.Runtime.Client.Resolvers;
 using Rabbit.Rpc.Runtime.Client.HealthChecks;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Utilities;

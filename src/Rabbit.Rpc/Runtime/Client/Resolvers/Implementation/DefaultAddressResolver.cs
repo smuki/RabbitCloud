@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
+namespace Rabbit.Rpc.Runtime.Client.Resolvers.Implementation
 {
     /// <summary>
     /// 一个人默认的服务地址解析器。
@@ -88,7 +88,6 @@ namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation
             }
 
             _logger.LogDebug($"根据服务id：{serviceId}，找到以下可用地址：{string.Join(",", address.Select(i => i.ToString()))}。");
-
 
             var length = address.Count;
 

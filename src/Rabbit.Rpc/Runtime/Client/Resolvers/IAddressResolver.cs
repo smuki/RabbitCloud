@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Client.Address.Resolvers
+namespace Rabbit.Rpc.Runtime.Client.Resolvers
 {
     /// <summary>
     /// 一个抽象的服务地址解析器。

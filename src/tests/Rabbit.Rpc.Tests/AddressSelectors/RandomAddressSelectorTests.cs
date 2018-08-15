@@ -1,6 +1,6 @@
 ﻿//using Rabbit.Rpc.Address;
-//using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors;
-//using Rabbit.Rpc.Runtime.Client.Address.Resolvers.Implementation.Selectors.Implementation;
+//using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation.Selectors;
+//using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation.Selectors.Implementation;
 using Rabbit.Rpc.Runtime.Server;
 using System.Collections.Generic;
 using System.Linq;
