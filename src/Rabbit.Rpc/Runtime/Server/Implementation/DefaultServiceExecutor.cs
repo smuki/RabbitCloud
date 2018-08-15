@@ -104,13 +104,16 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 var ServiceId = remoteInvokeMessage.ServiceName;
                 var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
                 var method = ServiceId.Substring(ServiceId.LastIndexOf(".") + 1);
+                if (entry.CallContext.ContainsKey(method))
+                {
 
-                var result = await entry.CallContext[method](remoteInvokeMessage.Parameters);
-                var task = result as Task;
+                }
+                var content = await entry.CallContext[method](remoteInvokeMessage.Parameters);
+                var task = content as Task;
 
                 if (task == null)
                 {
-                    resultMessage.Content = result;
+                    resultMessage.Content = content;
                 }
                 else
                 {
