@@ -28,16 +28,14 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
     {
         #region Field
 
-       // private readonly IServiceIdGenerator _serviceIdGenerator;
         private readonly ILogger<ServiceProxyGenerater> _logger;
 
         #endregion Field
 
         #region Constructor
 
-        public ServiceProxyGenerater(/*IServiceIdGenerator serviceIdGenerator,*/ ILogger<ServiceProxyGenerater> logger)
+        public ServiceProxyGenerater(ILogger<ServiceProxyGenerater> logger)
         {
-            //_serviceIdGenerator = serviceIdGenerator;
             _logger = logger;
         }
 
@@ -157,7 +155,6 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
             }
             return left;
         }
-
         private static SyntaxList<UsingDirectiveSyntax> GetUsings(IEnumerable<string> namespaces)
         {
             var directives = new List<UsingDirectiveSyntax>();
@@ -263,7 +260,6 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
             {
                 serviceId += "_" + string.Join("_", parameters.Select(i => i.Name));
             }
-           // var serviceId = _serviceIdGenerator.GenerateServiceId(method);
             var returnDeclaration = GetTypeSyntax(method.ReturnType);
 
             var parameterList = new List<SyntaxNodeOrToken>();
