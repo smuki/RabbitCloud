@@ -13,9 +13,8 @@ namespace Rabbit.Transport.DotNetty
         /// </summary>
         /// <param name="builder">Rpc服务构建者。</param>
         /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseDotNettyTransport(this IRpcBuilder builder)
+        public static IServiceCollection UseDotNettyTransport(this IServiceCollection services)
         {
-            var services = builder.Services;
 
             services.AddSingleton<ITransportClientFactory, DotNettyTransportClientFactory>();
 
@@ -28,7 +27,7 @@ namespace Rabbit.Transport.DotNetty
                 return messageListener;
             }, provider.GetRequiredService<IServiceExecutor>()));
 
-            return builder;
+            return services;
         }
     }
 }

@@ -27,6 +27,8 @@ using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Convertibles.Implementation;
 using Rabbit.Rpc.Utilities;
 using Rabbit.Rpc.Serialization.Implementation;
+using Rabbit.Rpc.Serialization;
+using Rabbit.Rpc.ProxyGenerator.Implementation;
 
 namespace Performances.NetCoreApp.Client
 {
@@ -44,7 +46,6 @@ namespace Performances.NetCoreApp.Client
 
                     var builder = serviceCollection
                         .AddLogging()
-                        .AddClient()
                         .UseDotNettyTransport();
 
                     IServiceProvider serviceProvider = null;
@@ -120,6 +121,15 @@ namespace Performances.NetCoreApp.Client
             builder.RegisterType<DefaultTypeConvertibleProvider>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<DefaultTypeConvertibleService>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<DefaultServiceRouteFactory>().AsImplementedInterfaces().AsSelf();
+
+            builder.RegisterType<JsonSerializer>().As<ISerializer<string>>().AsSelf();
+            builder.RegisterType<StringByteArraySerializer>().As<ISerializer<byte[]>>().AsSelf();
+            builder.RegisterType<StringObjectSerializer>().As<ISerializer<object>>().AsSelf();
+
+            //AddProxy
+            builder.RegisterType<ServiceProxyGenerater>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<ServiceProxyFactory>().AsImplementedInterfaces().AsSelf();
+
 
             XConfig config = new XConfig();
 

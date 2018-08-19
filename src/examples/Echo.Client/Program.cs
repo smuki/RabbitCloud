@@ -24,8 +24,6 @@ namespace Jacob.Client
 
             serviceCollection
                 .AddLogging()
-                .AddClient()
-                //.UseFilesRouteManager(@"c:\proj\routes.js")
                 .UseDotNettyTransport();
 
             var serviceProvider = serviceCollection.BuildServiceProvider();

@@ -58,10 +58,7 @@ namespace Rabbit.Rpc.ClientGenerator
         {
             var services = new ServiceCollection();
 
-            services
-                .AddLogging()
-                .AddRpcCore()
-                .AddClientProxy();
+            services.AddLogging();
 
             var provider = services.BuildServiceProvider();
 

@@ -32,7 +32,6 @@ namespace Jacob.Server
 
             serviceCollection
                 .AddLogging()
-                .AddRpcCore()
                 .AddServiceRuntime()
                 //.UseFilesRouteManager(@"c:\proj\routes.js")
                 .UseDotNettyTransport();

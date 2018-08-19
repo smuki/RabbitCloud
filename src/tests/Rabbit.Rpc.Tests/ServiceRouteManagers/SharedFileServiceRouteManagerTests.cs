@@ -13,9 +13,7 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
         {
             var routeFile = Path.Combine(AppContext.BaseDirectory, "routes.txt");
             var services = new ServiceCollection();
-            services
-                .AddLogging()
-                .AddRpcCore();
+            services.AddLogging();
 
             var provider = services.BuildServiceProvider();
 

@@ -30,67 +30,19 @@ using System.Reflection;
 
 namespace Rabbit.Rpc
 {
-    /// <summary>
-    /// 一个抽象的Rpc服务构建者。
-    /// </summary>
-    public interface IRpcBuilder
-    {
-        /// <summary>
-        /// 服务集合。
-        /// </summary>
-        IServiceCollection Services { get; }
-    }
-
-    /// <summary>
-    /// 默认的Rpc服务构建者。
-    /// </summary>
-    internal sealed class RpcBuilder : IRpcBuilder
-    {
-        public RpcBuilder(IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-            Services = services;
-        }
-
-        #region Implementation of IRpcBuilder
-
-        /// <summary>
-        /// 服务集合。
-        /// </summary>
-        public IServiceCollection Services { get; }
-
-        #endregion Implementation of IRpcBuilder
-    }
 
     public static class RpcServiceCollectionExtensions
     {
-        /// <summary>
-        /// 添加Json序列化支持。
-        /// </summary>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder AddJsonSerialization(this IRpcBuilder builder)
-        {
-            var services = builder.Services;
-
-            services.AddSingleton<ISerializer<string>, JsonSerializer>();
-            services.AddSingleton<ISerializer<byte[]>, StringByteArraySerializer>();
-            services.AddSingleton<ISerializer<object>, StringObjectSerializer>();
-
-            return builder;
-        }
 
         /// <summary>
         /// 添加服务运行时服务。
         /// </summary>
         /// <param name="builder">Rpc服务构建者。</param>
         /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder AddServiceRuntime(this IRpcBuilder builder)
+        public static IServiceCollection AddServiceRuntime(this IServiceCollection services)
         {
-            var services = builder.Services;
 
-            //            services.AddSingleton<IServiceInstanceFactory, DefaultServiceInstanceFactory>();
+            //services.AddSingleton<IServiceInstanceFactory, DefaultServiceInstanceFactory>();
             services.AddSingleton<IClrServiceEntryFactory, ClrServiceEntryFactory>();
             services.AddSingleton<IServiceEntryProvider>(provider =>
             {
@@ -108,22 +60,9 @@ namespace Rabbit.Rpc
             services.AddSingleton<IServiceTable, DefaultServiceTable>();
             services.AddSingleton<IServiceLocator, DefaultServiceLocator>();
             services.AddSingleton<IServiceExecutor, DefaultServiceExecutor>();
-
-            return builder;
+            
+            return services;
         }
-
-        /// <summary>
-        /// 添加RPC核心服务。
-        /// </summary>
-        /// <param name="services">服务集合。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder AddRpcCore(this IServiceCollection services)
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
-            return new RpcBuilder(services)
-                .AddJsonSerialization();
-        }
+      
     }
 }

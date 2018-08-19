@@ -31,6 +31,7 @@ using Rabbit.Rpc.Runtime.Client.Implementation;
 using Rabbit.Rpc.Convertibles.Implementation;
 using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Serialization.Implementation;
+using Rabbit.Rpc.Serialization;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -52,7 +53,6 @@ namespace Performances.NetCoreApp.Server
 
             var builder = serviceCollection
                 .AddLogging()
-                .AddRpcCore()
                 .AddServiceRuntime()
                 .UseDotNettyTransport();
 
@@ -120,6 +120,10 @@ namespace Performances.NetCoreApp.Server
             builder.RegisterType<DefaultTypeConvertibleProvider>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<DefaultTypeConvertibleService>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<DefaultServiceRouteFactory>().AsImplementedInterfaces().AsSelf();
+
+            builder.RegisterType<JsonSerializer>().As<ISerializer<string>>().AsSelf();
+            builder.RegisterType<StringByteArraySerializer>().As<ISerializer<byte[]>>().AsSelf();
+            builder.RegisterType<StringObjectSerializer>().As<ISerializer<object>>().AsSelf();
 
             XConfig config = new XConfig();
 
