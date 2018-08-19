@@ -52,26 +52,26 @@ namespace Performances.NetCoreApp.Server
             IServiceProvider serviceProvider = null;
             //do
             //{
-                Console.WriteLine(" server 请输入编解码器协议：");
-                Console.WriteLine("1.JSON");
-                Console.WriteLine("2.ProtoBuffer");
-                Console.WriteLine("3.MessagePack");
-                //var codec = Console.ReadLine();
-                //switch (codec)
-                //{
-                //    case "1":
-                //        builder.UseJsonCodec();
-                //        serviceProvider = serviceCollection.BuildServiceProvider();
-                //        break;
+            Console.WriteLine(" server 请输入编解码器协议：");
+            Console.WriteLine("1.JSON");
+            Console.WriteLine("2.ProtoBuffer");
+            Console.WriteLine("3.MessagePack");
+            //var codec = Console.ReadLine();
+            //switch (codec)
+            //{
+            //    case "1":
+            //        builder.UseJsonCodec();
+            //        serviceProvider = serviceCollection.BuildServiceProvider();
+            //        break;
 
-                //    case "2":
-                //        builder.UseProtoBufferCodec();
-                //        serviceProvider = serviceCollection.BuildServiceProvider();
-                //        break;
+            //    case "2":
+            //        builder.UseProtoBufferCodec();
+            //        serviceProvider = serviceCollection.BuildServiceProvider();
+            //        break;
 
-                //    case "3":
-                        builder.UseMessagePackCodec();
-                        serviceProvider = serviceCollection.BuildServiceProvider();
+            //    case "3":
+            builder.UseMessagePackCodec();
+            serviceProvider = serviceCollection.BuildServiceProvider();
             //            break;
 
             //        default:
@@ -86,16 +86,16 @@ namespace Performances.NetCoreApp.Server
 
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             //{
-                var serviceEntryManager = serviceProvider.GetRequiredService<IServiceTable>();
-                var addressDescriptors = serviceEntryManager.GetServiceRecords().Select(i => new ServiceRoute
-                {
-                    Address = new string[]{ AddrUtil.GetNetworkAddress().ToString()+":9981" },
-                    ServiceEntry = i
-                   //20180804
-                });
+            var serviceEntryManager = serviceProvider.GetRequiredService<IServiceTable>();
+            var addressDescriptors = serviceEntryManager.GetServiceRecords().Select(i => new ServiceRoute
+            {
+                Address = new string[] { AddrUtil.GetNetworkAddress().ToString() + ":9981" },
+                ServiceEntry = i
+                //20180804
+            });
 
-                var serviceRouteManager = serviceProvider.GetRequiredService<IServiceRouteManager>();
-                serviceRouteManager.SetRoutesAsync(addressDescriptors).Wait();
+            var serviceRouteManager = serviceProvider.GetRequiredService<IServiceRouteManager>();
+            serviceRouteManager.SetRoutesAsync(addressDescriptors).Wait();
             //}
 
             var serviceHost = serviceProvider.GetRequiredService<IServiceHost>();
@@ -126,7 +126,7 @@ namespace Performances.NetCoreApp.Server
             builder.RegisterType<MessagePackTransportMessageCodecFactory>().AsImplementedInterfaces().AsSelf();
 
             builder.RegisterType(typeof(FilesServiceRouteManager)).AsSelf()
-              .OnRegistered(e => Console.WriteLine(e.ToString()+"OnRegistered在注册的时候调用!"))
+              .OnRegistered(e => Console.WriteLine(e.ToString() + "OnRegistered在注册的时候调用!"))
               .OnPreparing(e => Console.WriteLine(e.ToString() + "OnPreparing在准备创建的时候调用!"))
               .OnActivating(e => Console.WriteLine(e.ToString() + "OnActivating在创建之前调用!"))
               .OnActivated(e => Console.WriteLine(e.ToString() + "OnActivated创建之后调用!"))
@@ -163,7 +163,7 @@ namespace Performances.NetCoreApp.Server
             var arrControllerType = listType.Where(t => IControllerType.IsAssignableFrom(t) && t != IControllerType).ToArray();
             builder.RegisterTypes(arrControllerType).PropertiesAutowired().EnableClassInterceptors();
             */
-           
+
 
         }
         public void Register(ContainerBuilder builder, params string[] virtualPaths)
@@ -180,7 +180,7 @@ namespace Performances.NetCoreApp.Server
                     {
                         var module = type.GetTypeInfo().GetCustomAttribute<ServiceMetadataAttribute>();
                         var interfaceObj = type.GetInterfaces()
-                            .FirstOrDefault(t =>t.GetTypeInfo().IsAssignableFrom(t));
+                            .FirstOrDefault(t => t.GetTypeInfo().IsAssignableFrom(t));
                         if (interfaceObj != null)
                         {
                             builder.RegisterType(type).AsImplementedInterfaces().Named(module.Name, interfaceObj);
