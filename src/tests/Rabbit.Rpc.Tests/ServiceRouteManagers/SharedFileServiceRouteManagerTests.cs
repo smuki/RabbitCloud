@@ -15,8 +15,9 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
             var services = new ServiceCollection();
             services
                 .AddLogging()
-                .AddRpcCore()
-                .UseFilesRouteManager(routeFile);
+                .AddRpcCore();
+
+                //.UseFilesRouteManager(routeFile);
             var provider = services.BuildServiceProvider();
 
             ServiceRouteManager = (FilesServiceRouteManager)provider.GetRequiredService<IServiceRouteManager>();

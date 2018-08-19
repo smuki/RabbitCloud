@@ -2,6 +2,7 @@
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Serialization;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,17 +30,17 @@ namespace Rabbit.Rpc.Coordinate.Files
 
         #region Constructor
 
-        public FilesServiceRouteManager(string filePath, ISerializer<string> serializer,
+        public FilesServiceRouteManager(XConfig filePath, ISerializer<string> serializer,
             IServiceRouteFactory serviceRouteFactory, ILogger<FilesServiceRouteManager> logger) : base(serializer)
         {
-            _filePath = filePath;
+            _filePath = filePath.GetValue("file");
             _serializer = serializer;
             _serviceRouteFactory = serviceRouteFactory;
             _logger = logger;
 
-            var directoryName = Path.GetDirectoryName(filePath);
+            var directoryName = Path.GetDirectoryName(_filePath);
             if (!string.IsNullOrEmpty(directoryName))
-                _fileSystemWatcher = new FileSystemWatcher(directoryName, "*" + Path.GetExtension(filePath));
+                _fileSystemWatcher = new FileSystemWatcher(directoryName, "*" + Path.GetExtension(_filePath));
 
             _fileSystemWatcher.Changed += _fileSystemWatcher_Changed;
             _fileSystemWatcher.Created += _fileSystemWatcher_Changed;

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Routing;
 using Rabbit.Rpc.Serialization;
+using Rabbit.Rpc.Utilities;
 
 namespace Rabbit.Rpc.Coordinate.Files
 {
@@ -15,8 +16,12 @@ namespace Rabbit.Rpc.Coordinate.Files
         /// <returns>Rpc服务构建者。</returns>
         public static IRpcBuilder UseFilesRouteManager(this IRpcBuilder builder, string filePath)
         {
+            XConfig config = new XConfig();
+
+            config.SetValue("file", "c:\\proj\\routes.js");
+
             return builder.UseRouteManager(provider => new FilesServiceRouteManager(
-                filePath,
+                config,
                 provider.GetRequiredService<ISerializer<string>>(),
                 provider.GetRequiredService<IServiceRouteFactory>(),
                 provider.GetRequiredService<ILogger<FilesServiceRouteManager>>()));

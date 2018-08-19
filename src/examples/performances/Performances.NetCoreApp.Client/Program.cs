@@ -27,6 +27,7 @@ namespace Performances.NetCoreApp.Client
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             try
             {
+
                 while (true)
                 {
                     var serviceCollection = new ServiceCollection();
@@ -38,33 +39,33 @@ namespace Performances.NetCoreApp.Client
                         .UseDotNettyTransport();
 
                     IServiceProvider serviceProvider = null;
-                    while (serviceProvider == null)
-                    {
-                        Console.WriteLine("client 请输入编解码器协议：");
-                        Console.WriteLine("1.JSON");
-                        Console.WriteLine("2.ProtoBuffer");
-                        Console.WriteLine("3.MessagePack");
-                        var codec = Console.ReadLine();
-                        switch (codec)
-                        {
-                            case "1":
-                                builder.UseJsonCodec();
-                                serviceProvider = serviceCollection.BuildServiceProvider();
-                                break;
+                    //while (serviceProvider == null)
+                    //{
+                    //    Console.WriteLine("client 请输入编解码器协议：");
+                    //    Console.WriteLine("1.JSON");
+                    //    Console.WriteLine("2.ProtoBuffer");
+                    //    Console.WriteLine("3.MessagePack");
+                    //    var codec = Console.ReadLine();
+                    //    switch (codec)
+                    //    {
+                    //        case "1":
+                    //            builder.UseJsonCodec();
+                    //            serviceProvider = serviceCollection.BuildServiceProvider();
+                    //            break;
 
-                            case "2":
-                                builder.UseProtoBufferCodec();
-                                serviceProvider = serviceCollection.BuildServiceProvider();
-                                break;
-                            case "3":
-                                builder.UseMessagePackCodec();
-                                serviceProvider = serviceCollection.BuildServiceProvider();
-                                break;
-                            default:
-                                Console.WriteLine("输入错误。");
-                                continue;
-                        }
-                    }
+                    //        case "2":
+                    //            builder.UseProtoBufferCodec();
+                    //            serviceProvider = serviceCollection.BuildServiceProvider();
+                    //            break;
+                   //         case "3":
+                           //     builder.UseMessagePackCodec();
+                           //     serviceProvider = serviceCollection.BuildServiceProvider();
+                    //            break;
+                    //        default:
+                    //            Console.WriteLine("输入错误。");
+                    //            continue;
+                    //    }
+                    //}
 
                     serviceProvider = RegisterAutofac(serviceCollection);
 
@@ -127,6 +128,8 @@ namespace Performances.NetCoreApp.Client
             builder.Populate(services);
             //新模块组件注册    
             // builder.RegisterModule<AutofacModuleRegister>();
+            builder.RegisterType<MessagePackTransportMessageCodecFactory>().AsImplementedInterfaces().AsSelf() ;
+
             //创建容器
             var Container = builder.Build();
             //第三方IOC接管 core内置DI容器 

@@ -10,10 +10,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
     public class DefaultServiceExecutor : IServiceExecutor
     {
         #region Field
-
         private readonly IServiceLocator _serviceEntryLocate;
         private readonly ILogger<DefaultServiceExecutor> _logger;
-
         #endregion Field
 
         #region Constructor
@@ -91,11 +89,9 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             }
 
         }
-
         #endregion Implementation of IServiceExecutor
 
         #region Private Method
-
         private async Task LocalExecuteAsync(ServiceRecord entry, RemoteInvokeMessage remoteInvokeMessage, RemoteInvokeResultMessage resultMessage)
         {
             try
@@ -130,7 +126,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 resultMessage.ExceptionMessage = GetExceptionMessage(exception);
             }
         }
-
         private async Task SendRemoteInvokeResult(IMessageSender sender, string messageId, RemoteInvokeResultMessage resultMessage)
         {
             try
@@ -145,7 +140,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 _logger.LogError("发送响应消息时候发生了异常。", exception);
             }
         }
-
         private static string GetExceptionMessage(Exception exception)
         {
             if (exception == null)
