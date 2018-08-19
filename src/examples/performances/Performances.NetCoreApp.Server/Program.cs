@@ -30,6 +30,7 @@ using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
 using Rabbit.Rpc.Runtime.Client.Implementation;
 using Rabbit.Rpc.Convertibles.Implementation;
 using Rabbit.Rpc.Routing.Implementation;
+using Rabbit.Rpc.Serialization.Implementation;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -53,7 +54,6 @@ namespace Performances.NetCoreApp.Server
                 .AddLogging()
                 .AddRpcCore()
                 .AddServiceRuntime()
-                //.UseFilesRouteManager("c:\\proj\\routes.js")
                 .UseDotNettyTransport();
 
             serviceCollection.AddTransient<IUserService, UserService>();

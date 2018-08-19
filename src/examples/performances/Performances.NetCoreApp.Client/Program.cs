@@ -26,6 +26,7 @@ using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
 using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Convertibles.Implementation;
 using Rabbit.Rpc.Utilities;
+using Rabbit.Rpc.Serialization.Implementation;
 
 namespace Performances.NetCoreApp.Client
 {
@@ -44,7 +45,6 @@ namespace Performances.NetCoreApp.Client
                     var builder = serviceCollection
                         .AddLogging()
                         .AddClient()
-                        //.UseFilesRouteManager("c:\\proj\\routes.js")
                         .UseDotNettyTransport();
 
                     IServiceProvider serviceProvider = null;

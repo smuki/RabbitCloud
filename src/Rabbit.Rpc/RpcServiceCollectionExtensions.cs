@@ -81,47 +81,6 @@ namespace Rabbit.Rpc
             return builder;
         }
 
-        #region RouteManager
-
-        ///// <summary>
-        ///// 设置服务路由管理者。
-        ///// </summary>
-        ///// <typeparam name="T">服务路由管理者实现。</typeparam>
-        ///// <param name="builder">Rpc服务构建者。</param>
-        ///// <returns>Rpc服务构建者。</returns>
-        //public static IRpcBuilder UseRouteManager<T>(this IRpcBuilder builder) where T : class, IServiceRouteManager
-        //{
-        //    builder.Services.AddSingleton<IServiceRouteManager, T>();
-        //    return builder;
-        //}
-
-        ///// <summary>
-        ///// 设置服务路由管理者。
-        ///// </summary>
-        ///// <param name="builder">Rpc服务构建者。</param>
-        ///// <param name="factory">服务路由管理者实例工厂。</param>
-        ///// <returns>Rpc服务构建者。</returns>
-        //public static IRpcBuilder UseRouteManager(this IRpcBuilder builder, Func<IServiceProvider, IServiceRouteManager> factory)
-        //{
-        //    builder.Services.AddSingleton(factory);
-        //    return builder;
-        //}
-
-        ///// <summary>
-        ///// 设置服务路由管理者。
-        ///// </summary>
-        ///// <param name="builder">Rpc服务构建者。</param>
-        ///// <param name="instance">服务路由管理者实例。</param>
-        ///// <returns>Rpc服务构建者。</returns>
-        //public static IRpcBuilder UseRouteManager(this IRpcBuilder builder, IServiceRouteManager instance)
-        //{
-        //    builder.Services.AddSingleton(instance);
-        //    return builder;
-        //}
-
-        #endregion RouteManager
-
-
         /// <summary>
         /// 添加服务运行时服务。
         /// </summary>
