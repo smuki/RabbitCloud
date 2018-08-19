@@ -17,6 +17,15 @@ using Rabbit.Rpc.Codec.Json;
 using Rabbit.Rpc.Coordinate.Files;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Rabbit.Rpc.Runtime.Client.Resolvers;
+using Rabbit.Rpc.Runtime.Client.HealthChecks;
+using Rabbit.Rpc.Runtime.Client.Implementation;
+using Rabbit.Rpc.Runtime.Client;
+using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
+using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
+using Rabbit.Rpc.Routing.Implementation;
+using Rabbit.Rpc.Convertibles.Implementation;
+using Rabbit.Rpc.Utilities;
 
 namespace Performances.NetCoreApp.Client
 {
@@ -25,8 +34,8 @@ namespace Performances.NetCoreApp.Client
         public static void Main(string[] args)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            try
-            {
+            //try
+          //  {
 
                 while (true)
                 {
@@ -35,39 +44,12 @@ namespace Performances.NetCoreApp.Client
                     var builder = serviceCollection
                         .AddLogging()
                         .AddClient()
-                        .UseFilesRouteManager("c:\\proj\\routes.js")
+                        //.UseFilesRouteManager("c:\\proj\\routes.js")
                         .UseDotNettyTransport();
 
                     IServiceProvider serviceProvider = null;
-                    //while (serviceProvider == null)
-                    //{
-                    //    Console.WriteLine("client 请输入编解码器协议：");
-                    //    Console.WriteLine("1.JSON");
-                    //    Console.WriteLine("2.ProtoBuffer");
-                    //    Console.WriteLine("3.MessagePack");
-                    //    var codec = Console.ReadLine();
-                    //    switch (codec)
-                    //    {
-                    //        case "1":
-                    //            builder.UseJsonCodec();
-                    //            serviceProvider = serviceCollection.BuildServiceProvider();
-                    //            break;
 
-                    //        case "2":
-                    //            builder.UseProtoBufferCodec();
-                    //            serviceProvider = serviceCollection.BuildServiceProvider();
-                    //            break;
-                   //         case "3":
-                           //     builder.UseMessagePackCodec();
-                           //     serviceProvider = serviceCollection.BuildServiceProvider();
-                    //            break;
-                    //        default:
-                    //            Console.WriteLine("输入错误。");
-                    //            continue;
-                    //    }
-                    //}
-
-                    serviceProvider = RegisterAutofac(serviceCollection);
+                serviceProvider = RegisterAutofac(serviceCollection);
 
                     serviceProvider.GetRequiredService<ILoggerFactory>()
                         .AddConsole(LogLevel.Information);
@@ -112,12 +94,12 @@ namespace Performances.NetCoreApp.Client
                         } while (true);
                     }).Wait();
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace.ToString());
-                Console.ReadLine();
-            }
+         //   }
+          //  catch (Exception ex)
+         //   {
+        //        Console.WriteLine(ex.StackTrace.ToString());
+        //        Console.ReadLine();
+        //    }
 
         }
         private static IServiceProvider RegisterAutofac(IServiceCollection services)
@@ -129,6 +111,23 @@ namespace Performances.NetCoreApp.Client
             //新模块组件注册    
             // builder.RegisterModule<AutofacModuleRegister>();
             builder.RegisterType<MessagePackTransportMessageCodecFactory>().AsImplementedInterfaces().AsSelf() ;
+
+            builder.RegisterType<DefaultHealthCheckService>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultAddressResolver>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<RemoteInvokeService>().AsImplementedInterfaces().AsSelf();
+
+            //AddRpcCore
+            builder.RegisterType<DefaultTypeConvertibleProvider>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultTypeConvertibleService>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceRouteFactory>().AsImplementedInterfaces().AsSelf();
+
+            XConfig config = new XConfig();
+
+            config.SetValue("file", "c:\\proj\\routes.js");
+
+            builder.RegisterInstance(config).As<XConfig>().SingleInstance();
+
+            builder.RegisterType(typeof(FilesServiceRouteManager)).AsImplementedInterfaces().AsSelf();
 
             //创建容器
             var Container = builder.Build();

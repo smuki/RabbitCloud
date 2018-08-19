@@ -22,6 +22,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Rabbit.Rpc.Runtime.Client.HealthChecks;
+using Rabbit.Rpc.Runtime.Client.Resolvers;
+using Rabbit.Rpc.Runtime.Client;
+using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
+using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
+using Rabbit.Rpc.Runtime.Client.Implementation;
+using Rabbit.Rpc.Convertibles.Implementation;
+using Rabbit.Rpc.Routing.Implementation;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -45,6 +53,7 @@ namespace Performances.NetCoreApp.Server
                 .AddLogging()
                 .AddRpcCore()
                 .AddServiceRuntime()
+                //.UseFilesRouteManager("c:\\proj\\routes.js")
                 .UseDotNettyTransport();
 
             serviceCollection.AddTransient<IUserService, UserService>();
@@ -56,34 +65,13 @@ namespace Performances.NetCoreApp.Server
             Console.WriteLine("1.JSON");
             Console.WriteLine("2.ProtoBuffer");
             Console.WriteLine("3.MessagePack");
-            //var codec = Console.ReadLine();
-            //switch (codec)
-            //{
-            //    case "1":
-            //        builder.UseJsonCodec();
-            //        serviceProvider = serviceCollection.BuildServiceProvider();
-            //        break;
-
-            //    case "2":
-            //        builder.UseProtoBufferCodec();
-            //        serviceProvider = serviceCollection.BuildServiceProvider();
-            //        break;
-
-            //    case "3":
-            builder.UseMessagePackCodec();
-            serviceProvider = serviceCollection.BuildServiceProvider();
-            //            break;
-
-            //        default:
-            //            Console.WriteLine("输入错误。");
-            //            continue;
-            //    }
-            //} while (serviceProvider == null);
+          
             Program pp = new Program();
             serviceProvider = pp.RegisterAutofac(serviceCollection);
             serviceProvider.GetRequiredService<ILoggerFactory>()
                 .AddConsole(LogLevel.Information);
 
+  
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             //{
             var serviceEntryManager = serviceProvider.GetRequiredService<IServiceTable>();
@@ -116,16 +104,30 @@ namespace Performances.NetCoreApp.Server
             //将Services中的服务填充到Autofac中
             builder.Populate(services);
             //新模块组件注册    
+          
+
+            builder.RegisterType<UserService>().AsImplementedInterfaces().AsSelf();
+
+            //Codec
+            builder.RegisterType<MessagePackTransportMessageCodecFactory>().AsImplementedInterfaces().AsSelf();
+
+            //AddClientRuntime
+            builder.RegisterType<DefaultHealthCheckService>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultAddressResolver>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<RemoteInvokeService>().AsImplementedInterfaces().AsSelf();
+
+            //AddRpcCore
+            builder.RegisterType<DefaultTypeConvertibleProvider>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultTypeConvertibleService>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceRouteFactory>().AsImplementedInterfaces().AsSelf();
+
             XConfig config = new XConfig();
 
             config.SetValue("file", "c:\\proj\\routes.js");
 
             builder.RegisterInstance(config).As<XConfig>().SingleInstance();
 
-            builder.RegisterType<UserService>().AsImplementedInterfaces().AsSelf();
-            builder.RegisterType<MessagePackTransportMessageCodecFactory>().AsImplementedInterfaces().AsSelf();
-
-            builder.RegisterType(typeof(FilesServiceRouteManager)).AsSelf()
+            builder.RegisterType(typeof(FilesServiceRouteManager)).AsImplementedInterfaces().AsSelf()
               .OnRegistered(e => Console.WriteLine(e.ToString() + "OnRegistered在注册的时候调用!"))
               .OnPreparing(e => Console.WriteLine(e.ToString() + "OnPreparing在准备创建的时候调用!"))
               .OnActivating(e => Console.WriteLine(e.ToString() + "OnActivating在创建之前调用!"))
@@ -147,7 +149,7 @@ namespace Performances.NetCoreApp.Server
             Console.WriteLine(AppContext.BaseDirectory);
 
             string[] localtion = new string[] { AppContext.BaseDirectory };
-            this.Register(builder, localtion);
+            //this.Register(builder, localtion);
 
             //创建容器
             var Container = builder.Build();

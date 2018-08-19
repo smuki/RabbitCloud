@@ -83,101 +83,44 @@ namespace Rabbit.Rpc
 
         #region RouteManager
 
-        /// <summary>
-        /// 设置服务路由管理者。
-        /// </summary>
-        /// <typeparam name="T">服务路由管理者实现。</typeparam>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseRouteManager<T>(this IRpcBuilder builder) where T : class, IServiceRouteManager
-        {
-            builder.Services.AddSingleton<IServiceRouteManager, T>();
-            return builder;
-        }
+        ///// <summary>
+        ///// 设置服务路由管理者。
+        ///// </summary>
+        ///// <typeparam name="T">服务路由管理者实现。</typeparam>
+        ///// <param name="builder">Rpc服务构建者。</param>
+        ///// <returns>Rpc服务构建者。</returns>
+        //public static IRpcBuilder UseRouteManager<T>(this IRpcBuilder builder) where T : class, IServiceRouteManager
+        //{
+        //    builder.Services.AddSingleton<IServiceRouteManager, T>();
+        //    return builder;
+        //}
 
-        /// <summary>
-        /// 设置服务路由管理者。
-        /// </summary>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <param name="factory">服务路由管理者实例工厂。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseRouteManager(this IRpcBuilder builder, Func<IServiceProvider, IServiceRouteManager> factory)
-        {
-            builder.Services.AddSingleton(factory);
-            return builder;
-        }
+        ///// <summary>
+        ///// 设置服务路由管理者。
+        ///// </summary>
+        ///// <param name="builder">Rpc服务构建者。</param>
+        ///// <param name="factory">服务路由管理者实例工厂。</param>
+        ///// <returns>Rpc服务构建者。</returns>
+        //public static IRpcBuilder UseRouteManager(this IRpcBuilder builder, Func<IServiceProvider, IServiceRouteManager> factory)
+        //{
+        //    builder.Services.AddSingleton(factory);
+        //    return builder;
+        //}
 
-        /// <summary>
-        /// 设置服务路由管理者。
-        /// </summary>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <param name="instance">服务路由管理者实例。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseRouteManager(this IRpcBuilder builder, IServiceRouteManager instance)
-        {
-            builder.Services.AddSingleton(instance);
-            return builder;
-        }
+        ///// <summary>
+        ///// 设置服务路由管理者。
+        ///// </summary>
+        ///// <param name="builder">Rpc服务构建者。</param>
+        ///// <param name="instance">服务路由管理者实例。</param>
+        ///// <returns>Rpc服务构建者。</returns>
+        //public static IRpcBuilder UseRouteManager(this IRpcBuilder builder, IServiceRouteManager instance)
+        //{
+        //    builder.Services.AddSingleton(instance);
+        //    return builder;
+        //}
 
         #endregion RouteManager
 
-        #region Codec Factory
-        /// <summary>
-        /// 使用编解码器。
-        /// </summary>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <param name="codecFactory"></param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseCodec(this IRpcBuilder builder, ITransportMessageCodecFactory codecFactory)
-        {
-            builder.Services.AddSingleton(codecFactory);
-
-            return builder;
-        }
-
-        /// <summary>
-        /// 使用编解码器。
-        /// </summary>
-        /// <typeparam name="T">编解码器工厂实现类型。</typeparam>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseCodec<T>(this IRpcBuilder builder) where T : class, ITransportMessageCodecFactory
-        {
-            builder.Services.AddSingleton<ITransportMessageCodecFactory, T>();
-
-            return builder;
-        }
-
-        /// <summary>
-        /// 使用编解码器。
-        /// </summary>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <param name="codecFactory">编解码器工厂创建委托。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder UseCodec(this IRpcBuilder builder, Func<IServiceProvider, ITransportMessageCodecFactory> codecFactory)
-        {
-            builder.Services.AddSingleton(codecFactory);
-
-            return builder;
-        }
-
-        #endregion Codec Factory
-
-        /// <summary>
-        /// 添加客户端运行时服务。
-        /// </summary>
-        /// <param name="builder">Rpc服务构建者。</param>
-        /// <returns>Rpc服务构建者。</returns>
-        public static IRpcBuilder AddClientRuntime(this IRpcBuilder builder)
-        {
-            var services = builder.Services;
-
-            services.AddSingleton<IHealthCheckService, DefaultHealthCheckService>();
-            services.AddSingleton<IAddressResolver, DefaultAddressResolver>();
-            services.AddSingleton<IRemoteInvokeService, RemoteInvokeService>();
-
-            return builder;
-        }
 
         /// <summary>
         /// 添加服务运行时服务。
@@ -219,11 +162,6 @@ namespace Rabbit.Rpc
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
-
-            services.AddSingleton<ITypeConvertibleProvider, DefaultTypeConvertibleProvider>();
-            services.AddSingleton<ITypeConvertibleService, DefaultTypeConvertibleService>();
-
-            services.AddSingleton<IServiceRouteFactory, DefaultServiceRouteFactory>();
 
             return new RpcBuilder(services)
                 .AddJsonSerialization();

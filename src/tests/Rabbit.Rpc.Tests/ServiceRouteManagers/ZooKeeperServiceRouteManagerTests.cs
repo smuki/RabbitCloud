@@ -11,9 +11,9 @@ namespace Rabbit.Rpc.Tests.ServiceRouteManagers
             var services = new ServiceCollection();
             services
                 .AddLogging()
-                .AddRpcCore()
-                .UseZooKeeperRouteManager(new ZooKeeperServiceRouteManager.ZookeeperConfigInfo("172.18.20.132:2181",
-                    "/dotnet/unitTest/serviceRoutes"));
+                .AddRpcCore();
+               // .UseZooKeeperRouteManager(new ZooKeeperServiceRouteManager.ZookeeperConfigInfo("172.18.20.132:2181",
+                //    "/dotnet/unitTest/serviceRoutes"));
             var provider = services.BuildServiceProvider();
 
             ServiceRouteManager = (ZooKeeperServiceRouteManager)provider.GetRequiredService<IServiceRouteManager>();

@@ -1,5 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Rabbit.Rpc.ProxyGenerator.Implementation;
+using Rabbit.Rpc.Runtime.Client;
+using Rabbit.Rpc.Runtime.Client.HealthChecks;
+using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
+using Rabbit.Rpc.Runtime.Client.Implementation;
+using Rabbit.Rpc.Runtime.Client.Resolvers;
+using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
 
 namespace Rabbit.Rpc.ProxyGenerator
 {
@@ -19,7 +25,6 @@ namespace Rabbit.Rpc.ProxyGenerator
         {
             return services
                 .AddRpcCore()
-                .AddClientRuntime()
                 .AddClientProxy();
         }
     }
