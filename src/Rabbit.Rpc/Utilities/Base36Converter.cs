@@ -5,7 +5,7 @@ using System.Text;
 namespace Rabbit.Rpc.Utilities
 {
     public static class Base36Converter {
-        private static string _charList = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private static string _charList = "0123456789abcdefghijklmnopqrstuvwxyz";
 
         /// <summary>
         /// The character set for encoding. Defaults to upper-case alphanumerics 0-9, A-Z.

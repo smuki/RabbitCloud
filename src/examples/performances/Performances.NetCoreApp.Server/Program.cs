@@ -48,6 +48,15 @@ namespace Performances.NetCoreApp.Server
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+            string id = Base36Converter.Encode(Int64.MaxValue);
+            string delimiter = "";
+            Console.WriteLine(id);
+            Console.WriteLine(id.Length);
+            if (!string.IsNullOrEmpty(delimiter))
+            {
+                id = id.Insert(4, delimiter);
+                id = id.Insert(9, delimiter);
+            }
 
             var serviceCollection = new ServiceCollection();
 
