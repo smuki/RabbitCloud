@@ -1,4 +1,5 @@
 ﻿using Rabbit.Rpc.Transport;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
         private readonly Func<EndPoint, Task<IMessageListener>> _messageListenerFactory;
         private IMessageListener _serverMessageListener;
-
         #endregion Field
 
         public DefaultServiceHost(Func<EndPoint, Task<IMessageListener>> messageListenerFactory, IServiceExecutor serviceExecutor) : base(serviceExecutor)

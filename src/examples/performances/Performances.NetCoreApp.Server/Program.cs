@@ -1,41 +1,31 @@
-﻿using Jacob.Common;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Jacob.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Rabbit.Rpc;
-using Rabbit.Rpc.Codec.ProtoBuffer;
 using Rabbit.Rpc.Codec.MessagePack;
+using Rabbit.Rpc.Convertibles.Implementation;
+using Rabbit.Rpc.Coordinate.Files;
 using Rabbit.Rpc.Routing;
+using Rabbit.Rpc.Routing.Implementation;
+using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
+using Rabbit.Rpc.Runtime.Client.Implementation;
+using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
 using Rabbit.Rpc.Runtime.Server;
+using Rabbit.Rpc.Runtime.Server.Implementation;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
+using Rabbit.Rpc.Serialization;
+using Rabbit.Rpc.Serialization.Implementation;
+using Rabbit.Rpc.Utilities;
 using Rabbit.Transport.DotNetty;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Rabbit.Rpc.Codec.Json;
-using Rabbit.Rpc.Coordinate.Files;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Rabbit.Rpc.Utilities;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
-using Rabbit.Rpc.Runtime.Client.HealthChecks;
-using Rabbit.Rpc.Runtime.Client.Resolvers;
-using Rabbit.Rpc.Runtime.Client;
-using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
-using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
-using Rabbit.Rpc.Runtime.Client.Implementation;
-using Rabbit.Rpc.Convertibles.Implementation;
-using Rabbit.Rpc.Routing.Implementation;
-using Rabbit.Rpc.Serialization.Implementation;
-using Rabbit.Rpc.Serialization;
-using Rabbit.Rpc.Runtime.Server.Implementation;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
-using Microsoft.Extensions.DependencyModel;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -81,9 +71,8 @@ namespace Performances.NetCoreApp.Server
             Program pp = new Program();
             serviceProvider = pp.RegisterAutofac(serviceCollection);
             serviceProvider.GetRequiredService<ILoggerFactory>()
-                .AddConsole(LogLevel.Information);
+                .AddConsole(LogLevel.Error);
 
-  
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             //{
             var serviceEntryManager = serviceProvider.GetRequiredService<IServiceTable>();

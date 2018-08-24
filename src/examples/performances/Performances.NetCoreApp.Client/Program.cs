@@ -1,11 +1,23 @@
-﻿using Jacob.Common;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Jacob.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Rabbit.Rpc;
-using Rabbit.Rpc.Codec.ProtoBuffer;
 using Rabbit.Rpc.Codec.MessagePack;
-
+using Rabbit.Rpc.Convertibles.Implementation;
+using Rabbit.Rpc.Coordinate.Files;
 using Rabbit.Rpc.ProxyGenerator;
+using Rabbit.Rpc.ProxyGenerator.Implementation;
+using Rabbit.Rpc.Routing.Implementation;
+using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
+using Rabbit.Rpc.Runtime.Client.Implementation;
+using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
+using Rabbit.Rpc.Runtime.Server.Implementation;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
+using Rabbit.Rpc.Serialization;
+using Rabbit.Rpc.Serialization.Implementation;
+using Rabbit.Rpc.Utilities;
 using Rabbit.Transport.DotNetty;
 using System;
 using System.Diagnostics;
@@ -13,25 +25,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Rabbit.Rpc.Codec.Json;
-using Rabbit.Rpc.Coordinate.Files;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Rabbit.Rpc.Runtime.Client.Resolvers;
-using Rabbit.Rpc.Runtime.Client.HealthChecks;
-using Rabbit.Rpc.Runtime.Client.Implementation;
-using Rabbit.Rpc.Runtime.Client;
-using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
-using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
-using Rabbit.Rpc.Routing.Implementation;
-using Rabbit.Rpc.Convertibles.Implementation;
-using Rabbit.Rpc.Utilities;
-using Rabbit.Rpc.Serialization.Implementation;
-using Rabbit.Rpc.Serialization;
-using Rabbit.Rpc.ProxyGenerator.Implementation;
-using Rabbit.Rpc.Runtime.Server.Implementation;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 
 namespace Performances.NetCoreApp.Client
 {
@@ -56,7 +49,7 @@ namespace Performances.NetCoreApp.Client
                 serviceProvider = RegisterAutofac(serviceCollection);
 
                     serviceProvider.GetRequiredService<ILoggerFactory>()
-                        .AddConsole(LogLevel.Information);
+                        .AddConsole(LogLevel.Error);
 
                     string[] xx = new string[0];
 
@@ -80,17 +73,17 @@ namespace Performances.NetCoreApp.Client
 
                         do
                         {
-                            int t = 100;
+                            int t = 10;
                             Console.WriteLine("正在循环 " + t + "次调用 GetUser.....");
                             //1w次调用
                             var watch = Stopwatch.StartNew();
                             for (var i = 0; i < t; i++)
                             {
                                 await userService.GetUser(i);
-                                v = await userService.GetUser(i);
-                                Console.WriteLine("GetUser");
-                                Console.WriteLine(v.Name);
-                                Console.WriteLine(v.Age);
+                               // v = await userService.GetUser(i);
+                               // Console.WriteLine("GetUser");
+                               // Console.WriteLine(v.Name);
+                               // Console.WriteLine(v.Age);
                             }
                             watch.Stop();
                             Console.WriteLine(t + $"次调用结束，执行时间：{watch.ElapsedMilliseconds}ms");
