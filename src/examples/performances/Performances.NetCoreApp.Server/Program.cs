@@ -32,6 +32,10 @@ using Rabbit.Rpc.Convertibles.Implementation;
 using Rabbit.Rpc.Routing.Implementation;
 using Rabbit.Rpc.Serialization.Implementation;
 using Rabbit.Rpc.Serialization;
+using Rabbit.Rpc.Runtime.Server.Implementation;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
+using Microsoft.Extensions.DependencyModel;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery;
 
 namespace Performances.NetCoreApp.Server
 {
@@ -62,7 +66,6 @@ namespace Performances.NetCoreApp.Server
 
             var builder = serviceCollection
                 .AddLogging()
-                .AddServiceRuntime()
                 .UseDotNettyTransport();
 
             serviceCollection.AddTransient<IUserService, UserService>();
@@ -112,10 +115,13 @@ namespace Performances.NetCoreApp.Server
             var builder = new ContainerBuilder();
             //将Services中的服务填充到Autofac中
             builder.Populate(services);
-            //新模块组件注册    
-          
 
-            builder.RegisterType<UserService>().AsImplementedInterfaces().AsSelf();
+            //AddServiceRuntime
+            builder.RegisterType<AttributeServiceEntryProvider>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<ClrServiceEntryFactory>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceTable>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceLocator>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceExecutor>().AsImplementedInterfaces().AsSelf();
 
             //Codec
             builder.RegisterType<MessagePackTransportMessageCodecFactory>().AsImplementedInterfaces().AsSelf();
@@ -140,6 +146,9 @@ namespace Performances.NetCoreApp.Server
 
             builder.RegisterInstance(config).As<XConfig>().SingleInstance();
 
+            ClassScannerImpl _ClassScanner = new ClassScannerImpl(config);
+            builder.RegisterInstance(_ClassScanner).AsImplementedInterfaces().AsSelf().SingleInstance();
+
             builder.RegisterType(typeof(FilesServiceRouteManager)).AsImplementedInterfaces().AsSelf()
               .OnRegistered(e => Console.WriteLine(e.ToString() + "OnRegistered在注册的时候调用!"))
               .OnPreparing(e => Console.WriteLine(e.ToString() + "OnPreparing在准备创建的时候调用!"))
@@ -147,6 +156,9 @@ namespace Performances.NetCoreApp.Server
               .OnActivated(e => Console.WriteLine(e.ToString() + "OnActivated创建之后调用!"))
               .OnRelease(e => Console.WriteLine(e.ToString() + "OnRelease在释放占用的资源之前调用!"));
 
+            //新模块组件注册    
+            //User define service
+            builder.RegisterType<UserService>().AsImplementedInterfaces().AsSelf();
 
             /*
             var f=  new FilesServiceRouteManager(
@@ -185,25 +197,25 @@ namespace Performances.NetCoreApp.Server
         {
             try
             {
-                var referenceAssemblies = GetReferenceAssembly(virtualPaths);
-                foreach (var assembly in referenceAssemblies)
-                {
-                    builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+            //    var referenceAssemblies = GetReferenceAssembly(virtualPaths);
+            //    foreach (var assembly in referenceAssemblies)
+            //    {
+            //        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
 
-                    var types = assembly.GetTypes().Where(t => t.GetTypeInfo().IsAssignableFrom(t) && t.GetTypeInfo().GetCustomAttribute<ServiceMetadataAttribute>() != null);
-                    foreach (var type in types)
-                    {
-                        var module = type.GetTypeInfo().GetCustomAttribute<ServiceMetadataAttribute>();
-                        var interfaceObj = type.GetInterfaces()
-                            .FirstOrDefault(t => t.GetTypeInfo().IsAssignableFrom(t));
-                        if (interfaceObj != null)
-                        {
-                            builder.RegisterType(type).AsImplementedInterfaces().Named(module.Name, interfaceObj);
-                            builder.RegisterType(type).Named(module.Name, type);
-                        }
-                    }
+            //        var types = assembly.GetTypes().Where(t => t.GetTypeInfo().IsAssignableFrom(t) && t.GetTypeInfo().GetCustomAttribute<ServiceMetadataAttribute>() != null);
+            //        foreach (var type in types)
+            //        {
+            //            var module = type.GetTypeInfo().GetCustomAttribute<ServiceMetadataAttribute>();
+            //            var interfaceObj = type.GetInterfaces()
+            //                .FirstOrDefault(t => t.GetTypeInfo().IsAssignableFrom(t));
+            //            if (interfaceObj != null)
+            //            {
+            //                builder.RegisterType(type).AsImplementedInterfaces().Named(module.Name, interfaceObj);
+            //                builder.RegisterType(type).Named(module.Name, type);
+            //            }
+            //        }
 
-                }
+            //    }
                 return;
             }
             catch (Exception ex)
@@ -217,53 +229,6 @@ namespace Performances.NetCoreApp.Server
                 throw ex;
             }
         }
-        private static List<Assembly> GetReferenceAssembly(params string[] virtualPaths)
-        {
-            var refAssemblies = new List<Assembly>();
-            var rootPath = AppContext.BaseDirectory;
-            var existsPath = virtualPaths.Any();
-            if (existsPath)
-            {
-                var paths = virtualPaths.ToList();
-                if (!existsPath) paths.Add(rootPath);
-                paths.ForEach(path =>
-                {
-                    var assemblyFiles = GetAllAssemblyFiles(path);
-
-                    foreach (var referencedAssemblyFile in assemblyFiles)
-                    {
-                        Console.WriteLine(referencedAssemblyFile);
-                        var referencedAssembly = Assembly.LoadFrom(referencedAssemblyFile);
-                        if (!refAssemblies.Contains(referencedAssembly))
-                            refAssemblies.Add(referencedAssembly);
-                        //refAssemblies.Add(referencedAssembly);
-                    }
-                    //result = existsPath ? refAssemblies : _referenceAssembly;
-                });
-            }
-            return refAssemblies;
-        }
-        private static List<string> GetAllAssemblyFiles(string path)
-        {
-            var notRelatedFile = "";
-            var relatedFile = "";
-            var pattern = string.Format("^Microsoft.\\w*|^System.\\w*|^Netty.\\w*|^Autofac.\\w*{0}",
-               string.IsNullOrEmpty(notRelatedFile) ? "" : $"|{notRelatedFile}");
-            Regex notRelatedRegex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            Regex relatedRegex = new Regex(relatedFile, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            if (!string.IsNullOrEmpty(relatedFile))
-            {
-                return
-                    Directory.GetFiles(path, "*.dll").Select(Path.GetFullPath).Where(
-                        a => !notRelatedRegex.IsMatch(a) && relatedRegex.IsMatch(a)).ToList();
-            }
-            else
-            {
-                return
-                    Directory.GetFiles(path, "*.dll").Select(Path.GetFullPath).Where(
-                        a => !notRelatedRegex.IsMatch(a)).ToList();
-            }
-
-        }
+      
     }
 }

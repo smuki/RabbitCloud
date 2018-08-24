@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 
         #region Constructor
 
-        public AttributeServiceEntryProvider(IEnumerable<Type> types, IClrServiceEntryFactory clrServiceEntryFactory, ILogger<AttributeServiceEntryProvider> logger)
+        public AttributeServiceEntryProvider(ClassScanner types, IClrServiceEntryFactory clrServiceEntryFactory, ILogger<AttributeServiceEntryProvider> logger)
         {
-            _types = types;
+            _types = types.Types();
             _clrServiceEntryFactory = clrServiceEntryFactory;
             _logger = logger;
         }

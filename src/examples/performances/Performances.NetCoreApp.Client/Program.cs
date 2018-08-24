@@ -29,6 +29,9 @@ using Rabbit.Rpc.Utilities;
 using Rabbit.Rpc.Serialization.Implementation;
 using Rabbit.Rpc.Serialization;
 using Rabbit.Rpc.ProxyGenerator.Implementation;
+using Rabbit.Rpc.Runtime.Server.Implementation;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 
 namespace Performances.NetCoreApp.Client
 {
@@ -109,6 +112,14 @@ namespace Performances.NetCoreApp.Client
             var builder = new ContainerBuilder();
             //将Services中的服务填充到Autofac中
             builder.Populate(services);
+
+            //AddServiceRuntime
+            builder.RegisterType<AttributeServiceEntryProvider>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<ClrServiceEntryFactory>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceTable>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceLocator>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceExecutor>().AsImplementedInterfaces().AsSelf();
+
             //新模块组件注册    
             // builder.RegisterModule<AutofacModuleRegister>();
             builder.RegisterType<MessagePackTransportMessageCodecFactory>().AsImplementedInterfaces().AsSelf() ;
@@ -136,6 +147,9 @@ namespace Performances.NetCoreApp.Client
             config.SetValue("file", "c:\\proj\\routes.js");
 
             builder.RegisterInstance(config).As<XConfig>().SingleInstance();
+
+            ClassScannerImpl _ClassScanner = new ClassScannerImpl(config);
+            builder.RegisterInstance(_ClassScanner).AsImplementedInterfaces().AsSelf().SingleInstance();
 
             builder.RegisterType(typeof(FilesServiceRouteManager)).AsImplementedInterfaces().AsSelf();
 

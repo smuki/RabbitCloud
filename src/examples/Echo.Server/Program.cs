@@ -32,8 +32,6 @@ namespace Jacob.Server
 
             serviceCollection
                 .AddLogging()
-                .AddServiceRuntime()
-                //.UseFilesRouteManager(@"c:\proj\routes.js")
                 .UseDotNettyTransport();
             serviceCollection.AddTransient<IUserService, UserService>();
 
