@@ -39,13 +39,13 @@ namespace Rabbit.Transport.KestrelHttpServer
         {
             builder.Register(provider =>
             {
-                return new DefaultKestrelHttpMessageListener(
-                    provider.Resolve<ILogger<DefaultKestrelHttpMessageListener>>()
+                return new KestrelHttpMessageListener(
+                    provider.Resolve<ILogger<KestrelHttpMessageListener>>()
                       );
             }).SingleInstance();
             builder.Register(provider =>
             {
-                var messageListener = provider.Resolve<DefaultKestrelHttpMessageListener>();
+                var messageListener = provider.Resolve<KestrelHttpMessageListener>();
                 return new DefaultServiceHost(async endPoint =>
                 {
                     await messageListener.StartAsync(endPoint);
@@ -59,13 +59,13 @@ namespace Rabbit.Transport.KestrelHttpServer
         {
             builder.Register(provider =>
             {
-                return new DefaultKestrelHttpMessageListener(
-                    provider.Resolve<ILogger<DefaultKestrelHttpMessageListener>>()
+                return new KestrelHttpMessageListener(
+                    provider.Resolve<ILogger<KestrelHttpMessageListener>>()
                       );
             }).SingleInstance();
             builder.Register(provider =>
             {
-                var messageListener = provider.Resolve<DefaultKestrelHttpMessageListener>();
+                var messageListener = provider.Resolve<KestrelHttpMessageListener>();
                 return new HttpServiceHost(async endPoint =>
                 {
                     await messageListener.StartAsync(endPoint);
