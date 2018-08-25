@@ -21,13 +21,13 @@ namespace Rabbit.Transport.DotNetty
 
             services.AddSingleton<DotNettyServerMessageListener>();
 
-            services.AddSingleton<IServiceHost, DefaultServiceHost>(provider => new DefaultServiceHost(async endPoint =>
-            {
-                var messageListener = provider.GetRequiredService<DotNettyServerMessageListener>();
-                await messageListener.StartAsync(endPoint);
+            //services.AddSingleton<IServiceHost, DefaultServiceHost>(provider => new DefaultServiceHost(async endPoint =>
+            //{
+            //    var messageListener = provider.GetRequiredService<DotNettyServerMessageListener>();
+            //    await messageListener.StartAsync(endPoint);
 
-                return messageListener;
-            }, provider.GetRequiredService<ISetting>(), provider.GetRequiredService<IServiceExecutor>()));
+            //    return messageListener;
+            //}, provider.GetRequiredService<ISetting>(), provider.GetRequiredService<IServiceExecutor>()));
 
             return services;
         }
