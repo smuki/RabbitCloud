@@ -1,27 +1,32 @@
-﻿using Rabbit.Rpc.Transport;
+﻿using Rabbit.Rpc.Runtime.Server;
+using Rabbit.Rpc.Runtime.Server.Implementation;
+using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Utilities;
+using Rabbit.Transport.KestrelHttpServer;
 using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Server.Implementation
+namespace abbit.Transport.KestrelHttpServer
 {
-    /// <summary>
-    /// 一个默认的服务主机。
-    /// </summary>
-    public class DefaultServiceHost : ServiceHostAbstract
+   public class KestrelHttpServiceHost : ServiceHostAbstract
     {
         #region Field
 
-        private readonly IMessageListener _messageListener;
+        private readonly Func<EndPoint, Task<IMessageListener>> _messageListenerFactory;
         private IMessageListener _serverMessageListener;
-        private ISetting _config;
+
         #endregion Field
 
-        public DefaultServiceHost(IMessageListener messageListenerFactory, ISetting config, IServiceExecutor serviceExecutor) : base(serviceExecutor)
+        public KestrelHttpServiceHost(KestrelHttpMessageListener serverMessageListener, IServiceExecutor serviceExecutor) : base(serviceExecutor)
         {
-            _config = config;
-            _serverMessageListener = messageListenerFactory;
+            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981);
+
+            serverMessageListener.StartAsync(endPoint);
+
+            _serverMessageListener = serverMessageListener;
         }
 
         #region Overrides of ServiceHostAbstract
@@ -42,8 +47,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             if (_serverMessageListener != null)
                 return;
 
-            //var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981);
-
             //_serverMessageListener = await _messageListenerFactory(endPoint);
             _serverMessageListener.Received += async (sender, message) =>
             {
@@ -54,6 +57,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             };
         }
 
+     
         #endregion Overrides of ServiceHostAbstract
     }
-}
+} 
