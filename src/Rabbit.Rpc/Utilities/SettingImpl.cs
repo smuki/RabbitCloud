@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Rabbit.Rpc.Utilities
 {
-    public class XConfig
+    public class SettingImpl:ISetting
     {
         IDictionary<string, object> data = new Dictionary<string, object>();
 

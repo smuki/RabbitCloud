@@ -135,11 +135,11 @@ namespace Performances.NetCoreApp.Client
             builder.RegisterType<ServiceProxyFactory>().AsImplementedInterfaces().AsSelf();
 
 
-            XConfig config = new XConfig();
+            SettingImpl config = new SettingImpl();
 
             config.SetValue("file", "c:\\proj\\routes.js");
 
-            builder.RegisterInstance(config).As<XConfig>().SingleInstance();
+            builder.RegisterInstance(config).AsImplementedInterfaces().AsSelf().SingleInstance();
 
             ClassScannerImpl _ClassScanner = new ClassScannerImpl(config);
             builder.RegisterInstance(_ClassScanner).AsImplementedInterfaces().AsSelf().SingleInstance();

@@ -129,21 +129,21 @@ namespace Performances.NetCoreApp.Server
             builder.RegisterType<StringByteArraySerializer>().As<ISerializer<byte[]>>().AsSelf();
             builder.RegisterType<StringObjectSerializer>().As<ISerializer<object>>().AsSelf();
 
-            XConfig config = new XConfig();
+            SettingImpl config = new SettingImpl();
 
             config.SetValue("file", "c:\\proj\\routes.js");
 
-            builder.RegisterInstance(config).As<XConfig>().SingleInstance();
+            builder.RegisterInstance(config).AsImplementedInterfaces().AsSelf().SingleInstance();
 
             ClassScannerImpl _ClassScanner = new ClassScannerImpl(config);
             builder.RegisterInstance(_ClassScanner).AsImplementedInterfaces().AsSelf().SingleInstance();
 
             builder.RegisterType(typeof(FilesServiceRouteManager)).AsImplementedInterfaces().AsSelf()
-              .OnRegistered(e => Console.WriteLine(e.ToString() + "OnRegistered在注册的时候调用!"))
-              .OnPreparing(e => Console.WriteLine(e.ToString() + "OnPreparing在准备创建的时候调用!"))
-              .OnActivating(e => Console.WriteLine(e.ToString() + "OnActivating在创建之前调用!"))
-              .OnActivated(e => Console.WriteLine(e.ToString() + "OnActivated创建之后调用!"))
-              .OnRelease(e => Console.WriteLine(e.ToString() + "OnRelease在释放占用的资源之前调用!"));
+              .OnRegistered(e => Console.WriteLine(e.ToString() + " - OnRegistered在注册的时候调用!"))
+              .OnPreparing(e => Console.WriteLine(e.ToString() + " - OnPreparing在准备创建的时候调用!"))
+              .OnActivating(e => Console.WriteLine(e.ToString() + " - OnActivating在创建之前调用!"))
+              .OnActivated(e => Console.WriteLine(e.ToString() + " - OnActivated创建之后调用!"))
+              .OnRelease(e => Console.WriteLine(e.ToString() + " - OnRelease在释放占用的资源之前调用!"));
 
             //新模块组件注册    
             //User define service

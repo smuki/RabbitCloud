@@ -22,7 +22,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 
         #region Constructor
 
-        public AttributeServiceEntryProvider(ClassScanner types, IClrServiceEntryFactory clrServiceEntryFactory, ILogger<AttributeServiceEntryProvider> logger)
+        public AttributeServiceEntryProvider(IClassScanner types, IClrServiceEntryFactory clrServiceEntryFactory, ILogger<AttributeServiceEntryProvider> logger)
         {
             _types = types.Types();
             _clrServiceEntryFactory = clrServiceEntryFactory;

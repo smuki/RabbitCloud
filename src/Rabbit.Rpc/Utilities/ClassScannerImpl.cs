@@ -9,12 +9,12 @@ using System.Text.RegularExpressions;
 
 namespace Rabbit.Rpc.Utilities
 {
-    public class ClassScannerImpl:ClassScanner
+    public class ClassScannerImpl:IClassScanner
     {
 
         private readonly IEnumerable<Type> _types;
-        private XConfig _config;
-        public ClassScannerImpl(XConfig config)
+        private ISetting _config;
+        public ClassScannerImpl(ISetting config)
         {
             _config = config;
 #if NET

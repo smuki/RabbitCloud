@@ -15,10 +15,10 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
         private readonly Func<EndPoint, Task<IMessageListener>> _messageListenerFactory;
         private IMessageListener _serverMessageListener;
-        private XConfig _config;
+        private ISetting _config;
         #endregion Field
 
-        public DefaultServiceHost(Func<EndPoint, Task<IMessageListener>> messageListenerFactory, XConfig config, IServiceExecutor serviceExecutor) : base(serviceExecutor)
+        public DefaultServiceHost(Func<EndPoint, Task<IMessageListener>> messageListenerFactory, ISetting config, IServiceExecutor serviceExecutor) : base(serviceExecutor)
         {
             _config = config;
             _messageListenerFactory = messageListenerFactory;

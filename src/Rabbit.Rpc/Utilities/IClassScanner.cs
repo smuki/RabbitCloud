@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Rabbit.Rpc.Utilities
 {
-    public interface ClassScanner
+    public interface IClassScanner
     {
         IEnumerable<Type> WithInterface();
         IEnumerable<Type> WithType();

@@ -30,7 +30,7 @@ namespace Rabbit.Rpc.Coordinate.Files
 
         #region Constructor
 
-        public FilesServiceRouteManager(XConfig filePath, ISerializer<string> serializer,
+        public FilesServiceRouteManager(ISetting filePath, ISerializer<string> serializer,
             IServiceRouteFactory serviceRouteFactory, ILogger<FilesServiceRouteManager> logger) : base(serializer)
         {
             _filePath = filePath.GetValue("file");

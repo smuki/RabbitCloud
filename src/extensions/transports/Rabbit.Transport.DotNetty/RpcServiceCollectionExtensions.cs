@@ -27,7 +27,7 @@ namespace Rabbit.Transport.DotNetty
                 await messageListener.StartAsync(endPoint);
 
                 return messageListener;
-            }, provider.GetRequiredService<XConfig>(), provider.GetRequiredService<IServiceExecutor>()));
+            }, provider.GetRequiredService<ISetting>(), provider.GetRequiredService<IServiceExecutor>()));
 
             return services;
         }
