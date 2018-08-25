@@ -40,18 +40,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         public IEnumerable<ServiceRecord> GetServiceRecords()
         {
             var services = _types.WithAttribute<ServiceTagAttributeAttribute>();
-			
-            var serviceImplementations = services.Where(i =>
-            {
-                var typeInfo = i.GetTypeInfo();
-                return typeInfo.IsClass && !typeInfo.IsAbstract && i.Namespace != null && !i.Namespace.StartsWith("System") &&
-                !i.Namespace.StartsWith("Microsoft");
-            }).ToArray();
 
-            if (_logger.IsEnabled(LogLevel.Information))
-            {
-                _logger.LogInformation($"Discovery Following ServiceName:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
-            }
+            _logger.LogInformation($"Discovery Following ServiceName:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
 
             var entries = new List<ServiceRecord>();
             foreach (var service in services)
