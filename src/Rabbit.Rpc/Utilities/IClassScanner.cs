@@ -7,8 +7,8 @@ namespace Rabbit.Rpc.Utilities
     public interface IClassScanner
     {
         IEnumerable<Type> WithInterface();
-        IEnumerable<Type> WithType();
-        IEnumerable<Type> Types();
+        IEnumerable<Type> WithAttribute<T>() where T : Attribute;
 
+        IEnumerable<Type> Types();
     }
 }

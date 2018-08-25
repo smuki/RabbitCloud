@@ -79,9 +79,15 @@ namespace Rabbit.Rpc.Utilities
 
             return _types;
         }
-        public IEnumerable<Type> WithType()
+
+        public IEnumerable<Type> WithAttribute<T>() where T : Attribute
         {
-            return _types;
+            var services = _types.Where(i =>
+            {
+                var typeInfo = i.GetTypeInfo();
+                return typeInfo.GetCustomAttribute<T>() != null;
+            }).Distinct().ToArray();
+            return services;
         }
         public IEnumerable<Type> Types()
         {

@@ -14,7 +14,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
     {
         #region Field
 
-        private readonly IEnumerable<Type> _types;
+        private readonly IClassScanner _types;
         private readonly IClrServiceEntryFactory _clrServiceEntryFactory;
         private readonly ILogger<AttributeServiceEntryProvider> _logger;
 
@@ -24,7 +24,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 
         public AttributeServiceEntryProvider(IClassScanner types, IClrServiceEntryFactory clrServiceEntryFactory, ILogger<AttributeServiceEntryProvider> logger)
         {
-            _types = types.Types();
+            _types = types;
             _clrServiceEntryFactory = clrServiceEntryFactory;
             _logger = logger;
         }
@@ -39,9 +39,9 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         /// <returns>服务条目集合。</returns>
         public IEnumerable<ServiceRecord> GetServiceRecords()
         {
-            var services = GetTypes();
+            var services = _types.WithAttribute<ServiceTagAttributeAttribute>();
 			
-            var serviceImplementations = _types.Where(i =>
+            var serviceImplementations = services.Where(i =>
             {
                 var typeInfo = i.GetTypeInfo();
                 return typeInfo.IsClass && !typeInfo.IsAbstract && i.Namespace != null && !i.Namespace.StartsWith("System") &&
@@ -60,17 +60,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
             }
             return entries;
         }
-		
-        public IEnumerable<Type> GetTypes()
-        {
-            var services = _types.Where(i =>
-            {
-                var typeInfo = i.GetTypeInfo();
-                return typeInfo.GetCustomAttribute<ServiceTagAttributeAttribute>() != null;
-            }).Distinct().ToArray();
-            return services;
-        }
-
-        #endregion Implementation of IServiceEntryProvider
+	    #endregion Implementation of IServiceEntryProvider
     }
 }
