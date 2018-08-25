@@ -35,10 +35,13 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// </summary>
         /// <param name="endPoint">主机终结点。</param>
         /// <returns>一个任务。</returns>
-        public override async Task StartAsync(EndPoint endPoint)
+        public override async Task StartAsync()
         {
             if (_serverMessageListener != null)
                 return;
+
+            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981);
+
             _serverMessageListener = await _messageListenerFactory(endPoint);
             _serverMessageListener.Received += async (sender, message) =>
             {

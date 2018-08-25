@@ -92,7 +92,7 @@ namespace Performances.NetCoreApp.Server
             Task.Factory.StartNew(async () =>
             {
                 //启动主机
-                await serviceHost.StartAsync(new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981));
+                await serviceHost.StartAsync();
                 Console.Write($"Server startup.");
             }).Wait();
 

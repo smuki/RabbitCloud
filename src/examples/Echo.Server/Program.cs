@@ -58,7 +58,7 @@ namespace Jacob.Server
             Task.Factory.StartNew(async () =>
             {
                 //启动主机
-                await serviceHost.StartAsync(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9981));
+                await serviceHost.StartAsync();
                 Console.WriteLine($"服务端启动成功，{DateTime.Now}。");
             });
             Console.ReadLine();

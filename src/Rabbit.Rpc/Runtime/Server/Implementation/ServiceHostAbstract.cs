@@ -46,7 +46,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// </summary>
         /// <param name="endPoint">主机终结点。</param>
         /// <returns>一个任务。</returns>
-        public abstract Task StartAsync(EndPoint endPoint);
+        public abstract Task StartAsync();
 
         #endregion Implementation of IServiceHost
 
