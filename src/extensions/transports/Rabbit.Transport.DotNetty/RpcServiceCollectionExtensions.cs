@@ -3,6 +3,7 @@ using Rabbit.Rpc;
 using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Rpc.Runtime.Server.Implementation;
 using Rabbit.Rpc.Transport;
+using Rabbit.Rpc.Utilities;
 
 namespace Rabbit.Transport.DotNetty
 {
@@ -26,7 +27,7 @@ namespace Rabbit.Transport.DotNetty
                 await messageListener.StartAsync(endPoint);
 
                 return messageListener;
-            }, provider.GetRequiredService<IServiceExecutor>()));
+            }, provider.GetRequiredService<XConfig>(), provider.GetRequiredService<IServiceExecutor>()));
 
             return services;
         }
