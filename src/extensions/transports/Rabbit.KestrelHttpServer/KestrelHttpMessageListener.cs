@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Transport;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,15 +17,18 @@ namespace Rabbit.Transport.KestrelHttpServer
     {
         private readonly ILogger<KestrelHttpMessageListener> _logger;
         private IWebHost _host;
+        private ISetting _Setting;
 
         public event ReceivedDelegate Received;
 
-        public KestrelHttpMessageListener(ILogger<KestrelHttpMessageListener> logger)
+        public KestrelHttpMessageListener(ISetting Setting, ILogger<KestrelHttpMessageListener> logger)
         {
+            _Setting = Setting;
             _logger = logger;
         }
         public async Task StartAsync(EndPoint endPoint)
         {
+            _logger.LogInformation($"KestrelHttp Server setting is listening on {endPoint}");
             var ipEndPoint = endPoint as IPEndPoint; 
             try
             {
@@ -38,10 +42,12 @@ namespace Rabbit.Transport.KestrelHttpServer
                  .Build();
 
                await _host.RunAsync();
+                _logger.LogInformation($"KestrelHttp Server started and listening on:{endPoint}");
+
             }
             catch
             {
-                _logger.LogError($"http服务主机启动失败，监听地址：{endPoint}。 ");
+                _logger.LogError($"KestrelHttp Server startup failure on:{endPoint}");
             }
 
         }

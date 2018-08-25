@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Transport.Codec;
+using Rabbit.Rpc.Utilities;
 using Rabbit.Transport.DotNetty.Adaper;
 using System;
 using System.Net;
@@ -22,13 +23,15 @@ namespace Rabbit.Transport.DotNetty
         private readonly ITransportMessageDecoder _transportMessageDecoder;
         private readonly ITransportMessageEncoder _transportMessageEncoder;
         private IChannel _channel;
+        private ISetting _Setting;
 
         #endregion Field
 
         #region Constructor
 
-        public DotNettyServerMessageListener(ILogger<DotNettyServerMessageListener> logger, ITransportMessageCodecFactory codecFactory)
+        public DotNettyServerMessageListener(ISetting setting, ILogger<DotNettyServerMessageListener> logger, ITransportMessageCodecFactory codecFactory)
         {
+            _Setting = setting;
             _logger = logger;
             _transportMessageEncoder = codecFactory.GetEncoder();
             _transportMessageDecoder = codecFactory.GetDecoder();
