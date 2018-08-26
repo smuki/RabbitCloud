@@ -39,10 +39,13 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <returns>一个任务。</returns>
         public override async Task StartAsync()
         {
+            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981);
+
+            await _serverMessageListener.StartAsync(endPoint);
+
             if (_serverMessageListener != null)
                 return;
 
-            //var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981);
 
             //_serverMessageListener = await _messageListenerFactory(endPoint);
             _serverMessageListener.Received += async (sender, message) =>
@@ -52,6 +55,9 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                     MessageListener.OnReceived(sender, message);
                 });
             };
+        }
+        public override async void Start()
+        {
         }
 
         #endregion Overrides of ServiceHostAbstract
