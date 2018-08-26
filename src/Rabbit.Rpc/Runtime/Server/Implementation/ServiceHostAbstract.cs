@@ -48,6 +48,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <returns>一个任务。</returns>
         public abstract Task StartAsync();
 
+        public abstract void Start();
+
         #endregion Implementation of IServiceHost
 
         #region Private Method
