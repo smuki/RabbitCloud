@@ -94,8 +94,9 @@ namespace Rabbit.Transport.DotNetty
                     }
                     )).Value;
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogDebug(ex.ToString());
                 _clients.TryRemove(key, out var value);
                 throw;
             }
