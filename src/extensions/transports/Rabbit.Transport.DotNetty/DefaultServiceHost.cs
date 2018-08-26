@@ -1,10 +1,12 @@
-﻿using Rabbit.Rpc.Transport;
+﻿using Rabbit.Rpc.Runtime.Server;
+using Rabbit.Rpc.Runtime.Server.Implementation;
+using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Utilities;
 using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Server.Implementation
+namespace Rabbit.Transport.DotNetty
 {
     /// <summary>
     /// 一个默认的服务主机。
@@ -19,7 +21,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         private bool Running = false;
         #endregion Field
 
-        public DefaultServiceHost(IMessageListener messageListenerFactory, ISetting config, IServiceExecutor serviceExecutor) : base(serviceExecutor)
+        public DefaultServiceHost(DotNettyServerMessageListener messageListenerFactory, ISetting config, IServiceExecutor serviceExecutor) : base(serviceExecutor)
         {
             _config = config;
             _serverMessageListener = messageListenerFactory;
@@ -59,6 +61,13 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         }
         public override async void Start()
         {
+            Console.WriteLine("Rpc_Port");
+            Console.WriteLine(_config.GetValue("Rpc_Port"));
+
+            if (_config.GetValue("Rpc_Port") != "")
+            {
+                await this.StartAsync();
+            }
         }
 
         #endregion Overrides of ServiceHostAbstract

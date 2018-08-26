@@ -41,8 +41,8 @@ namespace Performances.NetCoreApp.Client
                     var serviceCollection = new ServiceCollection();
 
                 var builder = serviceCollection
-                    .AddLogging()
-                        .UseDotNettyTransport();
+                    .AddLogging();
+                        //.UseDotNettyTransport();
 
                     IServiceProvider serviceProvider = null;
 

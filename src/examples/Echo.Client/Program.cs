@@ -23,8 +23,7 @@ namespace Jacob.Client
             var serviceCollection = new ServiceCollection();
 
             serviceCollection
-                .AddLogging()
-                .UseDotNettyTransport();
+                .AddLogging();
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
 

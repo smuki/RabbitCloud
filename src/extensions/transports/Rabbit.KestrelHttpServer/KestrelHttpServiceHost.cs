@@ -17,13 +17,13 @@ namespace abbit.Transport.KestrelHttpServer
 
         private readonly Func<EndPoint, Task<IMessageListener>> _messageListenerFactory;
         private IMessageListener _serverMessageListener;
+        private ISetting _config;
 
         #endregion Field
 
-        public KestrelHttpServiceHost(KestrelHttpMessageListener serverMessageListener, IServiceExecutor serviceExecutor) : base(serviceExecutor)
+        public KestrelHttpServiceHost(ISetting config, KestrelHttpMessageListener serverMessageListener, IServiceExecutor serviceExecutor) : base(serviceExecutor)
         {
-          
-
+            _config = config;
             _serverMessageListener = serverMessageListener;
         }
 
@@ -36,12 +36,13 @@ namespace abbit.Transport.KestrelHttpServer
         }
         public override async void Start()
         {
-            if (_serverMessageListener != null)
-                return;
+            Console.WriteLine("Http_Port");
+            Console.WriteLine(_config.GetValue("Http_Port"));
 
-            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 81);
-
-            _serverMessageListener.StartAsync(endPoint);
+            if (_config.GetValue("Http_Port") != "")
+            {
+                await this.StartAsync();
+            }
         }
         /// <summary>
         /// 启动主机。
@@ -50,10 +51,10 @@ namespace abbit.Transport.KestrelHttpServer
         /// <returns>一个任务。</returns>
         public override async Task StartAsync()
         {
-            if (_serverMessageListener != null)
-                return;
+            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 81);
 
-            //_serverMessageListener = await _messageListenerFactory(endPoint);
+            await _serverMessageListener.StartAsync(endPoint);
+
             _serverMessageListener.Received += async (sender, message) =>
             {
                 await Task.Run(() =>

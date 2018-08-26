@@ -20,6 +20,7 @@ using Rabbit.Rpc.Serialization;
 using Rabbit.Rpc.Serialization.Implementation;
 using Rabbit.Rpc.Utilities;
 using Rabbit.Transport.DotNetty;
+using Rabbit.Transport.KestrelHttpServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,8 +57,7 @@ namespace Performances.NetCoreApp.Server
             var serviceCollection = new ServiceCollection();
 
             var builder = serviceCollection
-                .AddLogging()
-                .UseDotNettyTransport();
+                .AddLogging();
 
             serviceCollection.AddTransient<IUserService, UserService>();
 
@@ -87,19 +87,7 @@ namespace Performances.NetCoreApp.Server
             var serviceRouteManager = serviceProvider.GetRequiredService<IServiceRouteManager>();
             serviceRouteManager.SetRoutesAsync(addressDescriptors).Wait();
             //}
-            Console.Write($"startup.");
-
-          //  Console.ReadLine();
-
-            var serviceHost = serviceProvider.GetRequiredService<IServiceHost>();
-
-            Task.Factory.StartNew(async () =>
-            {
-                //启动主机
-                await serviceHost.StartAsync();
-                Console.Write($"Server startup.");
-            }).Wait();
-
+            Console.Write($"Server startup.");
             Console.ReadLine();
         }
         private IServiceProvider RegisterAutofac(IServiceCollection services)
@@ -136,6 +124,8 @@ namespace Performances.NetCoreApp.Server
             SettingImpl config = new SettingImpl();
 
             config.SetValue("file", "c:\\proj\\routes.js");
+            config.SetValue("Rpc_Port", "9981");
+            config.SetValue("Http_Port", "82");
 
             builder.RegisterInstance(config).AsImplementedInterfaces().AsSelf().SingleInstance();
 
@@ -145,9 +135,11 @@ namespace Performances.NetCoreApp.Server
             builder.RegisterType<DotNettyTransportClientFactory>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<DotNettyServerMessageListener>().AsImplementedInterfaces().AsSelf();
 
-            builder.RegisterType<DefaultServiceHost>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceHost>().AsSelf().AsImplementedInterfaces();
 
-            // builder.RegisterType<KestrelHttpServiceHost>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<KestrelHttpMessageListener>().AsImplementedInterfaces().AsSelf();
+
+            builder.RegisterType<KestrelHttpServiceHost>().AsSelf().AsImplementedInterfaces();
 
             //builder.Register(provider =>
             //{

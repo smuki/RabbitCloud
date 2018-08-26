@@ -31,8 +31,8 @@ namespace Jacob.Server
             var serviceCollection = new ServiceCollection();
 
             serviceCollection
-                .AddLogging()
-                .UseDotNettyTransport();
+                .AddLogging();
+
             serviceCollection.AddTransient<IUserService, UserService>();
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
