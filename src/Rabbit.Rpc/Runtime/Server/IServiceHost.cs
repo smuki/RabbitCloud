@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Autofac;
 using System.Threading.Tasks;
 
 namespace Rabbit.Rpc.Runtime.Server
@@ -7,7 +8,7 @@ namespace Rabbit.Rpc.Runtime.Server
     /// <summary>
     /// 一个抽象的服务主机。
     /// </summary>
-    public interface IServiceHost : IDisposable
+    public interface IServiceHost : IDisposable, IStartable
     {
         /// <summary>
         /// 启动主机。
