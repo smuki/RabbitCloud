@@ -1,4 +1,5 @@
 ﻿using Rabbit.Rpc.Messages;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Rabbit.Rpc.Transport
@@ -27,5 +28,7 @@ namespace Rabbit.Rpc.Transport
         /// <param name="message">接收到的消息。</param>
         /// <returns>一个任务。</returns>
         Task OnReceived(IMessageSender sender, TransportMessage message);
+
+        Task StartAsync(EndPoint endPoint);
     }
 }
