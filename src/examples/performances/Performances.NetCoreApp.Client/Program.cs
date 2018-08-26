@@ -79,10 +79,9 @@ namespace Performances.NetCoreApp.Client
                             var watch = Stopwatch.StartNew();
                             for (var i = 0; i < t; i++)
                             {
-                                await userService.GetUser(i);
-                               // v = await userService.GetUser(i);
+                                v = await userService.GetUser(i);
                                // Console.WriteLine("GetUser");
-                               // Console.WriteLine(v.Name);
+                                Console.WriteLine(v.Name);
                                // Console.WriteLine(v.Age);
                             }
                             watch.Stop();
