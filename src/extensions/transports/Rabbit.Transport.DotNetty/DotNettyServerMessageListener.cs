@@ -60,6 +60,7 @@ namespace Rabbit.Transport.DotNetty
 
         public async Task StartAsync(EndPoint endPoint)
         {
+            
             _logger.LogInformation($"RPC Server setting is listening on {endPoint}");
 
             var bossGroup = new MultithreadEventLoopGroup(1);
@@ -85,6 +86,7 @@ namespace Rabbit.Transport.DotNetty
             try
             {
                 _channel = await bootstrap.BindAsync(endPoint);
+                Console.WriteLine($"RPC Server started and listening on:{endPoint}");
                 _logger.LogInformation($"RPC Server started and listening on:{endPoint}");
             }
             catch
