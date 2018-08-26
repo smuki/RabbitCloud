@@ -16,6 +16,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         private readonly IMessageListener _messageListener;
         private IMessageListener _serverMessageListener;
         private ISetting _config;
+        private bool Running = false;
         #endregion Field
 
         public DefaultServiceHost(IMessageListener messageListenerFactory, ISetting config, IServiceExecutor serviceExecutor) : base(serviceExecutor)
@@ -39,15 +40,15 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <returns>一个任务。</returns>
         public override async Task StartAsync()
         {
+            if (Running)
+                return;
+
+            Running = true;
+
             var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981);
 
             await _serverMessageListener.StartAsync(endPoint);
 
-            if (_serverMessageListener != null)
-                return;
-
-
-            //_serverMessageListener = await _messageListenerFactory(endPoint);
             _serverMessageListener.Received += async (sender, message) =>
             {
                 await Task.Run(() =>

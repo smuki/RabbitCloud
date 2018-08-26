@@ -40,8 +40,8 @@ namespace Performances.NetCoreApp.Client
                 {
                     var serviceCollection = new ServiceCollection();
 
-                    var builder = serviceCollection
-                        .AddLogging()
+                var builder = serviceCollection
+                    .AddLogging()
                         .UseDotNettyTransport();
 
                     IServiceProvider serviceProvider = null;
@@ -134,6 +134,11 @@ namespace Performances.NetCoreApp.Client
             builder.RegisterType<ServiceProxyGenerater>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<ServiceProxyFactory>().AsImplementedInterfaces().AsSelf();
 
+
+            builder.RegisterType<DotNettyTransportClientFactory>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DotNettyServerMessageListener>().AsImplementedInterfaces().AsSelf();
+
+            builder.RegisterType<DefaultServiceHost>().AsImplementedInterfaces().AsSelf();
 
             SettingImpl config = new SettingImpl();
 

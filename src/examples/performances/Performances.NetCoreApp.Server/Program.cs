@@ -72,7 +72,7 @@ namespace Performances.NetCoreApp.Server
             Program pp = new Program();
             serviceProvider = pp.RegisterAutofac(serviceCollection);
             serviceProvider.GetRequiredService<ILoggerFactory>()
-                .AddConsole(LogLevel.Error);
+                .AddConsole(LogLevel.Information);
 
             //自动生成服务路由（这边的文件与Echo.Client为强制约束）
             //{
@@ -87,6 +87,9 @@ namespace Performances.NetCoreApp.Server
             var serviceRouteManager = serviceProvider.GetRequiredService<IServiceRouteManager>();
             serviceRouteManager.SetRoutesAsync(addressDescriptors).Wait();
             //}
+            Console.Write($"startup.");
+
+          //  Console.ReadLine();
 
             var serviceHost = serviceProvider.GetRequiredService<IServiceHost>();
 
@@ -139,14 +142,12 @@ namespace Performances.NetCoreApp.Server
             ClassScannerImpl _ClassScanner = new ClassScannerImpl(config);
             builder.RegisterInstance(_ClassScanner).AsImplementedInterfaces().AsSelf().SingleInstance();
 
-
             builder.RegisterType<DotNettyTransportClientFactory>().AsImplementedInterfaces().AsSelf();
             builder.RegisterType<DotNettyServerMessageListener>().AsImplementedInterfaces().AsSelf();
 
-            builder.RegisterType<KestrelHttpServiceHost>().AsImplementedInterfaces().AsSelf();
+            builder.RegisterType<DefaultServiceHost>().AsImplementedInterfaces().AsSelf();
 
-
-            
+            // builder.RegisterType<KestrelHttpServiceHost>().AsImplementedInterfaces().AsSelf();
 
             //builder.Register(provider =>
             //{
@@ -159,7 +160,7 @@ namespace Performances.NetCoreApp.Server
             //    }, serviceExecutor);
             //}).As<IServiceHost>();
 
-            //services.AddSingleton<IServiceHost, DefaultServiceHost>(provider => new DefaultServiceHost(async endPoint =>
+            ///services.AddSingleton<IServiceHost, DefaultServiceHost>(provider => new DefaultServiceHost(async endPoint =>
             //{
             //    var messageListener = provider.GetRequiredService<DotNettyServerMessageListener>();
             //    await messageListener.StartAsync(endPoint);
