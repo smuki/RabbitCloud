@@ -1,4 +1,5 @@
 ﻿using Rabbit.Rpc.Messages;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Rabbit.Rpc.Transport.Implementation
@@ -28,6 +29,10 @@ namespace Rabbit.Rpc.Transport.Implementation
             await Received(sender, message);
         }
 
+        public async Task StartAsync(EndPoint endPoint)
+        {
+
+        }
         #endregion Implementation of IMessageListener
     }
 }
