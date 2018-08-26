@@ -22,9 +22,7 @@ namespace abbit.Transport.KestrelHttpServer
 
         public KestrelHttpServiceHost(KestrelHttpMessageListener serverMessageListener, IServiceExecutor serviceExecutor) : base(serviceExecutor)
         {
-            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981);
-
-            serverMessageListener.StartAsync(endPoint);
+          
 
             _serverMessageListener = serverMessageListener;
         }
@@ -36,7 +34,15 @@ namespace abbit.Transport.KestrelHttpServer
         {
             (_serverMessageListener as IDisposable)?.Dispose();
         }
+        public override async void Start()
+        {
+            if (_serverMessageListener != null)
+                return;
 
+            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 81);
+
+            _serverMessageListener.StartAsync(endPoint);
+        }
         /// <summary>
         /// 启动主机。
         /// </summary>
