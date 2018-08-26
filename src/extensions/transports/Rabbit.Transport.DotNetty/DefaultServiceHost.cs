@@ -1,8 +1,10 @@
-﻿using Rabbit.Rpc.Runtime.Server;
+﻿using Rabbit.Rpc.Routing;
+using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Rpc.Runtime.Server.Implementation;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Utilities;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -18,12 +20,17 @@ namespace Rabbit.Transport.DotNetty
         private readonly IMessageListener _messageListener;
         private IMessageListener _serverMessageListener;
         private ISetting _config;
+        private IServiceTable _serviceTable;
+        private IServiceRouteManager _serviceRouteManager;
+        private int Port = 981;
         private bool Running = false;
         #endregion Field
 
-        public DefaultServiceHost(DotNettyServerMessageListener messageListenerFactory, ISetting config, IServiceExecutor serviceExecutor) : base(serviceExecutor)
+        public DefaultServiceHost(IServiceTable serviceTable, IServiceRouteManager serviceRouteManager, DotNettyServerMessageListener messageListenerFactory, ISetting config, IServiceExecutor serviceExecutor) : base(serviceExecutor)
         {
             _config = config;
+            _serviceTable = serviceTable;
+            _serviceRouteManager = serviceRouteManager;
             _serverMessageListener = messageListenerFactory;
         }
 
@@ -47,7 +54,7 @@ namespace Rabbit.Transport.DotNetty
 
             Running = true;
 
-            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 9981);
+            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), Port);
 
             await _serverMessageListener.StartAsync(endPoint);
 
@@ -58,6 +65,15 @@ namespace Rabbit.Transport.DotNetty
                     MessageListener.OnReceived(sender, message);
                 });
             };
+
+            var addressDescriptors = _serviceTable.GetServiceRecords().Select(i => new ServiceRoute
+            {
+                Address = new string[] { AddrUtil.GetNetworkAddress().ToString() + ":"+ Port.ToString() },
+                ServiceEntry = i
+            });
+
+            _serviceRouteManager.SetRoutesAsync(addressDescriptors).Wait();
+
         }
         public override async void Start()
         {

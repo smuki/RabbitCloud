@@ -64,30 +64,18 @@ namespace Performances.NetCoreApp.Server
             IServiceProvider serviceProvider = null;
             //do
             //{
-            Console.WriteLine(" server 请输入编解码器协议：");
-            Console.WriteLine("1.JSON");
-            Console.WriteLine("2.ProtoBuffer");
-            Console.WriteLine("3.MessagePack");
+           // Console.WriteLine(" server 请输入编解码器协议：");
+           // Console.WriteLine("1.JSON");
+           // Console.WriteLine("2.ProtoBuffer");
+            Console.WriteLine("Server .MessagePack");
           
             Program pp = new Program();
             serviceProvider = pp.RegisterAutofac(serviceCollection);
             serviceProvider.GetRequiredService<ILoggerFactory>()
                 .AddConsole(LogLevel.Information);
 
-            //自动生成服务路由（这边的文件与Echo.Client为强制约束）
-            //{
-            var serviceEntryManager = serviceProvider.GetRequiredService<IServiceTable>();
-            var addressDescriptors = serviceEntryManager.GetServiceRecords().Select(i => new ServiceRoute
-            {
-                Address = new string[] { AddrUtil.GetNetworkAddress().ToString() + ":9981" },
-                ServiceEntry = i
-                //20180804
-            });
-
-            var serviceRouteManager = serviceProvider.GetRequiredService<IServiceRouteManager>();
-            serviceRouteManager.SetRoutesAsync(addressDescriptors).Wait();
-            //}
             Console.Write($"Server startup.");
+
             Console.ReadLine();
         }
         private IServiceProvider RegisterAutofac(IServiceCollection services)
