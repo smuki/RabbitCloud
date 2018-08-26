@@ -75,8 +75,7 @@ namespace Rabbit.Transport.DotNetty
         public ITransportClient CreateClient(EndPoint endPoint)
         {
             var key = endPoint;
-            if (_logger.IsEnabled(LogLevel.Debug))
-                _logger.LogDebug($"准备为服务端地址：{key}创建客户端。");
+            _logger.LogDebug($"准备为服务端地址：{key}创建客户端。");
             try
             {
                 return _clients.GetOrAdd(key
