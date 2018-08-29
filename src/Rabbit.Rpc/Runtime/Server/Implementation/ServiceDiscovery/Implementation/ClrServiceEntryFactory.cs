@@ -18,7 +18,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         #region Field
 
         private readonly IServiceProvider _serviceProvider;
-       // private readonly IServiceIdGenerator _serviceIdGenerator;
+        // private readonly IServiceIdGenerator _serviceIdGenerator;
         private readonly ITypeConvertibleService _typeConvertibleService;
 
         #endregion Field
@@ -94,6 +94,12 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                         var list = new List<object>();
                         foreach (var parameterInfo in methodInfo.GetParameters())
                         {
+                            //加入是否有默认值的判断，有默认值，并且用户没传，取默认值
+                            if (parameterInfo.HasDefaultValue && !parameters.ContainsKey(parameterInfo.Name))
+                            {
+                                list.Add(parameterInfo.DefaultValue);
+                                continue;
+                            }
                             var value = parameters[parameterInfo.Name];
                             var parameterType = parameterInfo.ParameterType;
 

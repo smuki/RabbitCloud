@@ -8,7 +8,6 @@ namespace Rabbit.Rpc.Utilities
     {
         IEnumerable<Type> WithInterface();
         IEnumerable<Type> WithAttribute<T>() where T : Attribute;
-
         IEnumerable<Type> Types();
     }
 }
