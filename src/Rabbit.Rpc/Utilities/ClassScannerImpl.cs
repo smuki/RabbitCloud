@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace Rabbit.Rpc.Utilities
 {
-    public class ClassScannerImpl:IClassScanner
+    public class ClassScannerImpl : IClassScanner
     {
 
         private readonly IEnumerable<Type> _types;
@@ -26,7 +26,15 @@ namespace Rabbit.Rpc.Utilities
             _types = assemblys.Where(i => i.IsDynamic == false).SelectMany(i => i.ExportedTypes).ToArray();
 
         }
-        private  List<Assembly> GetReferenceAssembly(params string[] virtualPaths)
+        public void Scan(List<string> virtualPaths)
+        {
+            if (virtualPaths.Count == 0)
+            {
+                virtualPaths.Add(AppDomain.CurrentDomain.BaseDirectory);
+            }
+            GetReferenceAssembly(virtualPaths.ToArray());
+        }
+        private List<Assembly> GetReferenceAssembly(params string[] virtualPaths)
         {
             var refAssemblies = new List<Assembly>();
             var rootPath = AppContext.BaseDirectory;
@@ -52,7 +60,7 @@ namespace Rabbit.Rpc.Utilities
             }
             return refAssemblies;
         }
-        private  List<string> GetAllAssemblyFiles(string path)
+        private List<string> GetAllAssemblyFiles(string path)
         {
             var notRelatedFile = "";
             var relatedFile = "";
