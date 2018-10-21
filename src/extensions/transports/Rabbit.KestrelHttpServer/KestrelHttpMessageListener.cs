@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Messages;
+using Rabbit.Rpc.Serialization;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Utilities;
 using System;
@@ -14,18 +15,20 @@ using System.Threading.Tasks;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
-    public class KestrelHttpMessageListener : IMessageListener, IDisposable
+    public class KestrelHttpMessageListener : HttpMessageListener, IDisposable
     {
         private readonly ILogger<KestrelHttpMessageListener> _logger;
         private IWebHost _host;
         private ISetting _Setting;
-
+        private ISerializer<string> _serializer;
         public event ReceivedDelegate Received;
 
-        public KestrelHttpMessageListener(ISetting Setting, ILogger<KestrelHttpMessageListener> logger)
+        public KestrelHttpMessageListener(ISetting Setting, ISerializer<string> serializer, ILogger<KestrelHttpMessageListener> logger)
+            : base(Setting, serializer, logger)
         {
             _Setting = Setting;
             _logger = logger;
+            _serializer = serializer;
         }
         public async Task StartAsync(EndPoint endPoint)
         {
@@ -55,36 +58,36 @@ namespace Rabbit.Transport.KestrelHttpServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-             services.AddMvc();
-            if (AppConfig.SwaggerOptions != null)
-            {
-                services.AddSwaggerGen(options =>
-                {
-                    options.SwaggerDoc(AppConfig.SwaggerOptions.Version, AppConfig.SwaggerOptions);
-                    var xmlPaths = _serviceSchemaProvider.GetSchemaFilesPath();
-                    foreach (var xmlPath in xmlPaths)
-                        options.IncludeXmlComments(xmlPath);
-                });
-            }
+            // services.AddMvc();
+            //if (AppConfig.SwaggerOptions != null)
+            //{
+            //    services.AddSwaggerGen(options =>
+            //    {
+            //        options.SwaggerDoc(AppConfig.SwaggerOptions.Version, AppConfig.SwaggerOptions);
+            //        var xmlPaths = _serviceSchemaProvider.GetSchemaFilesPath();
+            //        foreach (var xmlPath in xmlPaths)
+            //            options.IncludeXmlComments(xmlPath);
+            //    });
+            //}
         }
 
-        public Task OnReceived(IMessageSender sender, TransportMessage message)
-        {
-            return Task.CompletedTask;
-        }
+        //public Task OnReceived(IMessageSender sender, TransportMessage message)
+        //{
+        //    return Task.CompletedTask;
+        //}
 
         private void AppResolve(IApplicationBuilder app)
         {
-            app.UseStaticFiles();
-            app.UseMvc();
-            if (AppConfig.SwaggerOptions != null)
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint($"/swagger/{AppConfig.SwaggerOptions.Version}/swagger.json", AppConfig.SwaggerOptions.Title);
-                });
-            }
+            //app.UseStaticFiles();
+            //app.UseMvc();
+            //if (AppConfig.SwaggerOptions != null)
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI(c =>
+            //    {
+            //        c.SwaggerEndpoint($"/swagger/{AppConfig.SwaggerOptions.Version}/swagger.json", AppConfig.SwaggerOptions.Title);
+            //    });
+            //}
        
             app.Run(async (context) =>
             {

@@ -64,8 +64,8 @@ namespace Rabbit.Transport.DotNetty
             
             _logger.LogInformation($"RPC Server setting is listening on {endPoint}");
 
-            var bossGroup = new MultithreadEventLoopGroup(1);
-            var workerGroup = new MultithreadEventLoopGroup();
+            IEventLoopGroup bossGroup = new MultithreadEventLoopGroup(1);
+            IEventLoopGroup workerGroup = new MultithreadEventLoopGroup();//Default eventLoopCount is Environment.ProcessorCount * 2
             var bootstrap = new ServerBootstrap();
             if (false)
             {
@@ -83,7 +83,8 @@ namespace Rabbit.Transport.DotNetty
             bootstrap
             .Option(ChannelOption.SoBacklog, 100)
             .ChildOption(ChannelOption.Allocator, PooledByteBufferAllocator.Default)
-                .ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>
+            .Group(bossGroup, workerGroup)
+            .ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
                 {
                     var pipeline = channel.Pipeline;
                     pipeline.AddLast(new LengthFieldPrepender(4));
