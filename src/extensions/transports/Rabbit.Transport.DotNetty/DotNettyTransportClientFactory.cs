@@ -4,6 +4,7 @@ using DotNetty.Common.Utilities;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
+using DotNetty.Transport.Libuv;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Runtime.Server;
@@ -118,12 +119,24 @@ namespace Rabbit.Transport.DotNetty
 
         private static Bootstrap GetBootstrap()
         {
+            IEventLoopGroup group;
+            
             var bootstrap = new Bootstrap();
+            if (false)
+            {
+                group = new EventLoopGroup();
+                bootstrap.Channel<TcpServerChannel>();
+            }
+            else
+            {
+                group = new MultithreadEventLoopGroup();
+                bootstrap.Channel<TcpServerSocketChannel>();
+            }
             bootstrap
                 .Channel<TcpSocketChannel>()
                 .Option(ChannelOption.TcpNodelay, true)
                 .Option(ChannelOption.Allocator, PooledByteBufferAllocator.Default)
-                .Group(new MultithreadEventLoopGroup(1));
+                .Group(group);
 
             return bootstrap;
         }

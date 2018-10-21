@@ -5,7 +5,7 @@
     <Copyright>© RabbitHub. All rights reserved.</Copyright>
     <VersionPrefix>1.0.0-alpha1</VersionPrefix>
     <Authors>majian</Authors>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>Rabbit.Transport.DotNetty</AssemblyName>
     <PackageId>Rabbit.Transport.DotNetty</PackageId>
     <PackageTags>RabbitHub;RPC</PackageTags>
@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Rabbit.Rpc\Rabbit.Rpc.csproj" />
+    <PackageReference Include="DotNetty.Transport.Libuv" Version="0.4.8" />
   </ItemGroup>
 
   <ItemGroup>

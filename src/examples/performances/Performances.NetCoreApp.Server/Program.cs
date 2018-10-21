@@ -1,4 +1,4 @@
-﻿using abbit.Transport.KestrelHttpServer;
+﻿using Rabbit.Transport.KestrelHttpServer;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Jacob.Common;
@@ -197,7 +197,8 @@ namespace Performances.NetCoreApp.Server
         {
             try
             {
-            //    var referenceAssemblies = GetReferenceAssembly(virtualPaths);
+                //    var referenceAssemblies = 
+                (virtualPaths);
             //    foreach (var assembly in referenceAssemblies)
             //    {
             //        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();

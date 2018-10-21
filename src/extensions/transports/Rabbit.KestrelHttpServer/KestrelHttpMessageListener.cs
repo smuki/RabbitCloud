@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Transport;
@@ -34,10 +35,10 @@ namespace Rabbit.Transport.KestrelHttpServer
             {
                 _host = new WebHostBuilder()
                  .UseContentRoot(Directory.GetCurrentDirectory())
-                 .UseStartup<Startup>()
                  .UseKestrel(options=> {
                      options.Listen(ipEndPoint);
                  })
+                 .ConfigureServices(ConfigureServices)
                  .Configure(AppResolve)
                  .Build();
 
@@ -52,6 +53,21 @@ namespace Rabbit.Transport.KestrelHttpServer
 
         }
 
+        public void ConfigureServices(IServiceCollection services)
+        {
+             services.AddMvc();
+            if (AppConfig.SwaggerOptions != null)
+            {
+                services.AddSwaggerGen(options =>
+                {
+                    options.SwaggerDoc(AppConfig.SwaggerOptions.Version, AppConfig.SwaggerOptions);
+                    var xmlPaths = _serviceSchemaProvider.GetSchemaFilesPath();
+                    foreach (var xmlPath in xmlPaths)
+                        options.IncludeXmlComments(xmlPath);
+                });
+            }
+        }
+
         public Task OnReceived(IMessageSender sender, TransportMessage message)
         {
             return Task.CompletedTask;
@@ -59,9 +75,21 @@ namespace Rabbit.Transport.KestrelHttpServer
 
         private void AppResolve(IApplicationBuilder app)
         {
+            app.UseStaticFiles();
+            app.UseMvc();
+            if (AppConfig.SwaggerOptions != null)
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint($"/swagger/{AppConfig.SwaggerOptions.Version}/swagger.json", AppConfig.SwaggerOptions.Title);
+                });
+            }
+       
             app.Run(async (context) =>
             {
-               var keys= context.Request.Query.Keys; 
+                var sender = new HttpServerMessageSender(_serializer, context);
+                await OnReceived(sender, context);
             });
         }
 
@@ -69,5 +97,6 @@ namespace Rabbit.Transport.KestrelHttpServer
         {
             _host.Dispose();
         }
+        
     }
 }

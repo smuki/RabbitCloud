@@ -3,6 +3,7 @@ using DotNetty.Codecs;
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
+using DotNetty.Transport.Libuv;
 using Microsoft.Extensions.Logging;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Transport;
@@ -66,9 +67,20 @@ namespace Rabbit.Transport.DotNetty
             var bossGroup = new MultithreadEventLoopGroup(1);
             var workerGroup = new MultithreadEventLoopGroup();
             var bootstrap = new ServerBootstrap();
+            if (false)
+            {
+                var dispatcher = new DispatcherEventLoopGroup();
+                bossGroup = dispatcher;
+                workerGroup = new WorkerEventLoopGroup(dispatcher);
+                bootstrap.Channel<TcpServerChannel>();
+            }
+            else
+            {
+                bossGroup = new MultithreadEventLoopGroup(1);
+                workerGroup = new MultithreadEventLoopGroup();
+                bootstrap.Channel<TcpServerSocketChannel>();
+            } 
             bootstrap
-            .Group(bossGroup, workerGroup)
-            .Channel<TcpServerSocketChannel>()
             .Option(ChannelOption.SoBacklog, 100)
             .ChildOption(ChannelOption.Allocator, PooledByteBufferAllocator.Default)
                 .ChildHandler(new ActionChannelInitializer<ISocketChannel>(channel =>

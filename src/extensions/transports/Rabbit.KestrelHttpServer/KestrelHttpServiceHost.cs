@@ -9,7 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace abbit.Transport.KestrelHttpServer
+namespace Rabbit.Transport.KestrelHttpServer
 {
    public class KestrelHttpServiceHost : ServiceHostAbstract
     {

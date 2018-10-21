@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
-    public abstract class FileResult
+    public abstract class FileResult: ActionResult
     {
         private string _fileDownloadName;
         
@@ -19,6 +19,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         }
         
         public string ContentType { get; }
+
        
         public string FileDownloadName
         {
