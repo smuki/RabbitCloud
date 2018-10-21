@@ -198,7 +198,7 @@ namespace Performances.NetCoreApp.Server
             try
             {
                 //    var referenceAssemblies = 
-                (virtualPaths);
+                //(virtualPaths);
             //    foreach (var assembly in referenceAssemblies)
             //    {
             //        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
