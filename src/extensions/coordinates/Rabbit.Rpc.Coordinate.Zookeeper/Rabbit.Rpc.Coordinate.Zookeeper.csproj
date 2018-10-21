@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>基于ZooKeeper的Rpc服务协调扩展。</Description>
     <Copyright>© RabbitHub. All rights reserved.</Copyright>
     <VersionPrefix>1.0.0-alpha1</VersionPrefix>
     <Authors>majian</Authors>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>Rabbit.Rpc.Coordinate.Zookeeper</AssemblyName>
     <PackageId>Rabbit.Rpc.Coordinate.Zookeeper</PackageId>
     <PackageTags>RabbitHub;RPC</PackageTags>

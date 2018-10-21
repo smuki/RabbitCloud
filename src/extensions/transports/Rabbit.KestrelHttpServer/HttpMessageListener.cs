@@ -157,10 +157,10 @@ namespace Rabbit.Transport.KestrelHttpServer
             string routePath = "";
             var urlSpan = path;
             var len = urlSpan.IndexOf("?");
-            // if (len == -1)
-            //    routePath = urlSpan.TrimStart("/").ToString().ToLower();
-            // else
-            // routePath = urlSpan.Slice(0, len).TrimStart("/").ToString().ToLower();
+            //if (len == -1)
+            //    routePath = urlSpan.TrimStart('/').ToString().ToLower();
+            //else
+              //  routePath = urlSpan.Slice(0, len).TrimStart("/").ToString().ToLower();
             return routePath;
         }
     }
