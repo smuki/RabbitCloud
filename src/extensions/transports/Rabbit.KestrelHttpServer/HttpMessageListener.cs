@@ -38,8 +38,9 @@ namespace Rabbit.Transport.KestrelHttpServer
                 return;
             await Received(sender, message);
         }
-        public async Task StartAsync(EndPoint endPoint)
+        public virtual async Task StartAsync(EndPoint endPoint)
         {
+
         }
         public async Task OnReceived(IMessageSender sender, HttpContext context)
         {

@@ -30,7 +30,7 @@ namespace Rabbit.Transport.KestrelHttpServer
             _logger = logger;
             _serializer = serializer;
         }
-        public async Task StartAsync(EndPoint endPoint)
+        public override async Task StartAsync(EndPoint endPoint)
         {
             _logger.LogInformation($"KestrelHttp Server setting is listening on {endPoint}");
             var ipEndPoint = endPoint as IPEndPoint; 
