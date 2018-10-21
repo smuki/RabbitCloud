@@ -31,7 +31,6 @@ namespace Rabbit.Rpc.Transport.Implementation
 
         public async Task StartAsync(EndPoint endPoint)
         {
-
         }
         #endregion Implementation of IMessageListener
     }
