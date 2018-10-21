@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
+    /*
     public abstract class HttpMessageListener : IMessageListener
     {
         public  event ReceivedDelegate Received;
@@ -159,4 +160,5 @@ namespace Rabbit.Transport.KestrelHttpServer
             return routePath;
         }
     }
+    */
 }
