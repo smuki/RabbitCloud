@@ -46,7 +46,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         {
             var routePath = GetRoutePath(context.Request.Path.ToString());
             IDictionary<string, object> parameters = context.Request.Query.ToDictionary(p => p.Key, p => (object)p.Value.ToString());
-            //parameters.Remove("servicekey", out object serviceKey);
+            parameters.Remove("servicekey", out object serviceKey);
             if (context.Request.HasFormContentType)
             {
                 var collection = await GetFormCollection(context.Request);
@@ -55,7 +55,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                 {
                     Parameters = parameters,
                     RoutePath = routePath,
-                    //ServiceKey = serviceKey?.ToString()
+                    ServiceKey = serviceKey?.ToString()
                 }));
             }
             else
@@ -68,7 +68,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                     {
                         Parameters = _serializer.Deserialize<string, IDictionary<string, object>>(data) ?? new Dictionary<string, object>(),
                         RoutePath = routePath,
-                        // ServiceKey = serviceKey?.ToString()
+                        ServiceKey = serviceKey?.ToString()
                     }));
                 }
                 else
@@ -77,7 +77,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                     {
                         Parameters = parameters,
                         RoutePath = routePath,
-                        //ServiceKey = serviceKey?.ToString()
+                        ServiceKey = serviceKey?.ToString()
                     }));
                 }
             }
@@ -158,10 +158,10 @@ namespace Rabbit.Transport.KestrelHttpServer
             string routePath = "";
             var urlSpan = path;
             var len = urlSpan.IndexOf("?");
-            //if (len == -1)
-            //    routePath = urlSpan.TrimStart('/').ToString().ToLower();
-            //else
-              //  routePath = urlSpan.Slice(0, len).TrimStart("/").ToString().ToLower();
+            if (len == -1)
+                routePath = urlSpan.TrimStart('/').ToString().ToLower();
+            else
+                routePath = urlSpan.Substring(0, len).TrimStart('/').ToString().ToLower();
             return routePath;
         }
     }
