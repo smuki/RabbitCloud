@@ -6,7 +6,7 @@ namespace Rabbit.Rpc.Messages
 {
     public  class HttpMessage
     { 
-        public string RoutePath { get; set; }
+        public string Path { get; set; }
          
         /// <summary>
         /// 服务Id。
