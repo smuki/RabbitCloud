@@ -54,7 +54,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                 await Received(sender, new TransportMessage(new HttpMessage
                 {
                     Parameters = parameters,
-                    RoutePath = routePath,
+                    Path = routePath,
                     ServiceName = serviceKey?.ToString()
                 }));
             }
@@ -67,7 +67,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                     await Received(sender, new TransportMessage(new HttpMessage
                     {
                         Parameters = _serializer.Deserialize<string, IDictionary<string, object>>(data) ?? new Dictionary<string, object>(),
-                        RoutePath = routePath,
+                        Path = routePath,
                         ServiceName = serviceKey?.ToString()
                     }));
                 }
@@ -76,7 +76,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                     await Received(sender, new TransportMessage(new HttpMessage
                     {
                         Parameters = parameters,
-                        RoutePath = routePath,
+                        Path = routePath,
                         ServiceName = serviceKey?.ToString()
                     }));
                 }

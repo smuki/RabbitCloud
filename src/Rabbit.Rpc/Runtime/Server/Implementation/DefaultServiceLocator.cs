@@ -30,8 +30,8 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
         public ServiceRecord Locate(HttpMessage httpMessage)
         {
-            string routePath = httpMessage.RoutePath;
-            if (httpMessage.RoutePath.IndexOf("/") == -1)
+            string routePath = httpMessage.Path;
+            if (httpMessage.Path.IndexOf("/") == -1)
                 routePath = $"/{routePath}";
 
             return Find(routePath, routePath);

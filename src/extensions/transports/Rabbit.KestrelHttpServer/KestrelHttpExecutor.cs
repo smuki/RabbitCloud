@@ -67,7 +67,7 @@ namespace Rabbit.Transport.KestrelHttpServer
             var entry = _serviceEntryLocate.Locate(httpMessage);
             if (entry == null)
             {
-                _logger.LogError($"根据服务routePath：{httpMessage.RoutePath}，找不到服务条目。");
+                _logger.LogError($"根据服务routePath：{httpMessage.Path}，找不到服务条目。");
                 return;
             }
             _logger.LogDebug("准备执行本地逻辑。");
