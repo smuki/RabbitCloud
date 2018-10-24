@@ -12,8 +12,9 @@ namespace Rabbit.Rpc.Exceptions
         /// </summary>
         /// <param name="message">异常消息。</param>
         /// <param name="innerException">内部异常。</param>
-        public RpcRemoteException(string message, Exception innerException = null) : base(message, innerException)
+        public RpcRemoteException(string message, int StatusCode = 0, Exception innerException = null) : base(message, innerException)
         {
+            base.HResult = StatusCode;
         }
     }
 }

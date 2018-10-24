@@ -140,7 +140,7 @@ namespace Rabbit.Rpc.Transport.Implementation
                 var content = message.GetContent<RemoteInvokeResultMessage>();
                 if (!string.IsNullOrEmpty(content.ExceptionMessage))
                 {
-                    task.TrySetException(new RpcRemoteException(content.ExceptionMessage));
+                    task.TrySetException(new RpcRemoteException(content.ExceptionMessage, content.Status));
                 }
                 else
                 {
