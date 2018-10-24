@@ -8,9 +8,19 @@ namespace Rabbit.Rpc.Messages
     { 
         public string RoutePath { get; set; }
          
+        /// <summary>
+        /// 服务Id。
+        /// </summary>
+        public string ServiceName { get; set; }
 
-        public string ServiceKey { get; set; } 
+        /// <summary>
+        /// 服务Tag。
+        /// </summary>
+        public string ServiceTag { get; set; }
 
-        public IDictionary<string,object> Parameters { get; set; }
+        /// <summary>
+        /// 服务参数。
+        /// </summary>
+        public IDictionary<string, object> Parameters { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace Rabbit.Rpc.Runtime.Server
         /// <param name="invokeMessage">远程调用消息。</param>
         /// <returns>服务条目。</returns>
         ServiceRecord Locate(RemoteInvokeMessage invokeMessage);
+        ServiceRecord Locate(HttpMessage httpMessage);
     }
 }

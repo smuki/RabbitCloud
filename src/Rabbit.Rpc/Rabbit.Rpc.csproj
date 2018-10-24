@@ -45,4 +45,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Volte.Utils">
+      <HintPath>..\..\..\YKB\Packages\Volte.Utils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

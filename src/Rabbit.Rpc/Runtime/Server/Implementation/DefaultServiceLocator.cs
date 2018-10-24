@@ -25,7 +25,20 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <returns>服务条目。</returns>
         public ServiceRecord Locate(RemoteInvokeMessage invokeMessage)
         {
-            var ServiceId = invokeMessage.ServiceName;
+            return Find(invokeMessage.ServiceName, invokeMessage.ServiceTag);
+        }
+
+        public ServiceRecord Locate(HttpMessage httpMessage)
+        {
+            string routePath = httpMessage.RoutePath;
+            if (httpMessage.RoutePath.IndexOf("/") == -1)
+                routePath = $"/{routePath}";
+
+            return Find(routePath, routePath);
+        }
+		
+        private ServiceRecord Find(string ServiceId,string ServiceTag)
+        {
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
             var serviceEntries = _serviceEntryManager.GetServiceRecords();
             List<ServiceRecord> Match = new List<ServiceRecord>();
@@ -36,11 +49,10 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                     Match.Add(r);
                 }
             }
-            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceName == invokeMessage.ServiceTag);
-
+            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceName == ServiceTag);
             return x;
-        }
 
+        }
         #endregion Implementation of IServiceEntryLocate
     }
 }

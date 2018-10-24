@@ -20,6 +20,24 @@ namespace Rabbit.Rpc.Utilities
                 return "";
             }
         }
+        public int GetInteger(string name)
+        {
+
+            if (data.ContainsKey(name))
+            {
+                object oValue = data[name];
+                if (oValue == null)
+                {
+                    return 0;
+                }
+                int d;
+                return int.TryParse(oValue.ToString(), out d) ? d : 0;
+            }
+            else
+            {
+                return 0;
+            }
+        }
         public void SetValue(string name, object obj)
         {
             data[name] = obj;
