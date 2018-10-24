@@ -1,4 +1,5 @@
 ﻿using Rabbit.Rpc.Serialization;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -43,7 +44,7 @@ namespace Rabbit.Rpc.Convertibles.Implementation
 
         private static object SimpleTypeConvert(object instance, Type conversionType)
         {
-            if (instance is IConvertible && typeof(IConvertible).GetTypeInfo().IsAssignableFrom(conversionType))
+            if (instance is IConvertible && UtilityType.ConvertibleType.GetTypeInfo().IsAssignableFrom(conversionType))
                 return Convert.ChangeType(instance, conversionType);
             return null;
         }
