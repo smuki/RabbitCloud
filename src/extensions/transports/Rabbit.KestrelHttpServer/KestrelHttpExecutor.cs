@@ -19,10 +19,10 @@ namespace Rabbit.Transport.KestrelHttpServer
         #region Field
         private readonly IServiceLocator _serviceEntryLocate;
         private readonly ILogger<KestrelHttpExecutor> _logger;
+        private readonly ITypeConvertibleService _typeConvertibleService;
         //private readonly IServiceRouteProvider _serviceRouteProvider;
         //private readonly IAuthorizationFilter _authorizationFilter;
         //private readonly CPlatformContainer _serviceProvider;
-        private readonly ITypeConvertibleService _typeConvertibleService;
         //private readonly ConcurrentDictionary<string, ValueTuple<FastInvokeHandler, object, MethodInfo>> _concurrent =
         //new ConcurrentDictionary<string, ValueTuple<FastInvokeHandler, object, MethodInfo>>();
         #endregion Field
