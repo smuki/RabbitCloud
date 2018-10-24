@@ -1,4 +1,5 @@
-﻿using Rabbit.Rpc.Runtime.Server;
+﻿using Rabbit.Rpc.Messages;
+using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Rpc.Runtime.Server.Implementation;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Utilities;
@@ -18,6 +19,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         private readonly Func<EndPoint, Task<IMessageListener>> _messageListenerFactory;
         private IMessageListener _serverMessageListener;
         private ISetting _config;
+        private int _Port = 81;
 
         #endregion Field
 
@@ -30,10 +32,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         #region Overrides of ServiceHostAbstract
 
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-        public override void Dispose()
-        {
-            (_serverMessageListener as IDisposable)?.Dispose();
-        }
+    
         public override async void Start()
         {
             Console.WriteLine("Http_Port");
@@ -41,6 +40,7 @@ namespace Rabbit.Transport.KestrelHttpServer
 
             if (_config.GetValue("Http_Port") != "")
             {
+                _Port = _config.GetInteger("Http_Port");
                 await this.StartAsync();
             }
         }
@@ -65,6 +65,17 @@ namespace Rabbit.Transport.KestrelHttpServer
         }
 
      
+        public override void Dispose()
+        {
+            (_serverMessageListener as IDisposable)?.Dispose();
+        }
+		
         #endregion Overrides of ServiceHostAbstract
+        private async Task MessageListener_Received(IMessageSender sender, TransportMessage message)
+        {
+            Console.WriteLine("hello");
+            //Task.CompletedTask;
+            //await ServiceExecutor.ExecuteAsync(sender, message);
+        }
     }
 } 

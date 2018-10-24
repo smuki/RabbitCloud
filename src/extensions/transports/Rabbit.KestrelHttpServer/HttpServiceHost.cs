@@ -1,5 +1,6 @@
 ﻿
 using Rabbit.Rpc.Messages;
+using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Rpc.Runtime.Server.Implementation;
 using Rabbit.Rpc.Transport;
 using System;
@@ -10,8 +11,7 @@ using System.Threading.Tasks;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
-    /*
-   public class HttpServiceHost : ServiceHostAbstract
+    public class HttpServiceHost : ServiceHostAbstract
     {
         #region Field
 
@@ -34,7 +34,10 @@ namespace Rabbit.Transport.KestrelHttpServer
         }
 
         #region Overrides of ServiceHostAbstract
+        public override async void Start()
+        {
 
+        }
 
         public override void Dispose()
         {
@@ -46,17 +49,16 @@ namespace Rabbit.Transport.KestrelHttpServer
         /// </summary>
         /// <param name="endPoint">主机终结点。</param>
         /// <returns>一个任务。</returns>
-        //public override async Task StartAsync(EndPoint endPoint)
-        //{
-        //     await _messageListenerFactory(endPoint); 
-        //}
+        public override async Task StartAsync()
+        {
+           //  await _messageListenerFactory(endPoint); 
+        }
 
         #endregion Overrides of ServiceHostAbstract
 
         private async Task MessageListener_Received(IMessageSender sender, TransportMessage message)
         {
-            await ServiceExecutor.ExecuteAsync(sender, message);
+           // await serviceExecutor.ExecuteAsync(sender, message);
         }
     }
-    */
 } 

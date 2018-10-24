@@ -55,7 +55,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                 {
                     Parameters = parameters,
                     RoutePath = routePath,
-                    ServiceKey = serviceKey?.ToString()
+                    ServiceName = serviceKey?.ToString()
                 }));
             }
             else
@@ -68,7 +68,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                     {
                         Parameters = _serializer.Deserialize<string, IDictionary<string, object>>(data) ?? new Dictionary<string, object>(),
                         RoutePath = routePath,
-                        ServiceKey = serviceKey?.ToString()
+                        ServiceName = serviceKey?.ToString()
                     }));
                 }
                 else
@@ -77,7 +77,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                     {
                         Parameters = parameters,
                         RoutePath = routePath,
-                        ServiceKey = serviceKey?.ToString()
+                        ServiceName = serviceKey?.ToString()
                     }));
                 }
             }
