@@ -19,7 +19,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         private readonly Func<EndPoint, Task<IMessageListener>> _messageListenerFactory;
         private IMessageListener _serverMessageListener;
         private ISetting _config;
-        private int _Port = 81;
+        private int _PORT = 81;
 
         #endregion Field
 
@@ -40,7 +40,7 @@ namespace Rabbit.Transport.KestrelHttpServer
 
             if (_config.GetValue("Http_Port") != "")
             {
-                _Port = _config.GetInteger("Http_Port");
+                _PORT = _config.GetInteger("Http_Port");
                 await this.StartAsync();
             }
         }
@@ -51,7 +51,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         /// <returns>一个任务。</returns>
         public override async Task StartAsync()
         {
-            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), 81);
+            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), _PORT);
 
             await _serverMessageListener.StartAsync(endPoint);
 
