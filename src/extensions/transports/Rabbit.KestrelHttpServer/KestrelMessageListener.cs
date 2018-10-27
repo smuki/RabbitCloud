@@ -137,7 +137,7 @@ namespace Rabbit.Transport.KestrelHttpServer
        
             app.Run(async (context) =>
             {
-                var sender = new HttpServerMessageSender(_serializer, context);
+                var sender = new KestrelMessageSender(_serializer, context);
                 await OnReceived(sender, context);
             });
         }

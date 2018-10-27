@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
-    public class HttpServerMessageSender : IMessageSender
+    public class KestrelMessageSender : IMessageSender
     {
         private readonly ISerializer<string> _serializer;
         private readonly HttpContext _context;
-       public  HttpServerMessageSender(ISerializer<string> serializer,HttpContext httpContext)
+       public  KestrelMessageSender(ISerializer<string> serializer,HttpContext httpContext)
         {
             _serializer = serializer;
             _context = httpContext;

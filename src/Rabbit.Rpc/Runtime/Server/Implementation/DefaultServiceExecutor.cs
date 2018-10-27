@@ -26,12 +26,16 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
 
         #region Implementation of IServiceExecutor
 
-        /// <summary>
-        /// 执行。
-        /// </summary>
-        /// <param name="sender">消息发送者。</param>
-        /// <param name="message">调用消息。</param>
-        public async Task ExecuteAsync(IMessageSender sender, TransportMessage message)
+        public async Task ExecuteAsync(IMessageSender sender, HttpMessage message)
+        {
+            Console.WriteLine("X1234");
+        }
+            /// <summary>
+            /// 执行。
+            /// </summary>
+            /// <param name="sender">消息发送者。</param>
+            /// <param name="message">调用消息。</param>
+            public async Task ExecuteAsync(IMessageSender sender, TransportMessage message)
         {
             _logger.LogDebug("接收到消息。");
 
