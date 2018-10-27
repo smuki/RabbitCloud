@@ -9,7 +9,7 @@ using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Transport.Codec;
 using Rabbit.Rpc.Utilities;
-using Rabbit.Transport.DotNetty.Adaper;
+using Rabbit.Transport.DotNetty.Adapter;
 using System;
 using System.Net;
 using System.Threading.Tasks;

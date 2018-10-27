@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
-   public class KestrelHttpServiceHost : ServiceHostAbstract
+   public class KestrelServiceHost : ServiceHostAbstract
     {
         #region Field
 
-        private readonly Func<EndPoint, Task<IMessageListener>> _messageListenerFactory;
+        private readonly IMessageListener _messageListener;
         private IMessageListener _serverMessageListener;
         private ISetting _config;
-        private int _PORT = 81;
-
+        private int Port = 81;
+        private bool Running = false;
         #endregion Field
 
-        public KestrelHttpServiceHost(ISetting config, KestrelHttpMessageListener serverMessageListener, IServiceExecutor serviceExecutor) : base(serviceExecutor)
+        public KestrelServiceHost(ISetting config, KestrelMessageListener serverMessageListener, IServiceExecutor serviceExecutor) : base(serviceExecutor)
         {
             _config = config;
             _serverMessageListener = serverMessageListener;
@@ -32,18 +32,11 @@ namespace Rabbit.Transport.KestrelHttpServer
         #region Overrides of ServiceHostAbstract
 
         /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
-    
-        public override async void Start()
+        public override void Dispose()
         {
-            Console.WriteLine("Http_Port");
-            Console.WriteLine(_config.GetValue("Http_Port"));
-
-            if (_config.GetValue("Http_Port") != "")
-            {
-                _PORT = _config.GetInteger("Http_Port");
-                await this.StartAsync();
-            }
+            (_serverMessageListener as IDisposable)?.Dispose();
         }
+
         /// <summary>
         /// 启动主机。
         /// </summary>
@@ -51,7 +44,12 @@ namespace Rabbit.Transport.KestrelHttpServer
         /// <returns>一个任务。</returns>
         public override async Task StartAsync()
         {
-            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), _PORT);
+			if (Running)
+                return;
+
+            Running = true;
+
+            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), Port);
 
             await _serverMessageListener.StartAsync(endPoint);
 
@@ -63,19 +61,18 @@ namespace Rabbit.Transport.KestrelHttpServer
                 });
             };
         }
+        public override async void Start()
+        {
+            Console.WriteLine("Http_Port");
+            Console.WriteLine(_config.GetValue("Http_Port"));
 
-     
-        public override void Dispose()
-        {
-            (_serverMessageListener as IDisposable)?.Dispose();
+            if (_config.GetInteger("Http_Port") > 0)
+            {
+                Port = _config.GetInteger("Http_Port");
+                await this.StartAsync();
+            }
         }
-		
+
         #endregion Overrides of ServiceHostAbstract
-        private async Task MessageListener_Received(IMessageSender sender, TransportMessage message)
-        {
-            Console.WriteLine("hello");
-            //Task.CompletedTask;
-            //await ServiceExecutor.ExecuteAsync(sender, message);
-        }
     }
 } 

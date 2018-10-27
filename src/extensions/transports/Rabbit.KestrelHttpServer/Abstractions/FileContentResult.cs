@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic; 
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Net.Http.Headers;
 using System.IO;
-using Microsoft.AspNetCore.Http.Extensions;
+using Rabbit.Transport.KestrelHttpServer.Internal;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {

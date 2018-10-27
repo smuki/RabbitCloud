@@ -11,7 +11,7 @@ using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Transport.Codec;
 using Rabbit.Rpc.Transport.Implementation;
-using Rabbit.Transport.DotNetty.Adaper;
+using Rabbit.Transport.DotNetty.Adapter;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;

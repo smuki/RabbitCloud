@@ -14,11 +14,11 @@ using Rabbit.Rpc.Convertibles;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
-    public class KestrelHttpExecutor : IServiceExecutor
+    public class KestrelExecutor : IServiceExecutor
     {
         #region Field
         private readonly IServiceLocator _serviceEntryLocate;
-        private readonly ILogger<KestrelHttpExecutor> _logger;
+        private readonly ILogger<KestrelExecutor> _logger;
         private readonly ITypeConvertibleService _typeConvertibleService;
         //private readonly IServiceRouteProvider _serviceRouteProvider;
         //private readonly IAuthorizationFilter _authorizationFilter;
@@ -29,10 +29,10 @@ namespace Rabbit.Transport.KestrelHttpServer
 
         #region Constructor
 
-        public KestrelHttpExecutor(IServiceLocator serviceEntryLocate,
+        public KestrelExecutor(IServiceLocator serviceEntryLocate,
             //IServiceRouteProvider serviceRouteProvider,
             //IAuthorizationFilter authorizationFilter,
-            ILogger<KestrelHttpExecutor> logger,
+            ILogger<KestrelExecutor> logger,
             //CPlatformContainer serviceProvider,
             ITypeConvertibleService typeConvertibleService
             )

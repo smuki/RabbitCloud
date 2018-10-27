@@ -15,16 +15,16 @@ using System.Threading.Tasks;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
-    public class KestrelHttpMessageListener : HttpMessageListener, IDisposable
+    public class KestrelMessageListener : HttpMessageListener, IDisposable
     {
-        private readonly ILogger<KestrelHttpMessageListener> _logger;
+        private readonly ILogger<KestrelMessageListener> _logger;
         private IWebHost _host;
         private ISetting _Setting;
-        private ISerializer<string> _serializer;
+        private readonly ISerializer<string> _serializer;
         public event ReceivedDelegate Received;
 
-        public KestrelHttpMessageListener(ISetting Setting, ISerializer<string> serializer, ILogger<KestrelHttpMessageListener> logger)
-            : base(Setting, serializer, logger)
+        public KestrelMessageListener(ISetting Setting, ISerializer<string> serializer, ILogger<KestrelMessageListener> logger)
+            : base(Setting, logger, serializer)
         {
             _Setting = Setting;
             _logger = logger;

@@ -25,9 +25,11 @@ namespace Rabbit.Transport.KestrelHttpServer
         private readonly ILogger<HttpMessageListener> _logger;
         private readonly ISerializer<string> _serializer;
         private event RequestDelegate Requested;
+        private ISetting _setting;
 
-        public HttpMessageListener(ISetting Setting, ISerializer<string> serializer, ILogger<HttpMessageListener> logger)
+        public HttpMessageListener(ISetting Setting, ILogger<HttpMessageListener> logger, ISerializer<string> serializer)
         {
+            _setting = Setting;
             _logger = logger;
             _serializer = serializer;
         }

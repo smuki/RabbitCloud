@@ -3,9 +3,9 @@ using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using Rabbit.Rpc.Transport.Codec;
 
-namespace Rabbit.Transport.DotNetty.Adaper
+namespace Rabbit.Transport.DotNetty.Adapter
 {
-    internal class TransportMessageChannelHandlerAdapter : ChannelHandlerAdapter
+    class TransportMessageChannelHandlerAdapter : ChannelHandlerAdapter
     {
         private readonly ITransportMessageDecoder _transportMessageDecoder;
 
