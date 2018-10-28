@@ -16,8 +16,7 @@ namespace Rabbit.Transport.KestrelHttpServer
     {
         #region Field
 
-        private readonly IMessageListener _messageListener;
-        private IMessageListener _serverMessageListener;
+        private readonly IMessageListener _serverMessageListener;
         private ISetting _config;
         private int Port = 81;
         private bool Running = false;
@@ -50,9 +49,6 @@ namespace Rabbit.Transport.KestrelHttpServer
             Running = true;
 
             var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), Port);
-
-            await _serverMessageListener.StartAsync(endPoint);
-
             _serverMessageListener.Received += async (sender, message) =>
             {
                 await Task.Run(() =>
@@ -60,6 +56,9 @@ namespace Rabbit.Transport.KestrelHttpServer
                     MessageListener.OnReceived(sender, message);
                 });
             };
+            await _serverMessageListener.StartAsync(endPoint);
+
+         
         }
         public override async void Start()
         {
