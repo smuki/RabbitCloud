@@ -125,6 +125,8 @@ namespace Performances.NetCoreApp.Server
 
             builder.RegisterType<DefaultServiceHost>().AsSelf().AsImplementedInterfaces();
 
+            builder.RegisterType<KestrelExecutor>().AsSelf();
+
             builder.RegisterType<KestrelMessageListener>().AsImplementedInterfaces().AsSelf();
 
             builder.RegisterType<KestrelServiceHost>().AsSelf().AsImplementedInterfaces();

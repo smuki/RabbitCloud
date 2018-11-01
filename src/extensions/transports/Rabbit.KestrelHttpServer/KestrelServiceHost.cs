@@ -22,7 +22,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         private bool Running = false;
         #endregion Field
 
-        public KestrelServiceHost(ISetting config, KestrelMessageListener serverMessageListener, IServiceExecutor serviceExecutor) : base(serviceExecutor)
+        public KestrelServiceHost(ISetting config, KestrelMessageListener serverMessageListener, KestrelExecutor serviceExecutor) : base(serviceExecutor)
         {
             _config = config;
             _serverMessageListener = serverMessageListener;

@@ -49,40 +49,34 @@ namespace Rabbit.Transport.KestrelHttpServer
             var routePath = GetRoutePath(context.Request.Path.ToString());
             IDictionary<string, object> parameters = context.Request.Query.ToDictionary(p => p.Key, p => (object)p.Value.ToString());
             parameters.Remove("servicekey", out object serviceKey);
-            if (context.Request.HasFormContentType)
+
+            try
             {
-                var collection = await GetFormCollection(context.Request);
-                parameters.Add("form", collection);
-                await Received(sender, new TransportMessage(new HttpMessage
+                if (context.Request.HasFormContentType)
                 {
-                    Parameters = parameters,
-                    Path = routePath,
-                    ServiceName = serviceKey?.ToString()
-                }));
-            }
-            else
-            {
-                StreamReader streamReader = new StreamReader(context.Request.Body);
-                var data = await streamReader.ReadToEndAsync();
-                if (context.Request.Method == "POST")
-                {
-                    await Received(sender, new TransportMessage(new HttpMessage
-                    {
-                        Parameters = _serializer.Deserialize<string, IDictionary<string, object>>(data) ?? new Dictionary<string, object>(),
-                        Path = routePath,
-                        ServiceName = serviceKey?.ToString()
-                    }));
+                    var collection = await GetFormCollection(context.Request);
+                    parameters.Add("form", collection);
                 }
                 else
                 {
-                    await Received(sender, new TransportMessage(new HttpMessage
+                    StreamReader streamReader = new StreamReader(context.Request.Body);
+                    var data = await streamReader.ReadToEndAsync();
+                    if (context.Request.Method == "POST")
                     {
-                        Parameters = parameters,
-                        Path = routePath,
-                        ServiceName = serviceKey?.ToString()
-                    }));
+                        parameters = _serializer.Deserialize<string, IDictionary<string, object>>(data) ?? new Dictionary<string, object>();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"KestrelHttp On Received {ex}");
+            }
+            await Received(sender, new TransportMessage(new HttpMessage
+            {
+                Parameters = parameters,
+                Path = routePath,
+                ServiceName = serviceKey?.ToString()
+            }));
         }
 
         public async Task StartAsync(EndPoint endPoint)
