@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Rabbit.Rpc.Codec.ProtoBuffer.Utilitys
+namespace Rabbit.Rpc.Codec.ProtoBuffer.Utilities
 {
     public static class SerializerUtilitys
     {

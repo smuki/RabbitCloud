@@ -1,11 +1,11 @@
 ﻿using Rabbit.Rpc.Codec.ProtoBuffer.Messages;
-using Rabbit.Rpc.Codec.ProtoBuffer.Utilitys;
+using Rabbit.Rpc.Codec.ProtoBuffer.Utilities;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Transport.Codec;
 
 namespace Rabbit.Rpc.Codec.ProtoBuffer
 {
-    public class ProtoBufferTransportMessageDecoder : ITransportMessageDecoder
+    public sealed class ProtoBufferTransportMessageDecoder : ITransportMessageDecoder
     {
         #region Implementation of ITransportMessageDecoder
 

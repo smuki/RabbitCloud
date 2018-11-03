@@ -2,7 +2,7 @@
 
 namespace Rabbit.Rpc.Codec.ProtoBuffer
 {
-    public class ProtoBufferTransportMessageCodecFactory : ITransportMessageCodecFactory
+    public sealed class ProtoBufferTransportMessageCodecFactory : ITransportMessageCodecFactory
     {
         #region Field
 

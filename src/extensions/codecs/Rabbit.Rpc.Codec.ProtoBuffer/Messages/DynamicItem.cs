@@ -1,19 +1,21 @@
-﻿using ProtoBuf;
-using Rabbit.Rpc.Codec.ProtoBuffer.Utilitys;
+﻿using Newtonsoft.Json;
+using ProtoBuf;
+using Rabbit.Rpc.Codec.ProtoBuffer.Utilities;
+using Rabbit.Rpc.Utilities;
 using System;
 
 namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
 {
     [ProtoContract]
-    public class ProtoBufferDynamicItem
+    public class DynamicItem
     {
         #region Constructor
 
-        public ProtoBufferDynamicItem()
+        public DynamicItem()
         {
         }
 
-        public ProtoBufferDynamicItem(object value)
+        public DynamicItem(object value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
@@ -21,12 +23,13 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
             var valueType = value.GetType();
             var code = Type.GetTypeCode(valueType);
 
-            //如果是简单类型则取短名称，否则取长名称。
             if (code != TypeCode.Object)
                 TypeName = valueType.FullName;
             else
                 TypeName = valueType.AssemblyQualifiedName;
-
+            if (valueType == UtilityType.JObjectType || valueType == UtilityType.JArrayType)
+                Content = SerializerUtilitys.Serialize(value.ToString());
+            else
             Content = SerializerUtilitys.Serialize(value);
         }
 
@@ -48,10 +51,18 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
         {
             if (Content == null || TypeName == null)
                 return null;
-
-            return SerializerUtilitys.Deserialize(Content, Type.GetType(TypeName));
+            var typeName = Type.GetType(TypeName);
+            if (typeName == UtilityType.JObjectType || typeName == UtilityType.JArrayType)
+            {
+                var content = SerializerUtilitys.Deserialize<string>(Content);
+                return JsonConvert.DeserializeObject(content, typeName);
+            }
+            else
+            {
+                return SerializerUtilitys.Deserialize(Content, typeName);
         }
 
+        }
         #endregion Public Method
     }
 }

@@ -13,7 +13,7 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
         public ParameterItem(KeyValuePair<string, object> item)
         {
             Key = item.Key;
-            Value = item.Value == null ? null : new ProtoBufferDynamicItem(item.Value);
+            Value = item.Value == null ? null : new DynamicItem(item.Value);
         }
 
         public ParameterItem()
@@ -26,7 +26,7 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
         public string Key { get; set; }
 
         [ProtoMember(2)]
-        public ProtoBufferDynamicItem Value { get; set; }
+        public DynamicItem Value { get; set; }
     }
 
     [ProtoContract]

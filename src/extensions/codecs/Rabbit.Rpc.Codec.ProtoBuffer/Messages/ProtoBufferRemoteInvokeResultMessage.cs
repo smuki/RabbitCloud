@@ -11,7 +11,7 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
         public ProtoBufferRemoteInvokeResultMessage(RemoteInvokeResultMessage message)
         {
             ExceptionMessage = message.ExceptionMessage;
-            Result = message.Content == null ? null : new ProtoBufferDynamicItem(message.Content);
+            Result = message.Content == null ? null : new DynamicItem(message.Content);
         }
 
         public ProtoBufferRemoteInvokeResultMessage()
@@ -30,7 +30,7 @@ namespace Rabbit.Rpc.Codec.ProtoBuffer.Messages
         /// 结果内容。
         /// </summary>
         [ProtoMember(2)]
-        public ProtoBufferDynamicItem Result { get; set; }
+        public DynamicItem Result { get; set; }
 
         public RemoteInvokeResultMessage GetRemoteInvokeResultMessage()
         {
