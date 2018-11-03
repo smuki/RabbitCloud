@@ -42,16 +42,7 @@ namespace Rabbit.Transport.DotNetty
 
         #endregion Field
 
-        #region Constructor
-
-        //public DotNettyTransportClientFactory( ITransportMessageCodecFactory codecFactory, ILogger<DotNettyTransportClientFactory> logger, ISetting setting)
-        //    : this(codecFactory, logger, null)
-        //{
-
-        //    _Setting = setting;
-
-        //}
-
+        #region Constructor      
         public DotNettyTransportClientFactory(ISetting setting, ITransportMessageCodecFactory codecFactory, ILogger<DotNettyTransportClientFactory> logger, IServiceExecutor serviceExecutor)
         {
             _Setting = setting;
