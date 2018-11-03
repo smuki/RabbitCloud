@@ -25,11 +25,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         #endregion Constructor
 
         #region Implementation of IServiceExecutor
-
-        public async Task ExecuteAsync(IMessageSender sender, HttpMessage message)
-        {
-            Console.WriteLine("X1234");
-        }
+    
         /// <summary>
         /// 执行。
         /// </summary>
