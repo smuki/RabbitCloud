@@ -76,11 +76,11 @@ namespace Rabbit.Transport.KestrelHttpServer
             //if (_serviceProvider.IsRegisteredWithKey(httpMessage.ServiceKey, entry.Type))
             //{
             //    //执行本地代码。
-            //    httpResultMessage = await LocalExecuteAsync(entry, httpMessage);
+            httpResultMessage = await LocalExecuteAsync(entry, httpMessage);
             //}
             //else
             //{
-            httpResultMessage = await RemoteExecuteAsync(entry, httpMessage);
+            // httpResultMessage = await RemoteExecuteAsync(entry, httpMessage);
             //}
             await SendRemoteInvokeResult(sender, httpResultMessage);
         }
