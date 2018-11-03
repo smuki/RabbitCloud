@@ -30,12 +30,12 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         {
             Console.WriteLine("X1234");
         }
-            /// <summary>
-            /// 执行。
-            /// </summary>
-            /// <param name="sender">消息发送者。</param>
-            /// <param name="message">调用消息。</param>
-            public async Task ExecuteAsync(IMessageSender sender, TransportMessage message)
+        /// <summary>
+        /// 执行。
+        /// </summary>
+        /// <param name="sender">消息发送者。</param>
+        /// <param name="message">调用消息。</param>
+        public async Task ExecuteAsync(IMessageSender sender, TransportMessage message)
         {
             _logger.LogDebug("接收到消息。");
 
@@ -67,7 +67,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 _logger.LogError($"根据服务Id：{remoteInvokeMessage.ServiceId}，找不到服务条目。");
                 return;
             }
-
             _logger.LogDebug("准备执行本地逻辑。");
 
             var resultMessage = new RemoteInvokeResultMessage();
