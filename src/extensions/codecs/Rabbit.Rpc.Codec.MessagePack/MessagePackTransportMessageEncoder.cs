@@ -5,7 +5,7 @@ using Rabbit.Rpc.Transport.Codec;
 
 namespace Rabbit.Rpc.Codec.MessagePack
 {
-    public class MessagePackTransportMessageEncoder : ITransportMessageEncoder
+    public sealed class MessagePackTransportMessageEncoder : ITransportMessageEncoder
     {
         #region Implementation of ITransportMessageEncoder
 
@@ -14,7 +14,7 @@ namespace Rabbit.Rpc.Codec.MessagePack
             var transportMessage = new MessagePackTransportMessage(message)
             {
                 Id = message.Id,
-                ContentType = message.ContentType
+                ContentType = message.ContentType,
             };
 
             return SerializerUtilitys.Serialize(transportMessage);

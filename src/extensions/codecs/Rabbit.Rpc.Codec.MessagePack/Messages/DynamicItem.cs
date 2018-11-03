@@ -2,6 +2,7 @@ using MessagePack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Rabbit.Rpc.Codec.MessagePack.Utilities;
+using Rabbit.Rpc.Utilities;
 using System;
 
 namespace Rabbit.Rpc.Codec.MessagePack.Messages
@@ -28,6 +29,9 @@ namespace Rabbit.Rpc.Codec.MessagePack.Messages
             else
                 TypeName = valueType.AssemblyQualifiedName;
 
+            if (valueType == UtilityType.JObjectType || valueType == UtilityType.JArrayType)
+                Content = SerializerUtilitys.Serialize(value.ToString());
+            else
             Content = SerializerUtilitys.Serialize(value);
         }
 
@@ -48,9 +52,17 @@ namespace Rabbit.Rpc.Codec.MessagePack.Messages
             if (Content == null || TypeName == null)
                 return null;
 
-            return SerializerUtilitys.Deserialize(Content, Type.GetType(TypeName));
+            var typeName = Type.GetType(TypeName);
+            if (typeName == UtilityType.JObjectType || typeName == UtilityType.JArrayType)
+            {
+                var content = SerializerUtilitys.Deserialize<string>(Content);
+                return JsonConvert.DeserializeObject(content, typeName);
+            }
+            else
+            {
+                return SerializerUtilitys.Deserialize(Content, typeName);
         }
-
+        }
         #endregion Public Method
     }
 }

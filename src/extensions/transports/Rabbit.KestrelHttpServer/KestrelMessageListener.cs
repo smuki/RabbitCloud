@@ -142,6 +142,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         private async Task<HttpFormCollection> GetFormCollection(HttpRequest request)
         {
             var boundary = GetName("boundary=", request.ContentType);
+            Console.WriteLine(request.Form.Count);
             var reader = new MultipartReader(boundary, request.Body);
             var collection = await GetMultipartForm(reader);
             var fileCollection = new HttpFormFileCollection();

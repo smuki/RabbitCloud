@@ -2,7 +2,7 @@
 
 namespace Rabbit.Rpc.Codec.MessagePack
 {
-    public class MessagePackTransportMessageCodecFactory : ITransportMessageCodecFactory
+    public sealed class MessagePackTransportMessageCodecFactory : ITransportMessageCodecFactory
     {
         #region Field
 

@@ -5,7 +5,7 @@ using Rabbit.Rpc.Transport.Codec;
 
 namespace Rabbit.Rpc.Codec.MessagePack
 {
-    public class MessagePackTransportMessageDecoder : ITransportMessageDecoder
+    public sealed class MessagePackTransportMessageDecoder : ITransportMessageDecoder
     {
         #region Implementation of ITransportMessageDecoder
 
