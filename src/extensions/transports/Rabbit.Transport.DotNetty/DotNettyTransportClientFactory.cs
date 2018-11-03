@@ -59,7 +59,7 @@ namespace Rabbit.Transport.DotNetty
             _transportMessageDecoder = codecFactory.GetDecoder();
             _logger = logger;
             _serviceExecutor = serviceExecutor;
-            _bootstrap = GetBootstrap();
+            _bootstrap = this.GetBootstrap();
             _bootstrap.Handler(new ActionChannelInitializer<ISocketChannel>(c =>
             {
                 var pipeline = c.Pipeline;
