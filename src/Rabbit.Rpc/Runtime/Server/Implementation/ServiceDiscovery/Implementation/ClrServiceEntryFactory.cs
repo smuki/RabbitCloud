@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+ï»¿using Microsoft.Extensions.DependencyInjection;
 using Rabbit.Rpc.Convertibles;
 //using Rabbit.Rpc.Ids;
 using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation
 {
     /// <summary>
-    /// Clr·şÎñÌõÄ¿¹¤³§¡£
+    /// ClræœåŠ¡æ¡ç›®å·¥å‚ã€‚
     /// </summary>
     public class ClrServiceEntryFactory : IClrServiceEntryFactory
     {
@@ -38,11 +38,11 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         #region Implementation of IClrServiceEntryFactory
 
         /// <summary>
-        /// ´´½¨·şÎñÌõÄ¿¡£
+        /// åˆ›å»ºæœåŠ¡æ¡ç›®ã€‚
         /// </summary>
-        /// <param name="service">·şÎñÀàĞÍ¡£</param>
-        /// <param name="serviceImplementation">·şÎñÊµÏÖÀàĞÍ¡£</param>
-        /// <returns>·şÎñÌõÄ¿¼¯ºÏ¡£</returns>
+        /// <param name="service">æœåŠ¡ç±»å‹ã€‚</param>
+        /// <param name="serviceImplementation">æœåŠ¡å®ç°ç±»å‹ã€‚</param>
+        /// <returns>æœåŠ¡æ¡ç›®é›†åˆã€‚</returns>
         public ServiceRecord CreateServiceEntry(Type service)
         {
             var serviceId = $"{service.FullName}";
@@ -74,16 +74,27 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                 descriptorAttribute.Apply(serviceRecord);
             }
 
-            IDictionary<string, Func<IDictionary<string, object>, Task<object>>> call = new Dictionary<string, Func<IDictionary<string, object>, Task<object>>>();
+            IDictionary<string, Func<IDictionary<string, object>, Task<object>>> call = new Dictionary<string, Func<IDictionary<string, object>, Task<object>>>(StringComparer.InvariantCultureIgnoreCase);
             foreach (var methodInfo in service.GetTypeInfo().GetMethods())
             {
-                var id = $"{service.FullName}.{methodInfo.Name}";
-                id = $"{methodInfo.Name}";
-                var mparameters = methodInfo.GetParameters();
-                if (mparameters.Any())
+                var id = $"{methodInfo.Name}";
+             
+                var tAttributes = methodInfo.GetCustomAttributes<ServiceTagAttributeAttribute>().FirstOrDefault();
+                if (tAttributes != null)
                 {
-                    id += "_" + string.Join("_", mparameters.Select(i => i.Name));
+                    string t = ((ServiceTagAttributeAttribute)tAttributes).Tag;
+                    id = t;
                 }
+                else
+                {
+                    var mparameters = methodInfo.GetParameters();
+                    if (mparameters.Any())
+                    {
+                        id += "_" + string.Join("_", mparameters.Select(i => i.Name));
+                    }
+                }
+                Console.WriteLine(id);
+
                 call[id] = (parameters) =>
                 {
                     var serviceScopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
@@ -94,7 +105,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                         var list = new List<object>();
                         foreach (var parameterInfo in methodInfo.GetParameters())
                         {
-                            //¼ÓÈëÊÇ·ñÓĞÄ¬ÈÏÖµµÄÅĞ¶Ï£¬ÓĞÄ¬ÈÏÖµ£¬²¢ÇÒÓÃ»§Ã»´«£¬È¡Ä¬ÈÏÖµ
+                            //åŠ å…¥æ˜¯å¦æœ‰é»˜è®¤å€¼çš„åˆ¤æ–­ï¼Œæœ‰é»˜è®¤å€¼ï¼Œå¹¶ä¸”ç”¨æˆ·æ²¡ä¼ ï¼Œå–é»˜è®¤å€¼
                             if (parameterInfo.HasDefaultValue && !parameters.ContainsKey(parameterInfo.Name))
                             {
                                 list.Add(parameterInfo.DefaultValue);

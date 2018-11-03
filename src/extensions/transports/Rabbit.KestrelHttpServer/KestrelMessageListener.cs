@@ -50,6 +50,12 @@ namespace Rabbit.Transport.KestrelHttpServer
             IDictionary<string, object> parameters = context.Request.Query.ToDictionary(p => p.Key, p => (object)p.Value.ToString());
             parameters.Remove("servicekey", out object serviceKey);
 
+            string ServiceId = routePath?.ToString();
+            if (!string.IsNullOrEmpty(ServiceId))
+            {
+                ServiceId = ServiceId.Replace("/", ".");
+            }
+
             try
             {
                 if (context.Request.HasFormContentType)
@@ -75,7 +81,8 @@ namespace Rabbit.Transport.KestrelHttpServer
             {
                 Parameters = parameters,
                 Path = routePath,
-                ServiceId = serviceKey?.ToString()
+                ServiceId = ServiceId,
+                ServiceTag = serviceKey?.ToString()
             }));
         }
 
@@ -142,23 +149,34 @@ namespace Rabbit.Transport.KestrelHttpServer
         private async Task<HttpFormCollection> GetFormCollection(HttpRequest request)
         {
             var boundary = GetName("boundary=", request.ContentType);
+            Console.WriteLine(boundary);
             Console.WriteLine(request.Form.Count);
-            var reader = new MultipartReader(boundary, request.Body);
-            var collection = await GetMultipartForm(reader);
             var fileCollection = new HttpFormFileCollection();
             var fields = new Dictionary<string, StringValues>();
-            foreach (var item in collection)
+            if (string.IsNullOrEmpty(boundary))
             {
-                if (item.Value is HttpFormFileCollection)
+                foreach (string name in request.Form.Keys)
                 {
-                    var itemCollection = item.Value as HttpFormFileCollection;
-                    fileCollection.AddRange(itemCollection);
+                    fields[name] = request.Form[name];
                 }
-                else
+            }
+            else
+            {
+                var reader = new MultipartReader(boundary, request.Body);
+                var collection = await GetMultipartForm(reader);
+                foreach (var item in collection)
                 {
-                    var itemCollection = item.Value as Dictionary<string, StringValues>;
-                    fields = fields.Concat(itemCollection).ToDictionary(k => k.Key, v => v.Value);
+                    if (item.Value is HttpFormFileCollection)
+                    {
+                        var itemCollection = item.Value as HttpFormFileCollection;
+                        fileCollection.AddRange(itemCollection);
+                    }
+                    else
+                    {
+                        var itemCollection = item.Value as Dictionary<string, StringValues>;
+                        fields = fields.Concat(itemCollection).ToDictionary(k => k.Key, v => v.Value);
 
+                    }
                 }
             }
             return new HttpFormCollection(fields, fileCollection);

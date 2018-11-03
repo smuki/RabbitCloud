@@ -1,4 +1,5 @@
 ﻿using Rabbit.Rpc.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,10 +32,13 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         public ServiceRecord Locate(HttpMessage httpMessage)
         {
             string routePath = httpMessage.Path;
+            string ServiceTag = httpMessage.ServiceTag;
             if (httpMessage.Path.IndexOf("/") == -1)
                 routePath = $"/{routePath}";
 
-            return Find(routePath, routePath);
+            routePath=routePath.Replace("/", ".");
+
+            return Find(routePath, ServiceTag);
         }
 		
         private ServiceRecord Find(string ServiceId,string ServiceTag)
@@ -44,12 +48,12 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             List<ServiceRecord> Match = new List<ServiceRecord>();
             foreach (ServiceRecord r in serviceEntries)
             {
-                if (r.ServiceTag.IndexOf(id) >= 0)
+                if (r.ServiceTag.IndexOf(id,StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     Match.Add(r);
                 }
             }
-            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceId == ServiceTag);
+            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceId.Equals(ServiceTag,StringComparison.OrdinalIgnoreCase));
             return x;
 
         }

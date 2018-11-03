@@ -5,7 +5,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
     /// <summary>
     /// 服务集标记。
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = true)]
     public class ServiceTagAttributeAttribute : Attribute
     {
         public ServiceTagAttributeAttribute(string tag)

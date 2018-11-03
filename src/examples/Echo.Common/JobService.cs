@@ -12,6 +12,7 @@ namespace Jacob.Common
     {
         #region Implementation of IUserService
 
+        [ServiceTagAttribute("GetUserName")]
         public Task<string> GetUserName(int id)
         {
             return Task.FromResult($"id:{id} is name rabbit.");
