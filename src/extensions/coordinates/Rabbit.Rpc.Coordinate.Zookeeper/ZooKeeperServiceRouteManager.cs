@@ -116,8 +116,8 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
 
             if (_routes != null)
             {
-                var oldRouteIds = _routes.Select(i => i.ServiceEntry.ServiceName).ToArray();
-                var newRouteIds = routes.Select(i => i.Service.ServiceName).ToArray();
+                var oldRouteIds = _routes.Select(i => i.ServiceEntry.ServiceId).ToArray();
+                var newRouteIds = routes.Select(i => i.Service.ServiceId).ToArray();
                 var deletedRouteIds = oldRouteIds.Except(newRouteIds).ToArray();
                 foreach (var deletedRouteId in deletedRouteIds)
                 {
@@ -128,7 +128,7 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
 
             foreach (var serviceRoute in routes)
             {
-                var nodePath = $"{path}{serviceRoute.Service.ServiceName}";
+                var nodePath = $"{path}{serviceRoute.Service.ServiceId}";
                 var nodeData = _serializer.Serialize(serviceRoute);
                 if (await _zooKeeper.existsAsync(nodePath) == null)
                 {
@@ -282,14 +282,14 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
 
             var newRoute = await GetRoute(newData);
             //得到旧的路由。
-            var oldRoute = _routes.First(i => i.ServiceEntry.ServiceName == newRoute.ServiceEntry.ServiceName);
+            var oldRoute = _routes.First(i => i.ServiceEntry.ServiceId == newRoute.ServiceEntry.ServiceId);
 
             lock (_routes)
             {
                 //删除旧路由，并添加上新的路由。
                 _routes =
                     _routes
-                        .Where(i => i.ServiceEntry.ServiceName != newRoute.ServiceEntry.ServiceName)
+                        .Where(i => i.ServiceEntry.ServiceId != newRoute.ServiceEntry.ServiceId)
                         .Concat(new[] { newRoute }).ToArray();
             }
             //触发路由变更事件。
@@ -322,13 +322,13 @@ namespace Rabbit.Rpc.Coordinate.Zookeeper
             {
                 _routes = _routes
                     //删除无效的节点路由。
-                    .Where(i => !deletedChildrens.Contains(i.ServiceEntry.ServiceName))
+                    .Where(i => !deletedChildrens.Contains(i.ServiceEntry.ServiceId))
                     //连接上新的路由。
                     .Concat(newRoutes)
                     .ToArray();
             }
             //需要删除的路由集合。
-            var deletedRoutes = routes.Where(i => deletedChildrens.Contains(i.ServiceEntry.ServiceName)).ToArray();
+            var deletedRoutes = routes.Where(i => deletedChildrens.Contains(i.ServiceEntry.ServiceId)).ToArray();
             //触发删除事件。
             OnRemoved(deletedRoutes.Select(route => new ServiceRouteEventArgs(route)).ToArray());
 

@@ -141,7 +141,7 @@ namespace Rabbit.Transport.KestrelHttpServer
             try
             {
                 //Console.WriteLine(":"+remoteInvokeMessage.ServiceTag+":");
-                var ServiceId = httpMessage.ServiceName;
+                var ServiceId = httpMessage.ServiceId;
                 var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
                 var method = ServiceId.Substring(ServiceId.LastIndexOf(".") + 1);
                 if (entry.CallContext.ContainsKey(method))

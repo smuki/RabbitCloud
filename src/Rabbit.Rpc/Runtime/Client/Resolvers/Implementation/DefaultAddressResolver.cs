@@ -47,7 +47,7 @@ namespace Rabbit.Rpc.Runtime.Client.Resolvers.Implementation
         /// <returns>服务地址模型。</returns>
         public async Task<string> Resolver(string serviceId,string ServiceTag)
         {
-            var ServiceName = serviceId.Substring(0, serviceId.LastIndexOf("."));
+            var ServiceId = serviceId.Substring(0, serviceId.LastIndexOf("."));
 
             _logger.LogDebug($"准备为服务id：{serviceId}，解析可用地址。");
             var descriptors = await _serviceRouteManager.GetRoutesAsync();
@@ -55,9 +55,9 @@ namespace Rabbit.Rpc.Runtime.Client.Resolvers.Implementation
             List<ServiceRoute> Match = new List<ServiceRoute>();
             foreach (ServiceRoute r in descriptors)
             {
-                if (r.ServiceEntry.ServiceTag.IndexOf(ServiceName) >=0) {
+                if (r.ServiceEntry.ServiceTag.IndexOf(ServiceId) >=0) {
                     Match.Add(r);
-                    _logger.LogInformation(r.ServiceEntry.ServiceName);
+                    _logger.LogInformation(r.ServiceEntry.ServiceId);
                 }
             }
 

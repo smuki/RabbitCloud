@@ -11,7 +11,7 @@ namespace Rabbit.Rpc.Messages
         /// <summary>
         /// 服务Id。
         /// </summary>
-        public string ServiceName { get; set; }
+        public string ServiceId { get; set; }
 
         /// <summary>
         /// 服务Tag。

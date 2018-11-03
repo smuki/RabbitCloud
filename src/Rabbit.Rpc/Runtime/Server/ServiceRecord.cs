@@ -22,12 +22,12 @@ namespace Rabbit.Rpc.Runtime.Server
         public IDictionary<string, Func<IDictionary<string, object>, Task<object>>> CallContext { get; set; }
 
         /// <summary>
-        /// 服务ServiceName。
+        /// 服务ServiceId。
         /// </summary>
-        public string ServiceName { get; set; }
+        public string ServiceId { get; set; }
 
         /// <summary>
-        /// 服务ServiceName。
+        /// 服务ServiceId。
         /// </summary>
         public string ServiceTag { get; set; }
 
@@ -94,7 +94,7 @@ namespace Rabbit.Rpc.Runtime.Server
             if (obj.GetType() != GetType())
                 return false;
 
-            if (model.ServiceName != ServiceName)
+            if (model.ServiceId != ServiceId)
                 return false;
 
             if (model.Metadata == null)

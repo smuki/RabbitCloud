@@ -49,7 +49,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
                 InvokeMessage = new RemoteInvokeMessage
                 {
                     Parameters = parameters,
-                    ServiceName = serviceId,
+                    ServiceId = serviceId,
                     ServiceTag = _serviceTag
                 }
             });
@@ -75,7 +75,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
                 InvokeMessage = new RemoteInvokeMessage
                 {
                     Parameters = parameters,
-                    ServiceName = serviceId,
+                    ServiceId = serviceId,
                     ServiceTag = _serviceTag
                 }
             });

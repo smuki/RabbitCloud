@@ -41,14 +41,14 @@ namespace Rabbit.Rpc.Runtime.Client.Implementation
             if (context.InvokeMessage == null)
                 throw new ArgumentNullException(nameof(context.InvokeMessage));
 
-            if (string.IsNullOrEmpty(context.InvokeMessage.ServiceName))
-                throw new ArgumentException("服务Id不能为空。", nameof(context.InvokeMessage.ServiceName));
+            if (string.IsNullOrEmpty(context.InvokeMessage.ServiceId))
+                throw new ArgumentException("服务Id不能为空。", nameof(context.InvokeMessage.ServiceId));
 
             var invokeMessage = context.InvokeMessage;
-            var address = await _addressResolver.Resolver(invokeMessage.ServiceName, invokeMessage.ServiceTag);
+            var address = await _addressResolver.Resolver(invokeMessage.ServiceId, invokeMessage.ServiceTag);
 
             if (address == null)
-                throw new RpcException($"无法解析服务Id：{invokeMessage.ServiceName}的地址信息。");
+                throw new RpcException($"无法解析服务Id：{invokeMessage.ServiceId}的地址信息。");
 
             try
             {
@@ -66,7 +66,7 @@ namespace Rabbit.Rpc.Runtime.Client.Implementation
             }
             catch (Exception exception)
             {
-                _logger.LogError($"发起请求中发生了错误，服务Id：{invokeMessage.ServiceName}。", exception);
+                _logger.LogError($"发起请求中发生了错误，服务Id：{invokeMessage.ServiceId}。", exception);
                 throw;
             }
         }

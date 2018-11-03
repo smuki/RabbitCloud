@@ -25,7 +25,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
         /// <returns>服务条目。</returns>
         public ServiceRecord Locate(RemoteInvokeMessage invokeMessage)
         {
-            return Find(invokeMessage.ServiceName, invokeMessage.ServiceTag);
+            return Find(invokeMessage.ServiceId, invokeMessage.ServiceTag);
         }
 
         public ServiceRecord Locate(HttpMessage httpMessage)
@@ -49,7 +49,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                     Match.Add(r);
                 }
             }
-            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceName == ServiceTag);
+            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceId == ServiceTag);
             return x;
 
         }

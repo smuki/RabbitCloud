@@ -41,7 +41,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
         {
             var services = _types.WithAttribute<ServiceTagAttributeAttribute>();
 
-            _logger.LogInformation($"Discovery Following ServiceName:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
+            _logger.LogInformation($"Discovery Following ServiceId:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
 
             var entries = new List<ServiceRecord>();
             foreach (var service in services)
