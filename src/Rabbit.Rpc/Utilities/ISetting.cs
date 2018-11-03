@@ -8,6 +8,7 @@ namespace Rabbit.Rpc.Utilities
     {
          string GetValue(string name);
         int GetInteger(string name);
+        bool GetBoolean(string name);
         void SetValue(string name, object obj);
     }
 }

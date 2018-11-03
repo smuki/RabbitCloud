@@ -11,6 +11,7 @@ using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Transport.Codec;
 using Rabbit.Rpc.Transport.Implementation;
+using Rabbit.Rpc.Utilities;
 using Rabbit.Transport.DotNetty.Adapter;
 using System;
 using System.Collections.Concurrent;
@@ -33,6 +34,7 @@ namespace Rabbit.Transport.DotNetty
         private readonly IServiceExecutor _serviceExecutor;
         private readonly ConcurrentDictionary<EndPoint, Lazy<ITransportClient>> _clients = new ConcurrentDictionary<EndPoint, Lazy<ITransportClient>>();
         private readonly Bootstrap _bootstrap;
+        private ISetting _Setting;
 
         private static readonly AttributeKey<IMessageSender> messageSenderKey = AttributeKey<IMessageSender>.ValueOf(typeof(DotNettyTransportClientFactory), nameof(IMessageSender));
         private static readonly AttributeKey<IMessageListener> messageListenerKey = AttributeKey<IMessageListener>.ValueOf(typeof(DotNettyTransportClientFactory), nameof(IMessageListener));
@@ -42,13 +44,17 @@ namespace Rabbit.Transport.DotNetty
 
         #region Constructor
 
-        public DotNettyTransportClientFactory(ITransportMessageCodecFactory codecFactory, ILogger<DotNettyTransportClientFactory> logger)
-            : this(codecFactory, logger, null)
-        {
-        }
+        //public DotNettyTransportClientFactory( ITransportMessageCodecFactory codecFactory, ILogger<DotNettyTransportClientFactory> logger, ISetting setting)
+        //    : this(codecFactory, logger, null)
+        //{
 
-        public DotNettyTransportClientFactory(ITransportMessageCodecFactory codecFactory, ILogger<DotNettyTransportClientFactory> logger, IServiceExecutor serviceExecutor)
+        //    _Setting = setting;
+
+        //}
+
+        public DotNettyTransportClientFactory(ISetting setting, ITransportMessageCodecFactory codecFactory, ILogger<DotNettyTransportClientFactory> logger, IServiceExecutor serviceExecutor)
         {
+            _Setting = setting;
             _transportMessageEncoder = codecFactory.GetEncoder();
             _transportMessageDecoder = codecFactory.GetDecoder();
             _logger = logger;
@@ -117,12 +123,12 @@ namespace Rabbit.Transport.DotNetty
 
         #endregion Implementation of IDisposable
 
-        private static Bootstrap GetBootstrap()
+        private Bootstrap GetBootstrap()
         {
             IEventLoopGroup group;
             
             var bootstrap = new Bootstrap();
-            if (false)
+            if (_Setting.GetBoolean("UsingLibuv"))
             {
                 group = new EventLoopGroup();
                 bootstrap.Channel<TcpServerChannel>();

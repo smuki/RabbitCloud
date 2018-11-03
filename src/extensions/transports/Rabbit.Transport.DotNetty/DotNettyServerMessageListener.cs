@@ -67,7 +67,7 @@ namespace Rabbit.Transport.DotNetty
             IEventLoopGroup bossGroup = new MultithreadEventLoopGroup(1);
             IEventLoopGroup workerGroup = new MultithreadEventLoopGroup();//Default eventLoopCount is Environment.ProcessorCount * 2
             var bootstrap = new ServerBootstrap();
-            if (false)
+            if (_Setting.GetBoolean("UsingLibuv"))
             {
                 var dispatcher = new DispatcherEventLoopGroup();
                 bossGroup = dispatcher;

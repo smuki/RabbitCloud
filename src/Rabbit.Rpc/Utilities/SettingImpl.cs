@@ -38,6 +38,24 @@ namespace Rabbit.Rpc.Utilities
                 return 0;
             }
         }
+        public bool GetBoolean(string name)
+        {
+
+            if (data.ContainsKey(name))
+            {
+                object oValue = data[name];
+                if (oValue == null)
+                {
+                    return false;
+                }
+                bool d;
+                return bool.TryParse(oValue.ToString(), out d) ? d : false;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void SetValue(string name, object obj)
         {
             data[name] = obj;
