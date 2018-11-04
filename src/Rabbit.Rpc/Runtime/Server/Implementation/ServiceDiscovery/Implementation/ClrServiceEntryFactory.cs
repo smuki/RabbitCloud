@@ -75,6 +75,22 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             }
 
             IDictionary<string, Func<IDictionary<string, object>, Task<object>>> call = new Dictionary<string, Func<IDictionary<string, object>, Task<object>>>(StringComparer.InvariantCultureIgnoreCase);
+
+            IDictionary<string, int> hash = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
+
+            foreach (var methodInfo in service.GetTypeInfo().GetMethods())
+            {
+                var id = $"{methodInfo.Name}";
+                if (hash.ContainsKey(id))
+                {
+                    hash[id] = hash[id] + 1;
+                }
+                else
+                {
+                    hash[id] = 1;
+                }
+            }
+
             foreach (var methodInfo in service.GetTypeInfo().GetMethods())
             {
                 var id = $"{methodInfo.Name}";
@@ -87,13 +103,15 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                 }
                 else
                 {
-                    var mparameters = methodInfo.GetParameters();
-                    if (mparameters.Any())
+                    if (hash.ContainsKey(id) && hash[id]>1)
                     {
-                        id += "_" + string.Join("_", mparameters.Select(i => i.Name));
+                        var mparameters = methodInfo.GetParameters();
+                        if (mparameters.Any())
+                        {
+                            id += "_" + string.Join("_", mparameters.Select(i => i.Name));
+                        }
                     }
                 }
-                Console.WriteLine(id);
 
                 call[id] = (parameters) =>
                 {
