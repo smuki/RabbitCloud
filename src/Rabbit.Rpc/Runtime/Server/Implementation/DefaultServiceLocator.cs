@@ -36,24 +36,24 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
             if (httpMessage.Path.IndexOf("/") == -1)
                 routePath = $"/{routePath}";
 
-            routePath=routePath.Replace("/", ".");
+            routePath = routePath.Replace("/", ".");
 
             return Find(routePath, ServiceTag);
         }
-		
-        private ServiceRecord Find(string ServiceId,string ServiceTag)
+
+        private ServiceRecord Find(string ServiceId, string ServiceTag)
         {
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
             var serviceEntries = _serviceEntryManager.GetServiceRecords();
             List<ServiceRecord> Match = new List<ServiceRecord>();
             foreach (ServiceRecord r in serviceEntries)
             {
-                if (r.ServiceTag.IndexOf(id,StringComparison.OrdinalIgnoreCase) >= 0)
+                if (r.ServiceTag.IndexOf(id, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     Match.Add(r);
                 }
             }
-            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceId.Equals(ServiceTag,StringComparison.OrdinalIgnoreCase));
+            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceId.Equals(ServiceTag, StringComparison.OrdinalIgnoreCase));
             return x;
 
         }
