@@ -61,6 +61,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             {
                 serviceTag = serviceTag + "," + ((ServiceTagAttributeAttribute)nameAttributes).Tag;
             }
+            serviceTag = serviceTag.Replace("/", ".");
 
             var serviceRecord = new ServiceRecord
             {

@@ -146,7 +146,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                 var method = ServiceId.Substring(ServiceId.LastIndexOf(".") + 1);
                 if (entry.CallContext.ContainsKey(method))
                 {
-
+                    Console.WriteLine("X");
                 }
 
                 var content = await entry.CallContext[method](httpMessage.Parameters);
