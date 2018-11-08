@@ -2,6 +2,7 @@
 using Rabbit.Rpc.Convertibles;
 //using Rabbit.Rpc.Ids;
 using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Rabbit.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +19,17 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
         #region Field
 
         private readonly IServiceProvider _serviceProvider;
-        // private readonly IServiceIdGenerator _serviceIdGenerator;
+        //private readonly ServiceContainer _Container;
         private readonly ITypeConvertibleService _typeConvertibleService;
 
         #endregion Field
 
         #region Constructor
 
-        //public ClrServiceEntryFactory(IServiceProvider serviceProvider, IServiceIdGenerator serviceIdGenerator, ITypeConvertibleService typeConvertibleService)
         public ClrServiceEntryFactory(IServiceProvider serviceProvider, ITypeConvertibleService typeConvertibleService)
         {
             _serviceProvider = serviceProvider;
-            //_serviceIdGenerator = serviceIdGenerator;
+            //_Container = Container;
             _typeConvertibleService = typeConvertibleService;
         }
 
@@ -119,6 +119,9 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                     var serviceScopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
                     using (var scope = serviceScopeFactory.CreateScope())
                     {
+                        Console.WriteLine("(methodInfo.DeclaringType=" + methodInfo.DeclaringType);
+                        Console.WriteLine("(methodInfo.DeclaringType=" + ServiceContainer.IsRegistered(methodInfo.DeclaringType));
+
                         var instance = scope.ServiceProvider.GetRequiredService(methodInfo.DeclaringType);
 
                         var list = new List<object>();
