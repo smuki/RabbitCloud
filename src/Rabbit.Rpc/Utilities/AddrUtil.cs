@@ -16,7 +16,7 @@ namespace Rabbit.Rpc.Utilities
             IPEndPoint EndPoint = new IPEndPoint(IPadr, int.Parse(addr[1]));//传递IPAddress和Port
             return EndPoint;
         }
-        public static IPAddress GetNetworkAddress(string address="")
+        public static IPAddress GetNetworkAddress(string address = "")
         {
             IPAddress sAddress = IPAddress.Any;
             if (address.IndexOf(".") < 0 || address == "" || address == "0.0.0.0")
@@ -24,7 +24,7 @@ namespace Rabbit.Rpc.Utilities
                 NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
                 foreach (NetworkInterface adapter in nics)
                 {
-                    if (adapter.NetworkInterfaceType == NetworkInterfaceType.Ethernet && (address == "" || address == "0.0.0.0" || address == adapter.Name))
+                    if (adapter.OperationalStatus == OperationalStatus.Up && adapter.NetworkInterfaceType == NetworkInterfaceType.Ethernet && (address == "" || address == "0.0.0.0" || address == adapter.Name))
                     {
                         IPInterfaceProperties ipxx = adapter.GetIPProperties();
                         UnicastIPAddressInformationCollection ipCollection = ipxx.UnicastAddresses;
@@ -38,9 +38,7 @@ namespace Rabbit.Rpc.Utilities
                     }
                 }
             }
-            
             return sAddress;
         }
-
     }
 }
