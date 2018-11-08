@@ -174,6 +174,7 @@ namespace Performances.NetCoreApp.Server
 
             //创建容器
             var Container = builder.Build();
+            ServiceContainer.Current = Container;
             //第三方IOC接管 core内置DI容器 
             return new AutofacServiceProvider(Container);
         }

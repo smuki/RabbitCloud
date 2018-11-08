@@ -11,6 +11,7 @@ using Rabbit.Rpc.Runtime.Server;
 using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Convertibles;
+using Rabbit.Rpc.Utilities;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
@@ -73,15 +74,15 @@ namespace Rabbit.Transport.KestrelHttpServer
             _logger.LogDebug("准备执行本地逻辑。");
             HttpResultMessage<object> httpResultMessage = new HttpResultMessage<object>() { };
 
-            //if (_serviceProvider.IsRegisteredWithKey(httpMessage.ServiceKey, entry.Type))
-            //{
-            //    //执行本地代码。
-            httpResultMessage = await LocalExecuteAsync(entry, httpMessage);
-            //}
-            //else
-            //{
-            // httpResultMessage = await RemoteExecuteAsync(entry, httpMessage);
-            //}
+            if (ServiceContainer.IsRegisteredWithKey(httpMessage.ServiceId, entry.GetType()))
+            {
+                //    //执行本地代码。
+                httpResultMessage = await LocalExecuteAsync(entry, httpMessage);
+            }
+            else
+            {
+                httpResultMessage = await RemoteExecuteAsync(entry, httpMessage);
+            }
             await SendRemoteInvokeResult(sender, httpResultMessage);
         }
 
