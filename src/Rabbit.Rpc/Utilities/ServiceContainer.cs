@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Rabbit.Rpc.Utilities
 {
@@ -24,7 +27,48 @@ namespace Rabbit.Rpc.Utilities
         {
             return Current.IsRegistered(type);
         }
+        public static void Register(ContainerBuilder builder, IClassScanner classScanner)
+        {
+            try
+            {
+                var types = classScanner.Types();
 
+                foreach (var type in types)
+                {
+                    var module = type.GetTypeInfo().GetCustomAttribute<ServiceTagAttributeAttribute>();
+                    var interfaceObj = type.GetInterfaces().FirstOrDefault(t => t.GetTypeInfo().IsAssignableFrom(t));
+                    if (interfaceObj != null && module != null)
+                    {
+                        string sTag = module.Tag;
+                        if (!string.IsNullOrEmpty(sTag))
+                        {
+                            sTag = sTag.Replace("/", ".");
+                        }
+                        Console.WriteLine("sTag=" + sTag);
+                        builder.RegisterType(type).AsImplementedInterfaces().Named(sTag, interfaceObj);
+                        builder.RegisterType(type).Named(sTag, type);
+                        builder.RegisterType(type).AsImplementedInterfaces().Keyed(sTag, type);
+
+                    }
+                    else if (interfaceObj != null)
+                    {
+                       // builder.RegisterType(type).AsImplementedInterfaces().AsSelf();
+
+                    }
+                }
+                return;
+            }
+            catch (Exception ex)
+            {
+                if (ex is System.Reflection.ReflectionTypeLoadException)
+                {
+                    var typeLoadException = ex as ReflectionTypeLoadException;
+                    var loaderExceptions = typeLoadException.LoaderExceptions;
+                    throw loaderExceptions[0];
+                }
+                throw ex;
+            }
+        }
         public static bool IsRegisteredWithKey(string key, Type type)
         { 
             return Current.IsRegisteredWithKey(key, type);

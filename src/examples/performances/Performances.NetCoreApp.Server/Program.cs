@@ -111,7 +111,10 @@ namespace Performances.NetCoreApp.Server
 
             builder.RegisterInstance(config).AsImplementedInterfaces().AsSelf().SingleInstance();
 
+            List<string> Paths = new List<string>();
             ClassScannerImpl _ClassScanner = new ClassScannerImpl(config);
+            _ClassScanner.Scan(Paths);
+
             builder.RegisterInstance(_ClassScanner).AsImplementedInterfaces().AsSelf().SingleInstance();
 
             builder.RegisterType<DotNettyTransportClientFactory>().AsImplementedInterfaces().AsSelf();
@@ -124,26 +127,6 @@ namespace Performances.NetCoreApp.Server
             builder.RegisterType<KestrelMessageListener>().AsImplementedInterfaces().AsSelf();
 
             builder.RegisterType<KestrelServiceHost>().AsSelf().AsImplementedInterfaces();
-
-            //builder.Register(provider =>
-            //{
-            //    var serviceExecutor = provider.ResolveKeyed<IServiceExecutor>(CommunicationProtocol.Tcp.ToString());
-            //    var messageListener = provider.Resolve<DotNettyServerMessageListener>();
-            //    return new DefaultServiceHost(async endPoint =>
-            //    {
-            //        await messageListener.StartAsync(endPoint);
-            //        return messageListener;
-            //    }, serviceExecutor);
-            //}).As<IServiceHost>();
-
-            ///services.AddSingleton<IServiceHost, DefaultServiceHost>(provider => new DefaultServiceHost(async endPoint =>
-            //{
-            //    var messageListener = provider.GetRequiredService<DotNettyServerMessageListener>();
-            //    await messageListener.StartAsync(endPoint);
-
-            //    return messageListener;
-            //}, provider.GetRequiredService<ISetting>(), provider.GetRequiredService<IServiceExecutor>()));
-
 
             builder.RegisterType(typeof(FilesServiceRouteManager)).AsImplementedInterfaces().AsSelf()
               .OnRegistered(e => Console.WriteLine(e.ToString() + " - OnRegistered在注册的时候调用!"))
@@ -171,6 +154,8 @@ namespace Performances.NetCoreApp.Server
 
             string[] localtion = new string[] { AppContext.BaseDirectory };
             //this.Register(builder, localtion);
+
+            ServiceContainer.Register(builder, _ClassScanner);
 
             //创建容器
             var Container = builder.Build();

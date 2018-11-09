@@ -28,10 +28,9 @@ namespace Rabbit.Rpc.Utilities
         }
         public void Scan(List<string> virtualPaths)
         {
-            if (virtualPaths.Count == 0)
-            {
-                virtualPaths.Add(AppDomain.CurrentDomain.BaseDirectory);
-            }
+            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
+            virtualPaths.Add(AppDomain.CurrentDomain.BaseDirectory);
+
             GetReferenceAssembly(virtualPaths.ToArray());
         }
         private List<Assembly> GetReferenceAssembly(params string[] virtualPaths)

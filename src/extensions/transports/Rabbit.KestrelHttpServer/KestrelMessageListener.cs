@@ -149,8 +149,6 @@ namespace Rabbit.Transport.KestrelHttpServer
         private async Task<HttpFormCollection> GetFormCollection(HttpRequest request)
         {
             var boundary = GetName("boundary=", request.ContentType);
-            Console.WriteLine(boundary);
-            Console.WriteLine(request.Form.Count);
             var fileCollection = new HttpFormFileCollection();
             var fields = new Dictionary<string, StringValues>();
             if (string.IsNullOrEmpty(boundary))

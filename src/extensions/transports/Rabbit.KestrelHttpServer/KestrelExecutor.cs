@@ -73,8 +73,9 @@ namespace Rabbit.Transport.KestrelHttpServer
             }
             _logger.LogDebug("准备执行本地逻辑。");
             HttpResultMessage<object> httpResultMessage = new HttpResultMessage<object>() { };
-
-            if (ServiceContainer.IsRegisteredWithKey(httpMessage.ServiceId, entry.GetType()))
+            var ServiceId = httpMessage.ServiceId;
+            var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
+            if (ServiceContainer.IsRegistered(entry.GetType()))
             {
                 //    //执行本地代码。
                 httpResultMessage = await LocalExecuteAsync(entry, httpMessage);
