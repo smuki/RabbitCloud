@@ -155,10 +155,10 @@ namespace Performances.NetCoreApp.Server
             string[] localtion = new string[] { AppContext.BaseDirectory };
             //this.Register(builder, localtion);
 
-            ServiceContainer.Register(builder, _ClassScanner);
+            var builder2 = ServiceContainer.Register(builder, _ClassScanner);
 
             //创建容器
-            var Container = builder.Build();
+            var Container = builder2.Build();
             ServiceContainer.Current = Container;
             //第三方IOC接管 core内置DI容器 
             return new AutofacServiceProvider(Container);

@@ -27,7 +27,7 @@ namespace Rabbit.Rpc.Utilities
         {
             return Current.IsRegistered(type);
         }
-        public static void Register(ContainerBuilder builder, IClassScanner classScanner)
+        public static ContainerBuilder Register(ContainerBuilder builder, IClassScanner classScanner)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Rabbit.Rpc.Utilities
                             sTag = sTag.Replace("/", ".");
                         }
                         Console.WriteLine("sTag=" + sTag);
-                        builder.RegisterType(type).AsImplementedInterfaces().Named(sTag, interfaceObj);
+                        builder.RegisterType(type).AsImplementedInterfaces().Named(sTag, interfaceObj).AsSelf();
                         builder.RegisterType(type).Named(sTag, type);
                         builder.RegisterType(type).AsImplementedInterfaces().Keyed(sTag, type);
 
@@ -56,7 +56,6 @@ namespace Rabbit.Rpc.Utilities
 
                     }
                 }
-                return;
             }
             catch (Exception ex)
             {
@@ -68,6 +67,8 @@ namespace Rabbit.Rpc.Utilities
                 }
                 throw ex;
             }
+            return builder;
+
         }
         public static bool IsRegisteredWithKey(string key, Type type)
         { 

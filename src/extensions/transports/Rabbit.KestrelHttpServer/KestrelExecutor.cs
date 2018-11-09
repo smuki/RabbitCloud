@@ -75,15 +75,15 @@ namespace Rabbit.Transport.KestrelHttpServer
             HttpResultMessage<object> httpResultMessage = new HttpResultMessage<object>() { };
             var ServiceId = httpMessage.ServiceId;
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
-            if (ServiceContainer.IsRegistered(entry.GetType()))
-            {
+           // if (ServiceContainer.IsRegistered(entry.GetType()))
+           // {
                 //    //执行本地代码。
                 httpResultMessage = await LocalExecuteAsync(entry, httpMessage);
-            }
-            else
-            {
-                httpResultMessage = await RemoteExecuteAsync(entry, httpMessage);
-            }
+            //}
+            //else
+          //  {
+              //  httpResultMessage = await RemoteExecuteAsync(entry, httpMessage);
+            //}
             await SendRemoteInvokeResult(sender, httpResultMessage);
         }
 
