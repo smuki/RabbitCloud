@@ -37,6 +37,10 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                 routePath = $"/{routePath}";
 
             routePath = routePath.Replace("/", ".");
+            if (string.IsNullOrEmpty(ServiceTag))
+            {
+                ServiceTag = routePath;
+            }
 
             return Find(routePath, ServiceTag);
         }
@@ -53,9 +57,15 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation
                     Match.Add(r);
                 }
             }
-            ServiceRecord x = Match.SingleOrDefault(i => i.ServiceId.Equals(ServiceTag, StringComparison.OrdinalIgnoreCase));
-            return x;
-
+            if (Match.Count == 1)
+            {
+                return Match[0];
+            }
+            else
+            {
+                ServiceRecord x = Match.SingleOrDefault(i => i.ServiceId.Equals(ServiceTag, StringComparison.OrdinalIgnoreCase));
+                return x;
+            }
         }
         #endregion Implementation of IServiceEntryLocate
     }
