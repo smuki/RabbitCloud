@@ -117,8 +117,7 @@ namespace Rabbit.Rpc.Coordinate.Files
             ServiceRoute[] routes;
             if (File.Exists(file))
             {
-                if (_logger.IsEnabled(LogLevel.Debug))
-                    _logger.LogDebug($"准备从文件：{file}中获取服务路由。");
+                _logger.LogDebug($"准备从文件：{file}中获取服务路由。");
                 string content;
                 while (true)
                 {
@@ -139,20 +138,17 @@ namespace Rabbit.Rpc.Coordinate.Files
                 {
                     var serializer = _serializer;
                     routes = (await _serviceRouteFactory.CreateServiceRoutesAsync(serializer.Deserialize<string, ServiceRouteDescriptor[]>(content))).ToArray();
-                    if (_logger.IsEnabled(LogLevel.Information))
-                        _logger.LogInformation($"成功获取到以下路由信息：{string.Join(",", routes.Select(i => i.ServiceEntry.ServiceId))}。");
+                    _logger.LogInformation($"成功获取到以下路由信息：{string.Join(",", routes.Select(i => i.ServiceEntry.ServiceId))}。");
                 }
                 catch (Exception exception)
                 {
-                    if (_logger.IsEnabled(LogLevel.Error))
-                        _logger.LogError("获取路由信息时发生了错误。", exception);
+                    _logger.LogError("获取路由信息时发生了错误。", exception);
                     routes = new ServiceRoute[0];
                 }
             }
             else
             {
-                if (_logger.IsEnabled(LogLevel.Warning))
-                    _logger.LogWarning($"无法获取路由信息，因为文件：{file}不存在。");
+                _logger.LogWarning($"无法获取路由信息，因为文件：{file}不存在。");
                 routes = new ServiceRoute[0];
             }
             return routes;
@@ -209,8 +205,7 @@ namespace Rabbit.Rpc.Coordinate.Files
 
         private async void _fileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            if (_logger.IsEnabled(LogLevel.Information))
-                _logger.LogInformation($"文件{_filePath}发生了变更，将重新获取路由信息。");
+            _logger.LogInformation($"文件{_filePath}发生了变更，将重新获取路由信息。");
 
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
