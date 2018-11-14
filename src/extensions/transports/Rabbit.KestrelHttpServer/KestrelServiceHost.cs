@@ -43,12 +43,12 @@ namespace Rabbit.Transport.KestrelHttpServer
         /// <returns>一个任务。</returns>
         public override async Task StartAsync()
         {
-			if (Running)
+			if (this.Running)
                 return;
 
-            Running = true;
+            this.Running = true;
 
-            var endPoint = new IPEndPoint(AddrUtil.GetNetworkAddress(), Port);
+            var endPoint = new IPEndPoint(IPAddress.Any, Port);
             _serverMessageListener.Received += async (sender, message) =>
             {
                 await Task.Run(() =>
