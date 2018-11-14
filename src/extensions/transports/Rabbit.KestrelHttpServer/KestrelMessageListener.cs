@@ -89,7 +89,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         public async Task StartAsync(EndPoint endPoint)
         {
             _logger.LogInformation($"KestrelHttp Server setting is listening on {endPoint}");
-            var ipEndPoint = endPoint as IPEndPoint; 
+            IPEndPoint ipEndPoint = endPoint as IPEndPoint; 
             try
             {
                 _host = new WebHostBuilder()
