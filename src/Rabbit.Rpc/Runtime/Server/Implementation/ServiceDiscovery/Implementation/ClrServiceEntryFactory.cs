@@ -120,8 +120,6 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                     var serviceScopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
                     using (var scope = serviceScopeFactory.CreateScope())
                     {
-                        Console.WriteLine("(methodInfo.DeclaringType=" + methodInfo.DeclaringType);
-                        Console.WriteLine("(methodInfo.DeclaringType=" + ServiceContainer.IsRegistered(methodInfo.GetType()));
                         Console.WriteLine("(methodInfo.DeclaringType=" + ServiceContainer.IsRegistered(methodInfo.DeclaringType));
 
                         var instance = scope.ServiceProvider.GetRequiredService(methodInfo.DeclaringType);
