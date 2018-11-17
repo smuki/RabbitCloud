@@ -133,7 +133,9 @@ namespace Rabbit.Transport.KestrelHttpServer
                     await task;
                     var taskType = task.GetType().GetTypeInfo();
                     if (taskType.IsGenericType)
+                    {
                         resultMessage.Entity = taskType.GetProperty("Result").GetValue(task);
+                    }
                 }
                 resultMessage.IsSucceed = resultMessage.Entity != null;
                 resultMessage.StatusCode = resultMessage.IsSucceed ? (int)StatusCode.Success : (int)StatusCode.RequestError;
@@ -141,7 +143,7 @@ namespace Rabbit.Transport.KestrelHttpServer
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while executing remote call.");
-                resultMessage = new HttpResultMessage<object> { Entity = null, Message = "执行发生了错误。", StatusCode = (int)StatusCode.RequestError };
+                resultMessage = new HttpResultMessage<object> { Entity = null, Message = "An error occurred in execution.", StatusCode = (int)StatusCode.RequestError };
             }
             return resultMessage;
         }
