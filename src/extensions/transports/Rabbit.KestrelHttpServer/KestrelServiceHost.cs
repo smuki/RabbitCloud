@@ -15,7 +15,6 @@ namespace Rabbit.Transport.KestrelHttpServer
    public class KestrelServiceHost : ServiceHostAbstract
     {
         #region Field
-
         private readonly IMessageListener _serverMessageListener;
         private ISetting _config;
         private int Port = 81;
@@ -57,7 +56,6 @@ namespace Rabbit.Transport.KestrelHttpServer
                 });
             };
             await _serverMessageListener.StartAsync(endPoint);
-
          
         }
         public override async void Start()
