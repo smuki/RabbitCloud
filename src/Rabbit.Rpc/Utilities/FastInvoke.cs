@@ -18,13 +18,12 @@ namespace Rabbit.Rpc.Utilities
 
         }
 
-/*
         public static FastInvokeHandler GetMethodInvoker(MethodInfo methodInfo)
         {
-            DynamicMethod dynamicMethod = new DynamicMethod(string.Empty, typeof(object), new ServiceId[] { typeof(object), typeof(object[]) }, methodInfo.DeclaringType.Module);
+            DynamicMethod dynamicMethod = new DynamicMethod(string.Empty, typeof(object), new Type[] { typeof(object), typeof(object[]) }, methodInfo.DeclaringType.Module);
             ILGenerator il = dynamicMethod.GetILGenerator();
             ParameterInfo[] ps = methodInfo.GetParameters();
-            ServiceId[] paramTypes = new ServiceId[ps.Length];
+            Type[] paramTypes = new Type[ps.Length];
             for (int i = 0; i < paramTypes.Length; i++)
             {
                 if (ps[i].ParameterType.IsByRef)
@@ -58,7 +57,7 @@ namespace Rabbit.Rpc.Utilities
                     il.Emit(OpCodes.Ldloc, locals[i]);
             }
             if (methodInfo.IsStatic)
-                il.EmitCall(OpCodes.CallContext , methodInfo, null);
+                il.EmitCall(OpCodes.Call, methodInfo, null);
             else
                 il.EmitCall(OpCodes.Callvirt, methodInfo, null);
             if (methodInfo.ReturnType == typeof(void))
@@ -83,8 +82,8 @@ namespace Rabbit.Rpc.Utilities
             FastInvokeHandler invoder = (FastInvokeHandler)dynamicMethod.CreateDelegate(typeof(FastInvokeHandler));
             return invoder;
         }
-       
-        private static void EmitCastToReference(ILGenerator il, System.ServiceId type)
+
+        private static void EmitCastToReference(ILGenerator il, System.Type type)
         {
             if (type.IsValueType)
             {
@@ -96,7 +95,7 @@ namespace Rabbit.Rpc.Utilities
             }
         }
 
-        private static void EmitBoxIfNeeded(ILGenerator il, System.ServiceId type)
+        private static void EmitBoxIfNeeded(ILGenerator il, System.Type type)
         {
             if (type.IsValueType)
             {
@@ -149,6 +148,5 @@ namespace Rabbit.Rpc.Utilities
                 il.Emit(OpCodes.Ldc_I4, value);
             }
         }
-*/
     }
 }

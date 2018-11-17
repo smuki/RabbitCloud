@@ -12,6 +12,7 @@ using Rabbit.Rpc.Transport;
 using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Convertibles;
 using Rabbit.Rpc.Utilities;
+using static Rabbit.Rpc.Utilities.FastInvoke;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
@@ -24,8 +25,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         //private readonly IServiceRouteProvider _serviceRouteProvider;
         //private readonly IAuthorizationFilter _authorizationFilter;
         //private readonly CPlatformContainer _serviceProvider;
-        //private readonly ConcurrentDictionary<string, ValueTuple<FastInvokeHandler, object, MethodInfo>> _concurrent =
-        //new ConcurrentDictionary<string, ValueTuple<FastInvokeHandler, object, MethodInfo>>();
+        private readonly ConcurrentDictionary<string, ValueTuple<FastInvokeHandler, object, MethodInfo>> _concurrent =  new ConcurrentDictionary<string, ValueTuple<FastInvokeHandler, object, MethodInfo>>();
         #endregion Field
 
         #region Constructor
@@ -97,45 +97,49 @@ namespace Rabbit.Transport.KestrelHttpServer
         private async Task<HttpResultMessage<object>> RemoteExecuteAsync(ServiceRecord entry, HttpMessage httpMessage)
         {
             HttpResultMessage<object> resultMessage = new HttpResultMessage<object>();
-            //var provider = _concurrent.GetValueOrDefault(httpMessage.RoutePath);
-            //var list = new List<object>();
-            //if (provider.Item1 == null)
-            //{
-            //    provider.Item2 = ServiceLocator.GetService<IServiceProxyFactory>().CreateProxy(httpMessage.ServiceTag, entry.Type);
-            //    provider.Item3 = provider.Item2.GetType().GetTypeInfo().DeclaredMethods.Where(p => p.Name == entry.MethodName).FirstOrDefault();
-            //    provider.Item1 = FastInvoke.GetMethodInvoker(provider.Item3);
-            //    _concurrent.GetOrAdd(httpMessage.RoutePath, ValueTuple.Create<FastInvokeHandler, object, MethodInfo>(provider.Item1, provider.Item2, provider.Item3));
-            //}
-            //foreach (var parameterInfo in provider.Item3.GetParameters())
-            //{
-            //    var value = httpMessage.Parameters[parameterInfo.Name];
-            //    var parameterType = parameterInfo.ParameterType;
-            //    var parameter = _typeConvertibleService.Convert(value, parameterType);
-            //    list.Add(parameter);
-            //}
+            var provider = _concurrent.GetValueOrDefault(httpMessage.Path);
+            var list = new List<object>();
+            if (provider.Item1 == null)
+            {
+                var ServiceId = httpMessage.ServiceId;
+                var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
+                var method = ServiceId.Substring(ServiceId.LastIndexOf(".") + 1);
+
+                // provider.Item2 = ServiceLocator.GetService<IServiceProxyFactory>().CreateProxy(httpMessage.ServiceTag, entry.Type);
+                provider.Item3 = provider.Item2.GetType().GetTypeInfo().DeclaredMethods.Where(p => p.Name == method).FirstOrDefault();
+                provider.Item1 = FastInvoke.GetMethodInvoker(provider.Item3);
+                _concurrent.GetOrAdd(httpMessage.Path, ValueTuple.Create<FastInvokeHandler, object, MethodInfo>(provider.Item1, provider.Item2, provider.Item3));
+            }
+            foreach (var parameterInfo in provider.Item3.GetParameters())
+            {
+                var value = httpMessage.Parameters[parameterInfo.Name];
+                var parameterType = parameterInfo.ParameterType;
+                var parameter = _typeConvertibleService.Convert(value, parameterType);
+                list.Add(parameter);
+            }
 
             try
             {
-                //    var methodResult = provider.Item1(provider.Item2, list.ToArray());
+                var methodResult = provider.Item1(provider.Item2, list.ToArray());
+                var task = methodResult as Task;
 
-                //    var task = methodResult as Task;
-                //    if (task == null)
-                //    {
-                //        resultMessage.Entity = methodResult;
-                //    }
-                //    else
-                //    {
-                //        await task;
-                //        var taskType = task.GetType().GetTypeInfo();
-                //        if (taskType.IsGenericType)
-                //            resultMessage.Entity = taskType.GetProperty("Result").GetValue(task);
-                //    }
-                //    resultMessage.IsSucceed = resultMessage.Entity != null;
-                //    resultMessage.StatusCode = resultMessage.IsSucceed ? (int)StatusCode.Success : (int)StatusCode.RequestError;
+                if (task == null)
+                {
+                    resultMessage.Entity = methodResult;
+                }
+                else
+                {
+                    await task;
+                    var taskType = task.GetType().GetTypeInfo();
+                    if (taskType.IsGenericType)
+                        resultMessage.Entity = taskType.GetProperty("Result").GetValue(task);
+                }
+                resultMessage.IsSucceed = resultMessage.Entity != null;
+                resultMessage.StatusCode = resultMessage.IsSucceed ? (int)StatusCode.Success : (int)StatusCode.RequestError;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "执行远程调用逻辑时候发生了错误。");
+                _logger.LogError(ex, "An error occurred while executing remote call.");
                 resultMessage = new HttpResultMessage<object> { Entity = null, Message = "执行发生了错误。", StatusCode = (int)StatusCode.RequestError };
             }
             return resultMessage;
