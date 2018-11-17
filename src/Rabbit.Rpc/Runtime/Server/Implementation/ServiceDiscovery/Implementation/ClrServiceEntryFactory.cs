@@ -66,6 +66,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
             var serviceRecord = new ServiceRecord
             {
                 ServiceId = serviceId,
+                Type = service,
                 ServiceTag = serviceTag
             };
 
@@ -121,6 +122,7 @@ namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementati
                     using (var scope = serviceScopeFactory.CreateScope())
                     {
                         Console.WriteLine("(methodInfo.DeclaringType=" + ServiceContainer.IsRegistered(methodInfo.DeclaringType));
+                        Console.WriteLine("(methodInfo.DeclaringType=" + methodInfo.DeclaringType);
 
                         var instance = scope.ServiceProvider.GetRequiredService(methodInfo.DeclaringType);
 

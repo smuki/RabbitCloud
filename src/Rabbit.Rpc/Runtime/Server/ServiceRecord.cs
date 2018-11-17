@@ -30,12 +30,8 @@ namespace Rabbit.Rpc.Runtime.Server
         /// 服务ServiceId。
         /// </summary>
         public string ServiceTag { get; set; }
-
-        /// <summary>
-        /// 服务Version
-        /// </summary>
-        public string Version { get; set; }
-
+        public Type Type { get; set; }
+     
         /// <summary>
         /// 元数据。
         /// </summary>

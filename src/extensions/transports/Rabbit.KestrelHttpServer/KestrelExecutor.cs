@@ -71,19 +71,22 @@ namespace Rabbit.Transport.KestrelHttpServer
                 _logger.LogError($"According to service routePath:{httpMessage.Path},No service entries were found.");
                 return;
             }
-            _logger.LogDebug("Ready to execute local logic. ");
+            _logger.LogDebug("Ready to execute local logic.");
+
             HttpResultMessage<object> httpResultMessage = new HttpResultMessage<object>() { };
             var ServiceId = httpMessage.ServiceId;
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
-           // if (ServiceContainer.IsRegistered(entry.GetType()))
-           // {
-                //    //执行本地代码。
+
+            if (ServiceContainer.IsRegistered(entry.Type))
+            {
+                //执行本地代码。
                 httpResultMessage = await LocalExecuteAsync(entry, httpMessage);
-            //}
-            //else
-          //  {
-              //  httpResultMessage = await RemoteExecuteAsync(entry, httpMessage);
-            //}
+            }
+            else
+            {
+                //执行远程代码。
+                httpResultMessage = await RemoteExecuteAsync(entry, httpMessage);
+            }
             await SendRemoteInvokeResult(sender, httpResultMessage);
         }
 
@@ -110,30 +113,31 @@ namespace Rabbit.Transport.KestrelHttpServer
             //    var parameter = _typeConvertibleService.Convert(value, parameterType);
             //    list.Add(parameter);
             //}
-            //try
-            //{
-            //    var methodResult = provider.Item1(provider.Item2, list.ToArray());
 
-            //    var task = methodResult as Task;
-            //    if (task == null)
-            //    {
-            //        resultMessage.Entity = methodResult;
-            //    }
-            //    else
-            //    {
-            //        await task;
-            //        var taskType = task.GetType().GetTypeInfo();
-            //        if (taskType.IsGenericType)
-            //            resultMessage.Entity = taskType.GetProperty("Result").GetValue(task);
-            //    }
-            //    resultMessage.IsSucceed = resultMessage.Entity != null;
-            //    resultMessage.StatusCode = resultMessage.IsSucceed ? (int)StatusCode.Success : (int)StatusCode.RequestError;
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError(ex, "执行远程调用逻辑时候发生了错误。");
-            //    resultMessage = new HttpResultMessage<object> { Entity = null, Message = "执行发生了错误。", StatusCode = (int)StatusCode.RequestError };
-            //}
+            try
+            {
+                //    var methodResult = provider.Item1(provider.Item2, list.ToArray());
+
+                //    var task = methodResult as Task;
+                //    if (task == null)
+                //    {
+                //        resultMessage.Entity = methodResult;
+                //    }
+                //    else
+                //    {
+                //        await task;
+                //        var taskType = task.GetType().GetTypeInfo();
+                //        if (taskType.IsGenericType)
+                //            resultMessage.Entity = taskType.GetProperty("Result").GetValue(task);
+                //    }
+                //    resultMessage.IsSucceed = resultMessage.Entity != null;
+                //    resultMessage.StatusCode = resultMessage.IsSucceed ? (int)StatusCode.Success : (int)StatusCode.RequestError;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "执行远程调用逻辑时候发生了错误。");
+                resultMessage = new HttpResultMessage<object> { Entity = null, Message = "执行发生了错误。", StatusCode = (int)StatusCode.RequestError };
+            }
             return resultMessage;
         }
 
