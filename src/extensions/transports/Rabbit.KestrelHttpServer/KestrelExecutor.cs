@@ -13,6 +13,7 @@ using Rabbit.Rpc.Messages;
 using Rabbit.Rpc.Convertibles;
 using Rabbit.Rpc.Utilities;
 using static Rabbit.Rpc.Utilities.FastInvoke;
+using Rabbit.Rpc.ProxyGenerator;
 
 namespace Rabbit.Transport.KestrelHttpServer
 {
@@ -105,7 +106,7 @@ namespace Rabbit.Transport.KestrelHttpServer
                 var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
                 var method = ServiceId.Substring(ServiceId.LastIndexOf(".") + 1);
 
-                // provider.Item2 = ServiceLocator.GetService<IServiceProxyFactory>().CreateProxy(httpMessage.ServiceTag, entry.Type);
+                provider.Item2 = ServiceContainer.Resolve<IServiceProxyFactory>().Resolve(entry.Type, httpMessage.ServiceId);
                 provider.Item3 = provider.Item2.GetType().GetTypeInfo().DeclaredMethods.Where(p => p.Name == method).FirstOrDefault();
                 provider.Item1 = FastInvoke.GetMethodInvoker(provider.Item3);
                 _concurrent.GetOrAdd(httpMessage.Path, ValueTuple.Create<FastInvokeHandler, object, MethodInfo>(provider.Item1, provider.Item2, provider.Item3));
