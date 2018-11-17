@@ -51,7 +51,7 @@ namespace Rabbit.Transport.KestrelHttpServer
 
         public async Task ExecuteAsync(IMessageSender sender, TransportMessage message)
         {
-            _logger.LogTrace("服务提供者接收到消息。");
+            _logger.LogTrace("The service provider receives the message. ");
 
             if (!message.IsHttpMessage())
                 return;
@@ -62,16 +62,16 @@ namespace Rabbit.Transport.KestrelHttpServer
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, "将接收到的消息反序列化成 TransportMessage<httpMessage> 时发送了错误。");
+                _logger.LogError(exception, "An error was sent when the received message was inverted to TransportMessage<httpMessage>.");
                 return;
             }
             var entry = _serviceEntryLocate.Locate(httpMessage);
             if (entry == null)
             {
-                _logger.LogError($"根据服务routePath：{httpMessage.Path}，找不到服务条目。");
+                _logger.LogError($"According to service routePath:{httpMessage.Path},No service entries were found.");
                 return;
             }
-            _logger.LogDebug("准备执行本地逻辑。");
+            _logger.LogDebug("Ready to execute local logic. ");
             HttpResultMessage<object> httpResultMessage = new HttpResultMessage<object>() { };
             var ServiceId = httpMessage.ServiceId;
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
@@ -172,8 +172,8 @@ namespace Rabbit.Transport.KestrelHttpServer
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, "执行本地逻辑时候发生了错误。");
-                resultMessage.Message = "执行发生了错误。";
+                _logger.LogError(exception, "An error occurred while executing local logic.");
+                resultMessage.Message = "An error occurred in execution.";
                 resultMessage.StatusCode = exception.HResult;
             }
             return resultMessage;
@@ -183,14 +183,14 @@ namespace Rabbit.Transport.KestrelHttpServer
         {
             try
             {
-                _logger.LogDebug("准备发送响应消息。");
+                _logger.LogDebug("Ready to send response message.");
 
                 await sender.SendAndFlushAsync(new TransportMessage(resultMessage));
-                _logger.LogDebug("响应消息发送成功。");
+                _logger.LogDebug("Response message sent successfully.");
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, "发送响应消息时候发生了异常。");
+                _logger.LogError(exception, "An exception occurred while sending response messages.");
             }
         }
 
