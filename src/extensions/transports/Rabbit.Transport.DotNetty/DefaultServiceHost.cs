@@ -17,7 +17,6 @@ namespace Rabbit.Transport.DotNetty
     {
         #region Field
 
-        private readonly IMessageListener _messageListener;
         private IMessageListener _serverMessageListener;
         private ISetting _config;
         private IServiceTable _serviceTable;
