@@ -69,7 +69,13 @@ namespace Rabbit.Transport.KestrelHttpServer
             var entry = _serviceEntryLocate.Locate(httpMessage);
             if (entry == null)
             {
-                _logger.LogError($"According to service routePath:{httpMessage.Path},No service entries were found.");
+                _logger.LogInformation($"According to service routePath:{httpMessage.Path},No service entries were found.");
+
+                HttpResultMessage<object> resultMessage = new HttpResultMessage<object>();
+                resultMessage.IsSucceed = false;
+                resultMessage.Message = $"According to service routePath:{httpMessage.Path},No service entries were found.";
+
+                await SendRemoteInvokeResult(sender, resultMessage);
                 return;
             }
             _logger.LogDebug("Ready to execute local logic.");
@@ -209,6 +215,7 @@ namespace Rabbit.Transport.KestrelHttpServer
         {
             if (exception == null)
                 return string.Empty;
+
 
             var message = exception.Message;
             if (exception.InnerException != null)
