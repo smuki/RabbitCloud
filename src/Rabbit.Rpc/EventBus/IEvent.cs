@@ -12,6 +12,5 @@ namespace Rabbit.Rpc.Event
         long timestamp;
         long unparsed;
         string valueType;
-
     }
 }
