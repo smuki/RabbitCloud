@@ -11,6 +11,7 @@ namespace Rabbit.Rpc.Routing
     /// </summary>
     public interface IServiceRouteManager
     {
+
         /// <summary>
         /// 服务路由被创建。
         /// </summary>

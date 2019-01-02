@@ -21,8 +21,8 @@ namespace Rabbit.Transport.DotNetty.Adapter
             var buffer = (IByteBuffer)message;
              var data = new byte[buffer.ReadableBytes];
              buffer.ReadBytes(data);
-            var transportMessage = _transportMessageDecoder.Decode(data);
-            context.FireChannelRead(transportMessage);
+             var transportMessage = _transportMessageDecoder.Decode(data);
+             context.FireChannelRead(transportMessage);
              ReferenceCountUtil.Release(buffer); 
         }
 

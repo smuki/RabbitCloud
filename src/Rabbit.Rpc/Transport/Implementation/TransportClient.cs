@@ -90,7 +90,6 @@ namespace Rabbit.Rpc.Transport.Implementation
         {
             (_messageSender as IDisposable)?.Dispose();
             (_messageListener as IDisposable)?.Dispose();
-
             foreach (var taskCompletionSource in _resultDictionary.Values)
             {
                 taskCompletionSource.TrySetCanceled();
@@ -123,6 +122,7 @@ namespace Rabbit.Rpc.Transport.Implementation
                 //删除回调任务
                 TaskCompletionSource<TransportMessage> value;
                 _resultDictionary.TryRemove(id, out value);
+                value.TrySetCanceled();
             }
         }
 

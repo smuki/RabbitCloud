@@ -29,7 +29,6 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
         #region Field
 
         private readonly ILogger<ServiceProxyGenerater> _logger;
-
         #endregion Field
 
         #region Constructor
@@ -79,8 +78,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
 #else
                 var assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
 #endif
-
-                return assembly.GetExportedTypes();
+               return assembly.GetExportedTypes();
             }
         }
 
@@ -155,6 +153,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
             }
             return left;
         }
+
         private static SyntaxList<UsingDirectiveSyntax> GetUsings(IEnumerable<string> namespaces)
         {
             var directives = new List<UsingDirectiveSyntax>();
@@ -269,8 +268,8 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
             {
                 if (parameter.ParameterType.IsGenericType)
                 {
-                parameterDeclarationList.Add(Parameter(
-                                    Identifier(parameter.Name))
+                    parameterDeclarationList.Add(Parameter(
+                                     Identifier(parameter.Name))
                                      .WithType(GetTypeSyntax(parameter.ParameterType)));
                 }
                 else
@@ -281,7 +280,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Implementation
 
                 }
                 parameterDeclarationList.Add(Token(SyntaxKind.CommaToken));
-
+               
                 parameterList.Add(InitializerExpression(
                     SyntaxKind.ComplexElementInitializerExpression,
                     SeparatedList<ExpressionSyntax>(
