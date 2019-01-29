@@ -156,10 +156,12 @@ namespace Rabbit.Transport.KestrelHttpServer
 
         private async Task<HttpResultMessage<object>> LocalExecuteAsync(ServiceRecord entry, HttpMessage httpMessage)
         {
+            
             HttpResultMessage<object> resultMessage = new HttpResultMessage<object>();
             try
             {
                 //Console.WriteLine(":"+remoteInvokeMessage.ServiceTag+":");
+                Console.WriteLine(":"+ httpMessage.ServiceId+":");
                 var ServiceId = httpMessage.ServiceId;
                 var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
                 var method = ServiceId.Substring(ServiceId.LastIndexOf(".") + 1);
