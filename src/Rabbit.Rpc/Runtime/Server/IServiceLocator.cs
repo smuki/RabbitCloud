@@ -1,6 +1,6 @@
-﻿using Rabbit.Rpc.Messages;
+﻿using Horse.Nikon.Rpc.Messages;
 
-namespace Rabbit.Rpc.Runtime.Server
+namespace Horse.Nikon.Rpc.Runtime.Server
 {
     /// <summary>
     /// 一个抽象的服务条目定位器。

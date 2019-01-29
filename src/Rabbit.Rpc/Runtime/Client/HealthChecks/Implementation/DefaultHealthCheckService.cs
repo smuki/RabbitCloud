@@ -1,5 +1,5 @@
-﻿using Rabbit.Rpc.Routing;
-using Rabbit.Rpc.Utilities;
+﻿using Horse.Nikon.Rpc.Routing;
+using Horse.Nikon.Rpc.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation
+namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation
 {
     public class DefaultHealthCheckService : IHealthCheckService, IDisposable
     {

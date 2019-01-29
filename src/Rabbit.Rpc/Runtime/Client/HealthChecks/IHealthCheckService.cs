@@ -1,7 +1,7 @@
-﻿//using Rabbit.Rpc.Address;
+﻿//using Horse.Nikon.Rpc.Address;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Client.HealthChecks
+namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks
 {
     /// <summary>
     /// 一个抽象的健康检查服务。

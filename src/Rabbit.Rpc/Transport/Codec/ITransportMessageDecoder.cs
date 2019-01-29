@@ -1,6 +1,6 @@
-﻿using Rabbit.Rpc.Messages;
+﻿using Horse.Nikon.Rpc.Messages;
 
-namespace Rabbit.Rpc.Transport.Codec
+namespace Horse.Nikon.Rpc.Transport.Codec
 {
     public interface ITransportMessageDecoder
     {

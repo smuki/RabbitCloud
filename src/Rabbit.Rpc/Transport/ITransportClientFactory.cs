@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Rabbit.Rpc.Transport
+namespace Horse.Nikon.Rpc.Transport
 {
     /// <summary>
     /// 一个抽象的传输客户端工厂。

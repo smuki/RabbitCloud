@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Rabbit.Rpc.Convertibles
+namespace Horse.Nikon.Rpc.Convertibles
 {
     /// <summary>
     /// 类型转换。

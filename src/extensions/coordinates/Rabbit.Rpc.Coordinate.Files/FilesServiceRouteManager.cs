@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Routing;
-using Rabbit.Rpc.Routing.Implementation;
-using Rabbit.Rpc.Serialization;
-using Rabbit.Rpc.Utilities;
+using Horse.Nikon.Rpc.Routing;
+using Horse.Nikon.Rpc.Routing.Implementation;
+using Horse.Nikon.Rpc.Serialization;
+using Horse.Nikon.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Coordinate.Files
+namespace Horse.Nikon.Rpc.Coordinate.Files
 {
     /// <summary>
     /// 基于共享文件的服务路由管理者。

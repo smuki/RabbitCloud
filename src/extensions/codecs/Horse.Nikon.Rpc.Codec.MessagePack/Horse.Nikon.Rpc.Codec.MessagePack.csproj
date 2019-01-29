@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>基于MessagePack的Rpc消息编解码器扩展。</Description>
+    <Copyright>© RabbitHub. All rights reserved.</Copyright>
+    <VersionPrefix>1.0.0-alpha1</VersionPrefix>
+    <Authors>majian</Authors>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Horse.Nikon.Rpc.Codec.MessagePack</AssemblyName>
+    <PackageId>Horse.Nikon.Rpc.Codec.MessagePack</PackageId>
+    <PackageTags>RabbitHub;RPC</PackageTags>
+    <PackageIconUrl>http://www.rabbithub.com/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/RabbitTeam/Rpc</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/RabbitTeam/Rpc/blob/master/LICENSE</PackageLicenseUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>Horse.Nikon.Rpc.Codec.MessagePack</RootNamespace>
+  </PropertyGroup>
+ <ItemGroup>
+    <PackageReference Include="MessagePack" Version="1.7.3.4" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Horse.Nikon.Rpc\Horse.Nikon.Rpc.csproj" />
+  </ItemGroup>
+
+</Project>

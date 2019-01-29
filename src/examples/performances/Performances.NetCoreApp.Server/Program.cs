@@ -3,19 +3,19 @@ using Autofac.Extensions.DependencyInjection;
 using Jacob.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Codec.MessagePack;
-using Rabbit.Rpc.Convertibles.Implementation;
-using Rabbit.Rpc.Coordinate.Files;
-using Rabbit.Rpc.Routing.Implementation;
-using Rabbit.Rpc.Runtime.Client.HealthChecks.Implementation;
-using Rabbit.Rpc.Runtime.Client.Implementation;
-using Rabbit.Rpc.Runtime.Client.Resolvers.Implementation;
-using Rabbit.Rpc.Runtime.Server.Implementation;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
-using Rabbit.Rpc.Serialization;
-using Rabbit.Rpc.Serialization.Implementation;
-using Rabbit.Rpc.Utilities;
+using Horse.Nikon.Rpc.Codec.MessagePack;
+using Horse.Nikon.Rpc.Convertibles.Implementation;
+using Horse.Nikon.Rpc.Coordinate.Files;
+using Horse.Nikon.Rpc.Routing.Implementation;
+using Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation;
+using Horse.Nikon.Rpc.Runtime.Client.Implementation;
+using Horse.Nikon.Rpc.Runtime.Client.Resolvers.Implementation;
+using Horse.Nikon.Rpc.Runtime.Server.Implementation;
+using Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation;
+using Horse.Nikon.Rpc.Serialization;
+using Horse.Nikon.Rpc.Serialization.Implementation;
+using Horse.Nikon.Rpc.Utilities;
 using Rabbit.Transport.DotNetty;
 using Rabbit.Transport.KestrelHttpServer;
 using System;
@@ -38,15 +38,15 @@ namespace Performances.NetCoreApp.Server
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            string id = Base36Converter.Encode(Int64.MaxValue);
-            string delimiter = "";
-            Console.WriteLine(id);
-            Console.WriteLine(id.Length);
-            if (!string.IsNullOrEmpty(delimiter))
-            {
-                id = id.Insert(4, delimiter);
-                id = id.Insert(9, delimiter);
-            }
+            //string id = Base36Converter.Encode(Int64.MaxValue);
+            //string delimiter = "";
+            //Console.WriteLine(id);
+            //Console.WriteLine(id.Length);
+            //if (!string.IsNullOrEmpty(delimiter))
+            //{
+            //    id = id.Insert(4, delimiter);
+            //    id = id.Insert(9, delimiter);
+            //}
 
             var serviceCollection = new ServiceCollection();
 
@@ -61,7 +61,7 @@ namespace Performances.NetCoreApp.Server
            // Console.WriteLine(" server 请输入编解码器协议：");
            // Console.WriteLine("1.JSON");
            // Console.WriteLine("2.ProtoBuffer");
-            Console.WriteLine("Server .MessagePack");
+            //Console.WriteLine("Server .MessagePack");
           
             Program pp = new Program();
             serviceProvider = pp.RegisterAutofac(serviceCollection);
@@ -71,6 +71,8 @@ namespace Performances.NetCoreApp.Server
             Console.Write($"Server startup.");
 
             Console.ReadLine();
+            Console.Write($"Server startup.");
+
         }
         private IServiceProvider RegisterAutofac(IServiceCollection services)
         {

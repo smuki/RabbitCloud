@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using org.apache.zookeeper;
-using Rabbit.Rpc.Routing;
-using Rabbit.Rpc.Routing.Implementation;
-using Rabbit.Rpc.Serialization;
+using Horse.Nikon.Rpc.Routing;
+using Horse.Nikon.Rpc.Routing.Implementation;
+using Horse.Nikon.Rpc.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Coordinate.Zookeeper
+namespace Horse.Nikon.Rpc.Coordinate.Zookeeper
 {
     /// <summary>
     /// 基于zookeeper的服务路由管理者。

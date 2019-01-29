@@ -1,4 +1,4 @@
-﻿namespace Rabbit.Rpc.Transport.Codec
+﻿namespace Horse.Nikon.Rpc.Transport.Codec
 {
     /// <summary>
     /// 一个抽象的传输消息编解码器工厂。

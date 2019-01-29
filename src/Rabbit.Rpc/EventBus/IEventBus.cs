@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Rabbit.Rpc.Event
+namespace Horse.Nikon.Rpc.Event
 {
     public class IEventBus
     {

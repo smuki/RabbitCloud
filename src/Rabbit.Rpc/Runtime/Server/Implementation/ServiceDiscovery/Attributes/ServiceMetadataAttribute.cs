@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
+namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 {
     /// <summary>
     /// Rpc服务元数据标记。

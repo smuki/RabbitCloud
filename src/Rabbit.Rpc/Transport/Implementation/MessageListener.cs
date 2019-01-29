@@ -1,8 +1,8 @@
-﻿using Rabbit.Rpc.Messages;
+﻿using Horse.Nikon.Rpc.Messages;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Transport.Implementation
+namespace Horse.Nikon.Rpc.Transport.Implementation
 {
     /// <summary>
     /// 消息监听者。

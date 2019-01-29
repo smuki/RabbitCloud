@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Exceptions;
+using Horse.Nikon.Rpc.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Rabbit.Rpc.Convertibles.Implementation
+namespace Horse.Nikon.Rpc.Convertibles.Implementation
 {
     /// <summary>
     /// 一个默认的类型转换服务。

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Rabbit.Rpc.Serialization.Implementation
+namespace Horse.Nikon.Rpc.Serialization.Implementation
 {
     /// <summary>
     /// Json序列化器。

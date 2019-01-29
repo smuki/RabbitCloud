@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Exceptions;
-using Rabbit.Rpc.Messages;
-using Rabbit.Rpc.Runtime.Client.Resolvers;
-using Rabbit.Rpc.Runtime.Client.HealthChecks;
-using Rabbit.Rpc.Transport;
-using Rabbit.Rpc.Utilities;
+using Horse.Nikon.Rpc.Exceptions;
+using Horse.Nikon.Rpc.Messages;
+using Horse.Nikon.Rpc.Runtime.Client.Resolvers;
+using Horse.Nikon.Rpc.Runtime.Client.HealthChecks;
+using Horse.Nikon.Rpc.Transport;
+using Horse.Nikon.Rpc.Utilities;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Client.Implementation
+namespace Horse.Nikon.Rpc.Runtime.Client.Implementation
 {
     public class RemoteInvokeService : IRemoteInvokeService
     {

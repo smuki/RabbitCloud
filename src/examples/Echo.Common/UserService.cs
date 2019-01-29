@@ -1,5 +1,5 @@
 
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

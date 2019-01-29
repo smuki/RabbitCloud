@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Exceptions;
-using Rabbit.Rpc.Messages;
-using Rabbit.Rpc.Runtime.Server;
+using Horse.Nikon.Rpc.Exceptions;
+using Horse.Nikon.Rpc.Messages;
+using Horse.Nikon.Rpc.Runtime.Server;
 using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Transport.Implementation
+namespace Horse.Nikon.Rpc.Transport.Implementation
 {
     /// <summary>
     /// 一个默认的传输客户端实现。

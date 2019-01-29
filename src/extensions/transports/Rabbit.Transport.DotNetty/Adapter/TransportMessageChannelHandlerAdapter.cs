@@ -1,7 +1,7 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
-using Rabbit.Rpc.Transport.Codec;
+using Horse.Nikon.Rpc.Transport.Codec;
 
 namespace Rabbit.Transport.DotNetty.Adapter
 {

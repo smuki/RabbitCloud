@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Routing
+namespace Horse.Nikon.Rpc.Routing
 {
     /// <summary>
     /// 一个抽象的服务路由工厂。

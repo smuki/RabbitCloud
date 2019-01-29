@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.Convertibles
+namespace Horse.Nikon.Rpc.Convertibles
 {
     /// <summary>
     /// 一个抽象的类型转换服务。

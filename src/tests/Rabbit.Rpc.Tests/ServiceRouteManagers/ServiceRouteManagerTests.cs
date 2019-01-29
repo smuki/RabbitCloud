@@ -1,12 +1,12 @@
-﻿//using Rabbit.Rpc.Address;
-using Rabbit.Rpc.Routing;
-using Rabbit.Rpc.Runtime.Server;
+﻿//using Horse.Nikon.Rpc.Address;
+using Horse.Nikon.Rpc.Routing;
+using Horse.Nikon.Rpc.Runtime.Server;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Rabbit.Rpc.Tests.ServiceRouteManagers
+namespace Horse.Nikon.Rpc.Tests.ServiceRouteManagers
 {
     public abstract class ServiceRouteManagerTests : IDisposable
     {

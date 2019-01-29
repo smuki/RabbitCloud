@@ -1,8 +1,8 @@
-﻿using Rabbit.Rpc.Messages;
+﻿using Horse.Nikon.Rpc.Messages;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Transport
+namespace Horse.Nikon.Rpc.Transport
 {
     /// <summary>
     /// 接受到消息的委托。

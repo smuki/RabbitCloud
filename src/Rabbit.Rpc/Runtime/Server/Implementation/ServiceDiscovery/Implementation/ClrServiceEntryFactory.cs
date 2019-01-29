@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Rabbit.Rpc.Convertibles;
-//using Rabbit.Rpc.Ids;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
-using Rabbit.Rpc.Utilities;
+using Horse.Nikon.Rpc.Convertibles;
+//using Horse.Nikon.Rpc.Ids;
+using Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Horse.Nikon.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation
+namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Implementation
 {
     /// <summary>
     /// Clr服务条目工厂。

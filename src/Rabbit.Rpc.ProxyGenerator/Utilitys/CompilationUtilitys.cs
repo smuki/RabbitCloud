@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Runtime.Client;
+using Horse.Nikon.Rpc.Runtime.Client;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyModel;
 
 #endif
 
-namespace Rabbit.Rpc.ProxyGenerator.Utilitys
+namespace Horse.Nikon.Rpc.ProxyGenerator.Utilitys
 {
     public static class CompilationUtilitys
     {
@@ -41,7 +41,7 @@ namespace Rabbit.Rpc.ProxyGenerator.Utilitys
                 MetadataReference.CreateFromFile(typeof(IRemoteInvokeService).GetTypeInfo().Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(IServiceProxyGenerater).GetTypeInfo().Assembly.Location)
             }.Concat(references);
-            return Compile(AssemblyInfo.Create("Rabbit.Rpc.ClientProxys"), trees, references, logger);
+            return Compile(AssemblyInfo.Create("Horse.Nikon.Rpc.ClientProxys"), trees, references, logger);
         }
 
         public static MemoryStream Compile(AssemblyInfo assemblyInfo, IEnumerable<SyntaxTree> trees, IEnumerable<MetadataReference> references, ILogger logger = null)

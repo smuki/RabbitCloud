@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Routing;
-using Rabbit.Rpc.Runtime.Client.HealthChecks;
+using Horse.Nikon.Rpc.Routing;
+using Horse.Nikon.Rpc.Runtime.Client.HealthChecks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Client.Resolvers.Implementation
+namespace Horse.Nikon.Rpc.Runtime.Client.Resolvers.Implementation
 {
     /// <summary>
     /// 一个人默认的服务地址解析器。

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.Serialization
+namespace Horse.Nikon.Rpc.Serialization
 {
     /// <summary>
     /// 一个抽象的序列化器。

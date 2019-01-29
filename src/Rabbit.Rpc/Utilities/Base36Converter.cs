@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Rabbit.Rpc.Utilities
+namespace Horse.Nikon.Rpc.Utilities
 {
     public static class Base36Converter {
         private static string _charList = "0123456789abcdefghijklmnopqrstuvwxyz";

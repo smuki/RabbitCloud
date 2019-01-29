@@ -3,7 +3,7 @@ using System.Net;
 using Autofac;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Server
+namespace Horse.Nikon.Rpc.Runtime.Server
 {
     /// <summary>
     /// 一个抽象的服务主机。

@@ -1,9 +1,9 @@
-﻿using Rabbit.Rpc.Messages;
+﻿using Horse.Nikon.Rpc.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Rabbit.Rpc.Runtime.Server.Implementation
+namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
 {
     /// <summary>
     /// 默认的服务条目定位器。

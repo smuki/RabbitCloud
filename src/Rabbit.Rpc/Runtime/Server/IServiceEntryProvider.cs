@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Rabbit.Rpc.Runtime.Server
+namespace Horse.Nikon.Rpc.Runtime.Server
 {
     /// <summary>
     /// 一个抽象的服务条目提供程序。

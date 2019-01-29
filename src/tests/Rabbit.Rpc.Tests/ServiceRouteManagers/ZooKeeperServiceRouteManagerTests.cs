@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Rabbit.Rpc.Coordinate.Zookeeper;
-using Rabbit.Rpc.Routing;
+using Horse.Nikon.Rpc.Coordinate.Zookeeper;
+using Horse.Nikon.Rpc.Routing;
 
-namespace Rabbit.Rpc.Tests.ServiceRouteManagers
+namespace Horse.Nikon.Rpc.Tests.ServiceRouteManagers
 {
     public class ZooKeeperServiceRouteManagerTests : ServiceRouteManagerTests
     {

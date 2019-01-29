@@ -1,10 +1,10 @@
-﻿using Rabbit.Rpc.Convertibles;
-using Rabbit.Rpc.Runtime.Client;
+﻿using Horse.Nikon.Rpc.Convertibles;
+using Horse.Nikon.Rpc.Runtime.Client;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Rabbit.Rpc.ProxyGenerator.Implementation
+namespace Horse.Nikon.Rpc.ProxyGenerator.Implementation
 {
     /// <summary>
     /// 默认的服务代理工厂实现。

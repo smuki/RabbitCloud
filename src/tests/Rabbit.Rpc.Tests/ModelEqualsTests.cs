@@ -1,12 +1,12 @@
-﻿//using Rabbit.Rpc.Address;
-using Rabbit.Rpc.Routing;
-using Rabbit.Rpc.Runtime.Server;
+﻿//using Horse.Nikon.Rpc.Address;
+using Horse.Nikon.Rpc.Routing;
+using Horse.Nikon.Rpc.Runtime.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace Rabbit.Rpc.Tests
+namespace Horse.Nikon.Rpc.Tests
 {
     public class ModelEqualsTests
     {

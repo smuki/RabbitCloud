@@ -1,8 +1,8 @@
-﻿using Rabbit.Rpc.Messages;
+﻿using Horse.Nikon.Rpc.Messages;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Client
+namespace Horse.Nikon.Rpc.Runtime.Client
 {
     /// <summary>
     /// 一个抽象的远程调用服务。

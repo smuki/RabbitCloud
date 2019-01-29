@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyName>Rabbit.Rpc.Tests</AssemblyName>
-    <PackageId>Rabbit.Rpc.Tests</PackageId>
+    <AssemblyName>Horse.Nikon.Rpc.Tests</AssemblyName>
+    <PackageId>Horse.Nikon.Rpc.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <NetStandardImplicitPackageVersion>2.0</NetStandardImplicitPackageVersion>
     <RuntimeFrameworkVersion>2.1.0</RuntimeFrameworkVersion>
@@ -13,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\extensions\coordinates\Rabbit.Rpc.Coordinate.Files\Rabbit.Rpc.Coordinate.Files.csproj" />
-    <ProjectReference Include="..\..\Rabbit.Rpc\Rabbit.Rpc.csproj" />
-    <ProjectReference Include="..\..\extensions\coordinates\Rabbit.Rpc.Coordinate.Zookeeper\Rabbit.Rpc.Coordinate.Zookeeper.csproj" />
+    <ProjectReference Include="..\..\extensions\coordinates\Horse.Nikon.Rpc.Coordinate.Files\Horse.Nikon.Rpc.Coordinate.Files.csproj" />
+    <ProjectReference Include="..\..\Horse.Nikon.Rpc\Horse.Nikon.Rpc.csproj" />
+    <ProjectReference Include="..\..\extensions\coordinates\Horse.Nikon.Rpc.Coordinate.Zookeeper\Horse.Nikon.Rpc.Coordinate.Zookeeper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

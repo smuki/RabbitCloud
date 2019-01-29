@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 
-namespace Rabbit.Rpc.Utilities
+namespace Horse.Nikon.Rpc.Utilities
 {
     public class AddrUtil
     {

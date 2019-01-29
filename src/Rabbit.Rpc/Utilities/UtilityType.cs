@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 
-namespace Rabbit.Rpc.Utilities
+namespace Horse.Nikon.Rpc.Utilities
 {
     public static class UtilityType
     {

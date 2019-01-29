@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Messages;
-using Rabbit.Rpc.Transport;
+using Horse.Nikon.Rpc.Messages;
+using Horse.Nikon.Rpc.Transport;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Server.Implementation
+namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
 {
     public class DefaultServiceExecutor : IServiceExecutor
     {

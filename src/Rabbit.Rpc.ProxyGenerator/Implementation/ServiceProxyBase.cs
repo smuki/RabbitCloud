@@ -1,10 +1,10 @@
-﻿using Rabbit.Rpc.Convertibles;
-using Rabbit.Rpc.Messages;
-using Rabbit.Rpc.Runtime.Client;
+﻿using Horse.Nikon.Rpc.Convertibles;
+using Horse.Nikon.Rpc.Messages;
+using Horse.Nikon.Rpc.Runtime.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.ProxyGenerator.Implementation
+namespace Horse.Nikon.Rpc.ProxyGenerator.Implementation
 {
     /// <summary>
     /// 一个抽象的服务代理基类。

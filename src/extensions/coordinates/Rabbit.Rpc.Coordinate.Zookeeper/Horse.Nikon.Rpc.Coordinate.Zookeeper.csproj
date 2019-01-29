@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>基于ZooKeeper的Rpc服务协调扩展。</Description>
+    <Copyright>© RabbitHub. All rights reserved.</Copyright>
+    <VersionPrefix>1.0.0-alpha1</VersionPrefix>
+    <Authors>majian</Authors>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Horse.Nikon.Rpc.Coordinate.Zookeeper</AssemblyName>
+    <PackageId>Horse.Nikon.Rpc.Coordinate.Zookeeper</PackageId>
+    <PackageTags>RabbitHub;RPC</PackageTags>
+    <PackageIconUrl>http://www.rabbithub.com/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/RabbitTeam/Rpc</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/RabbitTeam/Rpc/blob/master/LICENSE</PackageLicenseUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Horse.Nikon.Rpc\Horse.Nikon.Rpc.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ZooKeeperNetEx" Version="3.4.9.2" />
+  </ItemGroup>
+
+
+
+
+
+</Project>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.Utilities
+namespace Horse.Nikon.Rpc.Utilities
 {
 
     public sealed class Check

@@ -1,7 +1,7 @@
-﻿using Rabbit.Rpc.Runtime.Server;
+﻿using Horse.Nikon.Rpc.Runtime.Server;
 using System.Collections.Generic;
 
-namespace Rabbit.Rpc.Routing
+namespace Horse.Nikon.Rpc.Routing
 {
     /// <summary>
     /// 服务路由描述符。

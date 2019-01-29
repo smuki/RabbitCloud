@@ -1,6 +1,6 @@
-﻿using Rabbit.Rpc.Messages;
+﻿using Horse.Nikon.Rpc.Messages;
 
-namespace Rabbit.Rpc.Runtime.Client
+namespace Horse.Nikon.Rpc.Runtime.Client
 {
     /// <summary>
     /// 远程调用上下文。

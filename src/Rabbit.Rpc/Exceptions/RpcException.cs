@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.Exceptions
+namespace Horse.Nikon.Rpc.Exceptions
 {
     /// <summary>
     /// 一个基础的Rpc异常类。

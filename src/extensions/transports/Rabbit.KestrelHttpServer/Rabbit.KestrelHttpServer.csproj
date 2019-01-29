@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Rabbit.Rpc\Rabbit.Rpc.csproj" />
+    <ProjectReference Include="..\..\..\Horse.Nikon.Rpc\Horse.Nikon.Rpc.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.Utilities;
+using Horse.Nikon.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
+namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes
 {
     /// <summary>
     /// Service标记类型的服务条目提供程序。

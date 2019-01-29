@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.Messages
+namespace Horse.Nikon.Rpc.Messages
 {
     /// <summary>
     /// 传输消息模型。

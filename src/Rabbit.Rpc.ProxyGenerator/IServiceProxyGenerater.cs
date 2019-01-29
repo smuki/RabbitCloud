@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Rabbit.Rpc.ProxyGenerator
+namespace Horse.Nikon.Rpc.ProxyGenerator
 {
     /// <summary>
     /// 一个抽象的服务代理生成器。

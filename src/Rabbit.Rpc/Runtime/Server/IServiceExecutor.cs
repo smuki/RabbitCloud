@@ -1,8 +1,8 @@
-﻿using Rabbit.Rpc.Messages;
-using Rabbit.Rpc.Transport;
+﻿using Horse.Nikon.Rpc.Messages;
+using Horse.Nikon.Rpc.Transport;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Runtime.Server
+namespace Horse.Nikon.Rpc.Runtime.Server
 {
     /// <summary>
     /// 一个抽象的服务执行器。

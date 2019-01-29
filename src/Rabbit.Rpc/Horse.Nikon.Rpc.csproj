@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>一个轻量级跨平台的Rpc。</Description>
+    <Copyright>© RabbitHub. All rights reserved.</Copyright>
+    <VersionPrefix>1.0.0-alpha1</VersionPrefix>
+    <Authors>majian</Authors>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Horse.Nikon.Rpc</AssemblyName>
+    <PackageId>Horse.Nikon.Rpc</PackageId>
+    <PackageTags>RabbitHub;RPC</PackageTags>
+    <PackageIconUrl>http://www.rabbithub.com/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/RabbitTeam/Rpc</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/RabbitTeam/Rpc/blob/master/LICENSE</PackageLicenseUrl>
+    <NetStandardImplicitPackageVersion>2.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Transport\Codec\Implementation\**" />
+    <EmbeddedResource Remove="Transport\Codec\Implementation\**" />
+    <None Remove="Transport\Codec\Implementation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Utilities\Check.cs" />
+    <Compile Remove="Utilities\DebugCheck.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="1.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Volte.Utils">
+      <HintPath>..\..\..\YKB\Packages\Volte.Utils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

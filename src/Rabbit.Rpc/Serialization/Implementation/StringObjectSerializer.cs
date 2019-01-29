@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.Serialization.Implementation
+namespace Horse.Nikon.Rpc.Serialization.Implementation
 {
     /// <summary>
     /// 基于string类型的object序列化器。

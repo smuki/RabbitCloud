@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Rabbit.Rpc.Serialization.Implementation
+namespace Horse.Nikon.Rpc.Serialization.Implementation
 {
     /// <summary>
     /// 基于string类型的byte[]序列化器。

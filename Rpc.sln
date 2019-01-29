@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "performances", "performance
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetCoreApp", "NetCoreApp", "{7CE7798C-5BB4-4680-975A-6D13DE782690}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc", "src\Rabbit.Rpc\Rabbit.Rpc.csproj", "{81911EDF-5E21-4AC8-882A-7219696B9415}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc", "src\Rabbit.Rpc\Horse.Nikon.Rpc.csproj", "{81911EDF-5E21-4AC8-882A-7219696B9415}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.ProxyGenerator", "src\Rabbit.Rpc.ProxyGenerator\Rabbit.Rpc.ProxyGenerator.csproj", "{5105CB2C-5BFA-4106-84E9-F1101323C560}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc.ProxyGenerator", "src\Rabbit.Rpc.ProxyGenerator\Horse.Nikon.Rpc.ProxyGenerator.csproj", "{5105CB2C-5BFA-4106-84E9-F1101323C560}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Transport.DotNetty", "src\extensions\transports\Rabbit.Transport.DotNetty\Rabbit.Transport.DotNetty.csproj", "{D906803F-F09D-436E-9A95-37DB9AAC1F13}"
 EndProject
@@ -35,9 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Echo.Client", "src\examples
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Echo.Server", "src\examples\Echo.Server\Echo.Server.csproj", "{E5D680F5-D85F-4BF0-B7A9-B3F7D5CECB46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.Codec.ProtoBuffer", "src\extensions\codecs\Rabbit.Rpc.Codec.ProtoBuffer\Rabbit.Rpc.Codec.ProtoBuffer.csproj", "{1467CDFA-20E4-4510-9D6B-FD2425ADD51B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc.Codec.ProtoBuffer", "src\extensions\codecs\Horse.Nikon.Rpc.Codec.ProtoBuffer\Horse.Nikon.Rpc.Codec.ProtoBuffer.csproj", "{1467CDFA-20E4-4510-9D6B-FD2425ADD51B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.Coordinate.Zookeeper", "src\extensions\coordinates\Rabbit.Rpc.Coordinate.Zookeeper\Rabbit.Rpc.Coordinate.Zookeeper.csproj", "{A7126F11-F0C3-4AE0-A62D-8BD9E1F3399F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc.Coordinate.Zookeeper", "src\extensions\coordinates\Horse.Nikon.Rpc.Coordinate.Zookeeper\Horse.Nikon.Rpc.Coordinate.Zookeeper.csproj", "{A7126F11-F0C3-4AE0-A62D-8BD9E1F3399F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.ClientGenerator", "src\tools\Rabbit.Rpc.ClientGenerator\Rabbit.Rpc.ClientGenerator.csproj", "{DD3E4F3A-DCD2-480C-B9F0-954AE53A37EA}"
 EndProject
@@ -47,11 +47,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Performances.NetCoreApp.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Performances.NetCoreApp.Client", "src\examples\performances\Performances.NetCoreApp.Client\Performances.NetCoreApp.Client.csproj", "{0657FBBF-0E18-4451-AB4E-6DCB6156F2BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.Codec.MessagePack", "src\extensions\codecs\Rabbit.Rpc.Codec.MessagePack\Rabbit.Rpc.Codec.MessagePack.csproj", "{36C20737-05A9-45F3-9D36-E18B1E32A2C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc.Codec.MessagePack", "src\extensions\codecs\Horse.Nikon.Rpc.Codec.MessagePack\Horse.Nikon.Rpc.Codec.MessagePack.csproj", "{36C20737-05A9-45F3-9D36-E18B1E32A2C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.Codec.Json", "src\extensions\codecs\Rabbit.Rpc.Codec.Json\Rabbit.Rpc.Codec.Json.csproj", "{EC04EA64-DC65-44D4-8D3A-94ECADA059C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc.Codec.Json", "src\extensions\codecs\Horse.Nikon.Rpc.Codec.Json\Horse.Nikon.Rpc.Codec.Json.csproj", "{EC04EA64-DC65-44D4-8D3A-94ECADA059C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.Rpc.Coordinate.Files", "src\extensions\coordinates\Rabbit.Rpc.Coordinate.Files\Rabbit.Rpc.Coordinate.Files.csproj", "{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc.Coordinate.Files", "src\extensions\coordinates\Horse.Nikon.Rpc.Coordinate.Files\Horse.Nikon.Rpc.Coordinate.Files.csproj", "{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.KestrelHttpServer", "src\extensions\transports\Rabbit.KestrelHttpServer\Rabbit.KestrelHttpServer.csproj", "{4E7EC46E-B577-464F-A767-D354346D05ED}"
 EndProject

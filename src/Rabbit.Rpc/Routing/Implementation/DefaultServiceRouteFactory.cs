@@ -1,10 +1,10 @@
-﻿using Rabbit.Rpc.Serialization;
+﻿using Horse.Nikon.Rpc.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Routing.Implementation
+namespace Horse.Nikon.Rpc.Routing.Implementation
 {
     /// <summary>
     /// 一个默认的服务路由工厂实现。

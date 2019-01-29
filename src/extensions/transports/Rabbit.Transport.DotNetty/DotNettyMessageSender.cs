@@ -1,8 +1,8 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
-using Rabbit.Rpc.Messages;
-using Rabbit.Rpc.Transport;
-using Rabbit.Rpc.Transport.Codec;
+using Horse.Nikon.Rpc.Messages;
+using Horse.Nikon.Rpc.Transport;
+using Horse.Nikon.Rpc.Transport.Codec;
 using System;
 using System.Threading.Tasks;
 

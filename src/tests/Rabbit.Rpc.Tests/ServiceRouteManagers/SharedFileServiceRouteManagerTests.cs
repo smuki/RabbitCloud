@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Rabbit.Rpc.Coordinate.Files;
-using Rabbit.Rpc.Routing;
-using Rabbit.Rpc.Routing.Implementation;
+using Horse.Nikon.Rpc.Coordinate.Files;
+using Horse.Nikon.Rpc.Routing;
+using Horse.Nikon.Rpc.Routing.Implementation;
 using System;
 using System.IO;
 
-namespace Rabbit.Rpc.Tests.ServiceRouteManagers
+namespace Horse.Nikon.Rpc.Tests.ServiceRouteManagers
 {
     public class SharedFileServiceRouteManagerTests : ServiceRouteManagerTests
     {

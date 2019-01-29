@@ -1,11 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Rabbit.Rpc.Convertibles;
-//using Rabbit.Rpc.Ids;
-using Rabbit.Rpc.ProxyGenerator.Utilitys;
-using Rabbit.Rpc.Runtime.Client;
-using Rabbit.Rpc.Serialization;
+using Horse.Nikon.Rpc.Convertibles;
+//using Horse.Nikon.Rpc.Ids;
+using Horse.Nikon.Rpc.ProxyGenerator.Utilitys;
+using Horse.Nikon.Rpc.Runtime.Client;
+using Horse.Nikon.Rpc.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Rabbit.Rpc.ProxyGenerator.Implementation
+namespace Horse.Nikon.Rpc.ProxyGenerator.Implementation
 {
     public class ServiceProxyGenerater : IServiceProxyGenerater
     {

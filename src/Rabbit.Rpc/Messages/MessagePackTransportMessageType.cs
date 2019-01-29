@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Rabbit.Rpc.Messages
+namespace Horse.Nikon.Rpc.Messages
 {
     public class MessagePackTransportMessageType
     { 

@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyName>Rabbit.Rpc.ClientGenerator</AssemblyName>
+    <AssemblyName>Horse.Nikon.Rpc.ClientGenerator</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>Rabbit.Rpc.ClientGenerator</PackageId>
+    <PackageId>Horse.Nikon.Rpc.ClientGenerator</PackageId>
     <RuntimeFrameworkVersion>2.1.0</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Rabbit.Rpc\Rabbit.Rpc.csproj" />
-    <ProjectReference Include="..\..\Rabbit.Rpc.ProxyGenerator\Rabbit.Rpc.ProxyGenerator.csproj" />
+    <ProjectReference Include="..\..\Horse.Nikon.Rpc\Horse.Nikon.Rpc.csproj" />
+    <ProjectReference Include="..\..\Horse.Nikon.Rpc.ProxyGenerator\Horse.Nikon.Rpc.ProxyGenerator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

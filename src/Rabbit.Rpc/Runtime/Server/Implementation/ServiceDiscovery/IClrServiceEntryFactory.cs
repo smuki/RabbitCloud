@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery
+namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery
 {
     /// <summary>
     /// 一个抽象的Clr服务条目工厂。

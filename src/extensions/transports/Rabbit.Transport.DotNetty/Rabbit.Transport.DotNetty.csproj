@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Rabbit.Rpc\Rabbit.Rpc.csproj" />
+    <ProjectReference Include="..\..\..\Horse.Nikon.Rpc\Horse.Nikon.Rpc.csproj" />
     <PackageReference Include="DotNetty.Transport.Libuv" Version="0.4.8" />
     <PackageReference Include="System.Memory" Version="4.5.1" />
   </ItemGroup>

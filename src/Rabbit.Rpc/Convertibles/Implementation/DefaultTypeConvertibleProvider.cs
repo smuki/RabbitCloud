@@ -1,10 +1,10 @@
-﻿using Rabbit.Rpc.Serialization;
-using Rabbit.Rpc.Utilities;
+﻿using Horse.Nikon.Rpc.Serialization;
+using Horse.Nikon.Rpc.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Rabbit.Rpc.Convertibles.Implementation
+namespace Horse.Nikon.Rpc.Convertibles.Implementation
 {
     /// <summary>
     /// 一个默认的类型转换提供程序。

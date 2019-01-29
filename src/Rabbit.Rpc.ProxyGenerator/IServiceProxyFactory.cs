@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.ProxyGenerator
+namespace Horse.Nikon.Rpc.ProxyGenerator
 {
     /// <summary>
     /// 一个抽象的服务代理工厂。

@@ -2,9 +2,9 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Rabbit.Rpc.ProxyGenerator;
-using Rabbit.Rpc.ProxyGenerator.Utilitys;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Horse.Nikon.Rpc.ProxyGenerator;
+using Horse.Nikon.Rpc.ProxyGenerator.Utilitys;
+using Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +13,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
 
-namespace Rabbit.Rpc.ClientGenerator
+namespace Horse.Nikon.Rpc.ClientGenerator
 {
     public class Program
     {
@@ -119,7 +119,7 @@ namespace Rabbit.Rpc.ClientGenerator
         {
             using (var stream = CompilationUtilitys.CompileClientProxy(GetTrees(), AssemblyFiles.Select(file => MetadataReference.CreateFromFile(file)), Logger))
             {
-                var fileName = Path.Combine(OutputDirectory, "Rabbit.Rpc.ClientProxys.dll");
+                var fileName = Path.Combine(OutputDirectory, "Horse.Nikon.Rpc.ClientProxys.dll");
                 File.WriteAllBytes(fileName, stream.ToArray());
                 Console.WriteLine($"Generate successful path:{ fileName}");
             }

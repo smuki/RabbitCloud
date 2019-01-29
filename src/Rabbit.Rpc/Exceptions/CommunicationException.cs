@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rabbit.Rpc.Exceptions
+namespace Horse.Nikon.Rpc.Exceptions
 {
     /// <summary>
     /// RPC通讯异常（与服务端进行通讯时发生的异常）。

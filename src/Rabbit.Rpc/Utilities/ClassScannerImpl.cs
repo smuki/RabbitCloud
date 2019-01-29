@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Rabbit.Rpc.Utilities
+namespace Horse.Nikon.Rpc.Utilities
 {
     public class ClassScannerImpl : IClassScanner
     {
@@ -28,7 +28,7 @@ namespace Rabbit.Rpc.Utilities
         }
         public void Scan(List<string> virtualPaths)
         {
-            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
+            //Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
             virtualPaths.Add(AppDomain.CurrentDomain.BaseDirectory);
 
             GetReferenceAssembly(virtualPaths.ToArray());
@@ -48,10 +48,12 @@ namespace Rabbit.Rpc.Utilities
 
                     foreach (var referencedAssemblyFile in assemblyFiles)
                     {
-                        Console.WriteLine(referencedAssemblyFile);
+                        //Console.WriteLine(referencedAssemblyFile);
                         var referencedAssembly = Assembly.LoadFrom(referencedAssemblyFile);
                         if (!refAssemblies.Contains(referencedAssembly))
+                        {
                             refAssemblies.Add(referencedAssembly);
+                        }
                         //refAssemblies.Add(referencedAssembly);
                     }
                     //result = existsPath ? refAssemblies : _referenceAssembly;

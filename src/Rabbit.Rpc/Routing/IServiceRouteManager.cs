@@ -1,10 +1,10 @@
-﻿using Rabbit.Rpc.Routing.Implementation;
+﻿using Horse.Nikon.Rpc.Routing.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rabbit.Rpc.Routing
+namespace Horse.Nikon.Rpc.Routing
 {
     /// <summary>
     /// 一个抽象的服务路由发现者。

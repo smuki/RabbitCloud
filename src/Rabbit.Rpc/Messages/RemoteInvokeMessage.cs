@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Rabbit.Rpc.Messages
+namespace Horse.Nikon.Rpc.Messages
 {
     /// <summary>
     /// 远程调用消息。

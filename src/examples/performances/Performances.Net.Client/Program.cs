@@ -1,9 +1,9 @@
 ﻿using Echo.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Rabbit.Rpc;
-using Rabbit.Rpc.Codec.ProtoBuffer;
-using Rabbit.Rpc.ProxyGenerator;
+using Horse.Nikon.Rpc;
+using Horse.Nikon.Rpc.Codec.ProtoBuffer;
+using Horse.Nikon.Rpc.ProxyGenerator;
 using Rabbit.Transport.DotNetty;
 using System;
 using System.Diagnostics;

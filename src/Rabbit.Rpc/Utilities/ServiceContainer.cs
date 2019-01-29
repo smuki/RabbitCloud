@@ -1,10 +1,10 @@
 ﻿using Autofac;
-using Rabbit.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
+using Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attributes;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Rabbit.Rpc.Utilities
+namespace Horse.Nikon.Rpc.Utilities
 {
     public class ServiceContainer
     {
