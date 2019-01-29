@@ -13,7 +13,7 @@
     <ProjectReference Include="..\..\extensions\coordinates\Horse.Nikon.Rpc.Coordinate.Files\Horse.Nikon.Rpc.Coordinate.Files.csproj" />
     <ProjectReference Include="..\..\extensions\transports\Rabbit.Transport.DotNetty\Rabbit.Transport.DotNetty.csproj" />
     <ProjectReference Include="..\Echo.Common\Echo.Common.csproj" />
-    <ProjectReference Include="..\..\Horse.Nikon.Rpc\Horse.Nikon.Rpc.csproj" />
+    <ProjectReference Include="..\..\Rabbit.Rpc\Horse.Nikon.Rpc.csproj" />
     <ProjectReference Include="..\..\extensions\codecs\Horse.Nikon.Rpc.Codec.ProtoBuffer\Horse.Nikon.Rpc.Codec.ProtoBuffer.csproj" />
   </ItemGroup>
 

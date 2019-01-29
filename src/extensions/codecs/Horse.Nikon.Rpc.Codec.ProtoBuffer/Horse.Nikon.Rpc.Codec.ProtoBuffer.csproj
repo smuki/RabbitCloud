@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Horse.Nikon.Rpc\Horse.Nikon.Rpc.csproj" />
+    <ProjectReference Include="..\..\..\Rabbit.Rpc\Horse.Nikon.Rpc.csproj" />
     <PackageReference Include="protobuf-net" Version="2.1.0" />
   </ItemGroup>
 
