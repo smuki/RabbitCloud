@@ -20,8 +20,8 @@ namespace Horse.Nikon.Rpc.Transport.Implementation
         private readonly ILogger _logger;
         private readonly IServiceExecutor _serviceExecutor;
 
-        private readonly ConcurrentDictionary<string, TaskCompletionSource<TransportMessage>> _resultDictionary =
-            new ConcurrentDictionary<string, TaskCompletionSource<TransportMessage>>();
+        private readonly ConcurrentDictionary<string, ManualResetValueTaskSource<TransportMessage>> _resultDictionary =
+            new ConcurrentDictionary<string, ManualResetValueTaskSource<TransportMessage>>();
 
         #endregion Field
 
@@ -46,7 +46,7 @@ namespace Horse.Nikon.Rpc.Transport.Implementation
         /// </summary>
         /// <param name="message">远程调用消息模型。</param>
         /// <returns>远程调用消息的传输消息。</returns>
-        public async Task<RemoteInvokeResultMessage> SendAsync(RemoteInvokeMessage message)
+        public async Task<RemoteInvokeResultMessage> SendAsync(RemoteInvokeMessage message, CancellationToken cancellationToken)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Horse.Nikon.Rpc.Transport.Implementation
                 var transportMessage = TransportMessage.CreateInvokeMessage(message);
 
                 //注册结果回调
-                var callbackTask = RegisterResultCallbackAsync(transportMessage.Id);
+                var callbackTask = RegisterResultCallbackAsync(transportMessage.Id,cancellationToken);
 
                 try
                 {
@@ -92,7 +92,7 @@ namespace Horse.Nikon.Rpc.Transport.Implementation
             (_messageListener as IDisposable)?.Dispose();
             foreach (var taskCompletionSource in _resultDictionary.Values)
             {
-                taskCompletionSource.TrySetCanceled();
+                taskCompletionSource.SetCanceled();
             }
         }
 
@@ -105,24 +105,24 @@ namespace Horse.Nikon.Rpc.Transport.Implementation
         /// </summary>
         /// <param name="id">消息Id。</param>
         /// <returns>远程调用结果消息模型。</returns>
-        private async Task<RemoteInvokeResultMessage> RegisterResultCallbackAsync(string id)
+        private async Task<RemoteInvokeResultMessage> RegisterResultCallbackAsync(string id, CancellationToken cancellationToken)
         {
             if (_logger.IsEnabled(LogLevel.Debug))
                 _logger.LogDebug($"准备获取Id为：{id}的响应内容。");
 
-            var task = new TaskCompletionSource<TransportMessage>();
+            var task = new ManualResetValueTaskSource<TransportMessage>();
             _resultDictionary.TryAdd(id, task);
             try
             {
-                var result = await task.Task;
+                var result = await task.AwaitValue(cancellationToken);
                 return result.GetContent<RemoteInvokeResultMessage>();
             }
             finally
             {
                 //删除回调任务
-                TaskCompletionSource<TransportMessage> value;
+                ManualResetValueTaskSource<TransportMessage> value;
                 _resultDictionary.TryRemove(id, out value);
-                value.TrySetCanceled();
+                value.SetCanceled();
             }
         }
 
@@ -131,7 +131,7 @@ namespace Horse.Nikon.Rpc.Transport.Implementation
             if (_logger.IsEnabled(LogLevel.Trace))
                 _logger.LogTrace("服务消费者接收到消息。");
 
-            TaskCompletionSource<TransportMessage> task;
+            ManualResetValueTaskSource<TransportMessage> task;
             if (!_resultDictionary.TryGetValue(message.Id, out task))
                 return;
 
@@ -140,7 +140,7 @@ namespace Horse.Nikon.Rpc.Transport.Implementation
                 var content = message.GetContent<RemoteInvokeResultMessage>();
                 if (!string.IsNullOrEmpty(content.ExceptionMessage))
                 {
-                    task.TrySetException(new RpcRemoteException(content.ExceptionMessage, content.Status));
+                    task.SetException(new RpcRemoteException(content.ExceptionMessage, content.Status));
                 }
                 else
                 {
