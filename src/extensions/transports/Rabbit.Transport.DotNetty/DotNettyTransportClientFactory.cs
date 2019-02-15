@@ -18,6 +18,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Horse.Nikon.Rpc.Runtime.Client.HealthChecks;
 
 namespace Rabbit.Transport.DotNetty
 {
@@ -97,9 +98,10 @@ namespace Rabbit.Transport.DotNetty
             {
                 _logger.LogDebug(ex.ToString());
                 _clients.TryRemove(key, out var value);
-                var ipEndPoint = endPoint as IPEndPoint;
-                if(ipEndPoint !=null)
-                _healthCheckService.MarkFailure(new IpAddressModel(ipEndPoint.Address.ToString(), ipEndPoint.Port));
+                if (endPoint != null)
+                {
+                    _healthCheckService.MarkFailure(endPoint.ToString());
+                }
                 throw;
             }
         }
