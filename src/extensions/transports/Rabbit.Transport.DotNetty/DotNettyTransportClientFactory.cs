@@ -32,6 +32,7 @@ namespace Rabbit.Transport.DotNetty
         private readonly ITransportMessageDecoder _transportMessageDecoder;
         private readonly ILogger<DotNettyTransportClientFactory> _logger;
         private readonly IServiceExecutor _serviceExecutor;
+        private readonly IHealthCheckService _healthCheckService;
         private readonly ConcurrentDictionary<EndPoint, Lazy<ITransportClient>> _clients = new ConcurrentDictionary<EndPoint, Lazy<ITransportClient>>();
         private readonly Bootstrap _bootstrap;
         private ISetting _Setting;
@@ -43,12 +44,13 @@ namespace Rabbit.Transport.DotNetty
         #endregion Field
 
         #region Constructor      
-        public DotNettyTransportClientFactory(ISetting setting, ITransportMessageCodecFactory codecFactory, ILogger<DotNettyTransportClientFactory> logger, IServiceExecutor serviceExecutor)
+        public DotNettyTransportClientFactory(ISetting setting, ITransportMessageCodecFactory codecFactory, IHealthCheckService healthCheckService, ILogger<DotNettyTransportClientFactory> logger, IServiceExecutor serviceExecutor)
         {
             _Setting = setting;
             _transportMessageEncoder = codecFactory.GetEncoder();
             _transportMessageDecoder = codecFactory.GetDecoder();
             _logger = logger;
+            _healthCheckService = healthCheckService;
             _serviceExecutor = serviceExecutor;
             _bootstrap = this.GetBootstrap();
             _bootstrap.Handler(new ActionChannelInitializer<ISocketChannel>(c =>
@@ -95,6 +97,9 @@ namespace Rabbit.Transport.DotNetty
             {
                 _logger.LogDebug(ex.ToString());
                 _clients.TryRemove(key, out var value);
+                var ipEndPoint = endPoint as IPEndPoint;
+                if(ipEndPoint !=null)
+                _healthCheckService.MarkFailure(new IpAddressModel(ipEndPoint.Address.ToString(), ipEndPoint.Port));
                 throw;
             }
         }
