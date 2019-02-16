@@ -57,7 +57,7 @@ namespace Horse.Nikon.Rpc.Runtime.Client.Implementation
                 _logger.LogDebug($"使用地址：'{endPoint}'进行调用。");
 
                 var client = _transportClientFactory.CreateClient(endPoint);
-                return await client.SendAsync(context.InvokeMessage);
+                return await client.SendAsync(invokeMessage,cancellationToken).WithCancellation(cancellationToken);
             }
             catch (CommunicationException)
             {
