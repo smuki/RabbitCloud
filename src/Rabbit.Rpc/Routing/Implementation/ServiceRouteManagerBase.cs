@@ -93,7 +93,7 @@ namespace Horse.Nikon.Rpc.Routing.Implementation
         /// </summary>
         /// <param name="routes">服务路由集合。</param>
         /// <returns>一个任务。</returns>
-        Task IServiceRouteManager.SetRoutesAsync(IEnumerable<ServiceRoute> routes)
+        public virtual Task SetRoutesAsync(IEnumerable<ServiceRoute> routes)
         {
             if (routes == null)
                 throw new ArgumentNullException(nameof(routes));
@@ -108,6 +108,7 @@ namespace Horse.Nikon.Rpc.Routing.Implementation
 
             return SetRoutesAsync(descriptors);
         }
+        public abstract Task RemveAddressAsync(IEnumerable<string> Address);
 
         /// <summary>
         /// 清空所有的服务路由。

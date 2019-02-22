@@ -25,7 +25,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
         #endregion Constructor
 
         #region Implementation of IServiceExecutor
-    
+
         /// <summary>
         /// 执行。
         /// </summary>
@@ -33,7 +33,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
         /// <param name="message">调用消息。</param>
         public async Task ExecuteAsync(IMessageSender sender, TransportMessage message)
         {
-            _logger.LogDebug("接收到消息。");
+            _logger.LogDebug("服务提供者接收到消息。");
 
             if (!message.IsInvokeMessage())
                 return;
@@ -45,11 +45,11 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
             }
             catch (Exception exception)
             {
-                _logger.LogError("将接收到的消息反序列化成 TransportMessage<RemoteInvokeMessage> 时发送了错误。", exception);
+                _logger.LogError(exception,"将接收到的消息反序列化成 TransportMessage<RemoteInvokeMessage> 时发送了错误。");
                 return;
             }
-
-            ServiceRecord entry = null;
+             
+            ServiceEntry entry = null;
             try
             {
                 entry = _serviceEntryLocate.Locate(remoteInvokeMessage);
@@ -91,7 +91,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
         #endregion Implementation of IServiceExecutor
 
         #region Private Method
-        private async Task LocalExecuteAsync(ServiceRecord entry, RemoteInvokeMessage remoteInvokeMessage, RemoteInvokeResultMessage resultMessage)
+        private async Task LocalExecuteAsync(ServiceEntry entry, RemoteInvokeMessage remoteInvokeMessage, RemoteInvokeResultMessage resultMessage)
         {
             try
             {

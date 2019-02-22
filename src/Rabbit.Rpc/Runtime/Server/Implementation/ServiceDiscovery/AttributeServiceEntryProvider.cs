@@ -37,13 +37,13 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attribu
         /// 获取服务条目集合。
         /// </summary>
         /// <returns>服务条目集合。</returns>
-        public IEnumerable<ServiceRecord> GetServiceRecords()
+        public IEnumerable<ServiceEntry> GetServiceRecords()
         {
             var services = _types.WithAttribute<ServiceTagAttributeAttribute>();
 
             _logger.LogInformation($"Discovery Following ServiceId:\n{string.Join("\n", services.Select(i => i.ToString()))}.");
 
-            var entries = new List<ServiceRecord>();
+            var entries = new List<ServiceEntry>();
             foreach (var service in services)
             {
                 entries.Add(_clrServiceEntryFactory.CreateServiceEntry(service));

@@ -24,12 +24,12 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
         /// </summary>
         /// <param name="invokeMessage">远程调用消息。</param>
         /// <returns>服务条目。</returns>
-        public ServiceRecord Locate(RemoteInvokeMessage invokeMessage)
+        public ServiceEntry Locate(RemoteInvokeMessage invokeMessage)
         {
             return Find(invokeMessage.ServiceId, invokeMessage.ServiceTag);
         }
 
-        public ServiceRecord Locate(HttpMessage httpMessage)
+        public ServiceEntry Locate(HttpMessage httpMessage)
         {
             string routePath = httpMessage.Path;
             string ServiceTag = httpMessage.ServiceTag;
@@ -45,12 +45,12 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
             return Find(routePath, ServiceTag);
         }
 
-        private ServiceRecord Find(string ServiceId, string ServiceTag)
+        private ServiceEntry Find(string ServiceId, string ServiceTag)
         {
             var id = ServiceId.Substring(0, ServiceId.LastIndexOf("."));
             var serviceEntries = _serviceEntryManager.GetServiceRecords();
-            List<ServiceRecord> Match = new List<ServiceRecord>();
-            foreach (ServiceRecord r in serviceEntries)
+            List<ServiceEntry> Match = new List<ServiceEntry>();
+            foreach (ServiceEntry r in serviceEntries)
             {
                 if (r.ServiceTag.IndexOf(id, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -63,7 +63,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
             }
             else
             {
-                ServiceRecord x = Match.SingleOrDefault(i => i.ServiceId.Equals(ServiceTag, StringComparison.OrdinalIgnoreCase));
+                ServiceEntry x = Match.SingleOrDefault(i => i.ServiceId.Equals(ServiceTag, StringComparison.OrdinalIgnoreCase));
                 return x;
             }
         }

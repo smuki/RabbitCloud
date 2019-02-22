@@ -35,7 +35,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attribu
         /// 应用标记。
         /// </summary>
         /// <param name="descriptor">服务描述符。</param>
-        public override void Apply(ServiceRecord descriptor)
+        public override void Apply(ServiceEntry descriptor)
         {
             descriptor.Metadata[Name] = Data;
         }

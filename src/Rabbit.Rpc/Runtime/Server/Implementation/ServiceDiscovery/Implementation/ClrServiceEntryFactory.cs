@@ -43,7 +43,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Impleme
         /// <param name="service">服务类型。</param>
         /// <param name="serviceImplementation">服务实现类型。</param>
         /// <returns>服务条目集合。</returns>
-        public ServiceRecord CreateServiceEntry(Type service)
+        public ServiceEntry CreateServiceEntry(Type service)
         {
             var serviceId = $"{service.FullName}";
             var serviceTag = $"{service.FullName}";
@@ -63,7 +63,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Impleme
             }
             serviceTag = serviceTag.Replace("/", ".");
 
-            var serviceRecord = new ServiceRecord
+            var serviceRecord = new ServiceEntry
             {
                 ServiceId = serviceId,
                 Type = service,

@@ -11,6 +11,6 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation.ServiceDiscovery.Attribu
         /// 应用标记。
         /// </summary>
         /// <param name="descriptor">服务描述符。</param>
-        public abstract void Apply(ServiceRecord descriptor);
+        public abstract void Apply(ServiceEntry descriptor);
     }
 }

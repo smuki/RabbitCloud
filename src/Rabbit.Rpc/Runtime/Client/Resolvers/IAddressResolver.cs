@@ -13,6 +13,6 @@ namespace Horse.Nikon.Rpc.Runtime.Client.Resolvers
         /// <param name="serviceId">服务Id。</param>
         /// <param name="ServiceKey">服务名称。</param>
         /// <returns>服务地址模型。</returns>
-        Task<string> Resolver(string serviceId,string ServiceKey);
+        ValueTask<string> Resolver(string serviceId,string ServiceKey);
     }
 }

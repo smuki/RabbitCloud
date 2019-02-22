@@ -11,7 +11,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
     {
         #region Field
 
-        private readonly IEnumerable<ServiceRecord> _serviceEntries;
+        private readonly IEnumerable<ServiceEntry> _serviceEntries;
 
         #endregion Field
 
@@ -19,7 +19,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
 
         public DefaultServiceTable(IEnumerable<IServiceEntryProvider> providers)
         {
-            var list = new List<ServiceRecord>();
+            var list = new List<ServiceEntry>();
             foreach (var provider in providers)
             {
                 var entries = provider.GetServiceRecords().ToArray();
@@ -41,7 +41,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
         /// 获取服务条目集合。
         /// </summary>
         /// <returns>服务条目集合。</returns>
-        public IEnumerable<ServiceRecord> GetServiceRecords()
+        public IEnumerable<ServiceEntry> GetServiceRecords()
         {
             return _serviceEntries;
         }

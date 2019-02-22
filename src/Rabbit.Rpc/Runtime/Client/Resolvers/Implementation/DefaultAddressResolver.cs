@@ -45,7 +45,7 @@ namespace Horse.Nikon.Rpc.Runtime.Client.Resolvers.Implementation
         /// </summary>
         /// <param name="serviceId">服务Id。</param>
         /// <returns>服务地址模型。</returns>
-        public async Task<string> Resolver(string serviceId,string ServiceTag)
+        public async ValueTask<string> Resolver(string serviceId,string ServiceTag)
         {
             var ServiceId = serviceId.Substring(0, serviceId.LastIndexOf("."));
 
@@ -73,7 +73,7 @@ namespace Horse.Nikon.Rpc.Runtime.Client.Resolvers.Implementation
             var address = new List<string>();
             foreach (var addressModel in descriptor.Address)
             {
-                await _healthCheckService.Monitor(addressModel);
+                _healthCheckService.Monitor(addressModel);
                 if (!await _healthCheckService.IsHealth(addressModel))
                     continue;
 

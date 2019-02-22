@@ -16,7 +16,7 @@ namespace Horse.Nikon.Rpc.Routing
         /// <summary>
         /// 服务描述符。
         /// </summary>
-        public ServiceRecord ServiceEntry { get; set; }
+        public ServiceEntry ServiceEntry { get; set; }
 
         #region Equality members
 

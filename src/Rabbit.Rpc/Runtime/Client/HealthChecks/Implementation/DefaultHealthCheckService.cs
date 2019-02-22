@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,15 +15,34 @@ namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation
     {
         private readonly ConcurrentDictionary<string, MonitorEntry> _dictionary =
             new ConcurrentDictionary<string, MonitorEntry>();
-
+        private readonly IServiceRouteManager _serviceRouteManager;
+        private readonly int _timeout = 30000;
         private readonly Timer _timer;
+        private EventHandler<HealthCheckEventArgs> _removed;
+
+        private EventHandler<HealthCheckEventArgs> _changed;
+
+        public event EventHandler<HealthCheckEventArgs> Removed
+        {
+            add { _removed += value; }
+            remove { _removed -= value; }
+        }
+
+        public event EventHandler<HealthCheckEventArgs> Changed
+        {
+            add { _changed += value; }
+            remove { _changed -= value; }
+        }
 
         public DefaultHealthCheckService(IServiceRouteManager serviceRouteManager)
         {
             var timeSpan = TimeSpan.FromSeconds(10);
-            _timer = new Timer(s =>
+
+            _serviceRouteManager = serviceRouteManager;
+            _timer = new Timer(async s =>
             {
-                Check(_dictionary.ToArray().Select(i => i.Value));
+                await Check(_dictionary.ToArray().Select(i => i.Value), _timeout);
+                RemoveUnhealthyAddress(_dictionary.ToArray().Select(i => i.Value).Where(m => m.UnhealthyTimes >= 6));
             }, null, timeSpan, timeSpan);
 
             //去除监控。
@@ -31,16 +51,21 @@ namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation
                 Remove(e.Route.Address);
             };
             //重新监控。
-            serviceRouteManager.Created += (s, e) =>
+            serviceRouteManager.Created += async (s, e) =>
             {
-                var keys = e.Route.Address.Select(i => i.ToString());
-                Check(_dictionary.Where(i => keys.Contains(i.Key)).Select(i => i.Value));
+                var keys = e.Route.Address.Select(address =>
+                {
+                    return address;
+                });
+                await Check(_dictionary.Where(i => keys.Contains(i.Key)).Select(i => i.Value), _timeout);
             };
             //重新监控。
-            serviceRouteManager.Changed += (s, e) =>
+            serviceRouteManager.Changed += async (s, e) =>
             {
-                var keys = e.Route.Address.Select(i => i.ToString());
-                Check(_dictionary.Where(i => keys.Contains(i.Key)).Select(i => i.Value));
+                var keys = e.Route.Address.Select(address => {
+                    return address;
+                });
+                await Check(_dictionary.Where(i => keys.Contains(i.Key)).Select(i => i.Value), _timeout);
             };
         }
 
@@ -51,9 +76,9 @@ namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>一个任务。</returns>
-        public Task Monitor(string address)
+        public void Monitor(string address)
         {
-            return Task.Run(() => { _dictionary.GetOrAdd(address.ToString(), k => new MonitorEntry(address)); });
+            _dictionary.GetOrAdd(address, k => new MonitorEntry(address));
         }
 
         /// <summary>
@@ -61,15 +86,12 @@ namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation
         /// </summary>
         /// <param name="address">地址模型。</param>
         /// <returns>健康返回true，否则返回false。</returns>
-        public Task<bool> IsHealth(string address)
+        public async ValueTask<bool> IsHealth(string address)
         {
-            return Task.Run(() =>
-            {
-                var key = address.ToString();
-                MonitorEntry entry;
-
-                return !_dictionary.TryGetValue(key, out entry) || entry.Health;
-            });
+            MonitorEntry entry;
+            var isHealth= !_dictionary.TryGetValue(address, out entry) ? await  Check(address, _timeout) :entry.Health;
+            OnChanged(new HealthCheckEventArgs(address,isHealth));
+            return isHealth;
         }
 
         /// <summary>
@@ -81,10 +103,27 @@ namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation
         {
             return Task.Run(() =>
             {
-                var key = address.ToString();
-                var entry = _dictionary.GetOrAdd(key, k => new MonitorEntry(address, false));
+                var entry = _dictionary.GetOrAdd(address, k => new MonitorEntry(address, false));
                 entry.Health = false;
             });
+        }
+
+        protected void OnRemoved(params HealthCheckEventArgs[] args)
+        {
+            if (_removed == null)
+                return;
+
+            foreach (var arg in args)
+                _removed(this, arg);
+        }
+
+        protected void OnChanged(params HealthCheckEventArgs[] args)
+        {
+            if (_changed == null)
+                return;
+
+            foreach (var arg in args)
+                _changed(this, arg);
         }
 
         #endregion Implementation of IHealthCheckService
@@ -110,44 +149,60 @@ namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation
             }
         }
 
-        private static void Check(IEnumerable<MonitorEntry> entrys)
+        private void RemoveUnhealthyAddress(IEnumerable<MonitorEntry> monitorEntry)
+        {
+            if (monitorEntry.Any())
+            {
+                var addresses = monitorEntry.Select(p =>
+                {
+                    var ipEndPoint = p.EndPoint as IPEndPoint;
+                    return ipEndPoint.Address.ToString()+":"+ ipEndPoint.Port;
+                }).ToList();
+                _serviceRouteManager.RemveAddressAsync(addresses).Wait();
+                addresses.ForEach(p => {
+                    _dictionary.TryRemove(p, out MonitorEntry value);
+                });
+                OnRemoved(addresses.Select(p => new HealthCheckEventArgs(p)).ToArray());
+            }
+        }
+
+        private static async Task<bool> Check(string address, int timeout)
+        {
+            bool isHealth = false;
+            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { SendTimeout = timeout })
+            {
+                try
+                {
+                    await socket.ConnectAsync(AddrUtil.CreateEndPoint(address));
+                    isHealth = true;
+                }
+                catch
+                {
+
+                }
+                return isHealth;
+            }
+        }
+
+        private static async Task Check(IEnumerable<MonitorEntry> entrys, int timeout)
         {
             foreach (var entry in entrys)
             {
-                using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+                using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { SendTimeout = timeout })
                 {
                     try
                     {
-                        socket.Connect(AddrUtil.CreateEndPoint(entry.EndPoint));
+                        await socket.ConnectAsync(entry.EndPoint);
+                        entry.UnhealthyTimes = 0;
                         entry.Health = true;
                     }
                     catch
                     {
+                        entry.UnhealthyTimes++;
                         entry.Health = false;
                     }
                 }
             }
-            /*foreach (var entry in entrys)
-            {
-                var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                var socketAsyncEventArgs = new SocketAsyncEventArgs
-                {
-                    RemoteEndPoint = entry.EndPoint,
-                    UserToken = new KeyValuePair<MonitorEntry, Socket>(entry, socket)
-                };
-                socketAsyncEventArgs.Completed += (sender, e) =>
-                {
-                    var isHealth = e.SocketError == SocketError.Success;
-
-                    var token = (KeyValuePair<MonitorEntry, Socket>)e.UserToken;
-                    token.Key.Health = isHealth;
-
-                    e.Dispose();
-                    token.Value.Dispose();
-                };
-
-                socket.ConnectAsync(socketAsyncEventArgs);
-            }*/
         }
 
         #endregion Private Method
@@ -158,11 +213,14 @@ namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks.Implementation
         {
             public MonitorEntry(string addressModel, bool health = true)
             {
-                EndPoint = addressModel;
+                EndPoint = AddrUtil.CreateEndPoint(addressModel);
                 Health = health;
+
             }
 
-            public string EndPoint { get; set; }
+            public int UnhealthyTimes { get; set; }
+
+            public EndPoint EndPoint { get; set; }
             public bool Health { get; set; }
         }
 

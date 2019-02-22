@@ -12,7 +12,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server
         /// </summary>
         /// <param name="invokeMessage">远程调用消息。</param>
         /// <returns>服务条目。</returns>
-        ServiceRecord Locate(RemoteInvokeMessage invokeMessage);
-        ServiceRecord Locate(HttpMessage httpMessage);
+        ServiceEntry Locate(RemoteInvokeMessage invokeMessage);
+        ServiceEntry Locate(HttpMessage httpMessage);
     }
 }

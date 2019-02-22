@@ -24,7 +24,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Horse.Nikon.Rpc.ProxyGenerator.Implementation
 {
-    public class ServiceProxyGenerater : IServiceProxyGenerater
+    public class ServiceProxyGenerater : IServiceProxyGenerater,IDisposable
     {
         #region Field
 

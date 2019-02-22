@@ -16,6 +16,6 @@ namespace Horse.Nikon.Rpc.Routing
         /// <summary>
         /// 服务描述符。
         /// </summary>
-        public ServiceRecord Service { get; set; }
+        public ServiceEntry Service { get; set; }
     }
 }

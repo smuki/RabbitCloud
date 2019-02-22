@@ -5,7 +5,7 @@
     <Copyright>© RabbitHub. All rights reserved.</Copyright>
     <VersionPrefix>1.0.0-alpha1</VersionPrefix>
     <Authors>majian</Authors>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>Horse.Nikon.Rpc</AssemblyName>
     <PackageId>Horse.Nikon.Rpc</PackageId>
     <PackageTags>RabbitHub;RPC</PackageTags>
