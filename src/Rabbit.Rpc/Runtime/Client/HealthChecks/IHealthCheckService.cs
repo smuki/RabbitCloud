@@ -1,5 +1,4 @@
-﻿//using Horse.Nikon.Rpc.Address;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Horse.Nikon.Rpc.Runtime.Client.HealthChecks
 {

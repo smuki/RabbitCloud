@@ -5,8 +5,8 @@ using Horse.Nikon.Rpc.Runtime.Server;
 using Horse.Nikon.Rpc.Utilities;
 using System;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Horse.Nikon.Rpc.Transport.Implementation
 {

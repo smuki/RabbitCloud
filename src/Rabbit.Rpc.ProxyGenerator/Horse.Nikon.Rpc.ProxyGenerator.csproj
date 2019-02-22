@@ -5,7 +5,7 @@
     <Copyright>© RabbitHub. All rights reserved.</Copyright>
     <VersionPrefix>1.0.0-alpha1</VersionPrefix>
     <Authors>majian</Authors>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>Horse.Nikon.Rpc.ProxyGenerator</AssemblyName>
     <PackageId>Horse.Nikon.Rpc.ProxyGenerator</PackageId>
     <PackageTags>RabbitHub;RPC</PackageTags>
