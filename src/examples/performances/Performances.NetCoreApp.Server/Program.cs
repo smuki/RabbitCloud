@@ -17,7 +17,6 @@ using Horse.Nikon.Rpc.Serialization;
 using Horse.Nikon.Rpc.Serialization.Implementation;
 using Horse.Nikon.Rpc.Utilities;
 using Rabbit.Transport.DotNetty;
-using Rabbit.Transport.KestrelHttpServer;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -123,12 +122,6 @@ namespace Performances.NetCoreApp.Server
             builder.RegisterType<DotNettyServerMessageListener>().AsImplementedInterfaces().AsSelf();
 
             builder.RegisterType<DefaultServiceHost>().AsSelf().AsImplementedInterfaces();
-
-            builder.RegisterType<KestrelExecutor>().AsSelf();
-
-            builder.RegisterType<KestrelMessageListener>().AsImplementedInterfaces().AsSelf();
-
-            builder.RegisterType<KestrelServiceHost>().AsSelf().AsImplementedInterfaces();
 
             builder.RegisterType(typeof(FilesServiceRouteManager)).AsImplementedInterfaces().AsSelf()
               .OnRegistered(e => Console.WriteLine(e.ToString() + " - OnRegistered在注册的时候调用!"))

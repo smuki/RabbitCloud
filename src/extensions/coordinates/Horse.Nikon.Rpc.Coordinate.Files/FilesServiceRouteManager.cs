@@ -108,6 +108,12 @@ namespace Horse.Nikon.Rpc.Coordinate.Files
             }
         }
 
+        public override Task RemveAddressAsync(IEnumerable<string> Address)
+        {
+
+            return Task.CompletedTask;
+        }
+
         #endregion Overrides of ServiceRouteManagerBase
 
         #region Private Method

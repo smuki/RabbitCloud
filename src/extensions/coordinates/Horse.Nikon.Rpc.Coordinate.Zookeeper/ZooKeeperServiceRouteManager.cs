@@ -163,6 +163,11 @@ namespace Horse.Nikon.Rpc.Coordinate.Zookeeper
                         await CreateZooKeeper();
                     }));
         }
+        public override Task RemveAddressAsync(IEnumerable<string> Address)
+        {
+
+            return Task.CompletedTask;
+        }
 
         private async Task CreateSubdirectory(string path)
         {

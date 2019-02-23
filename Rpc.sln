@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28606.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3234A92D-1575-464E-8C29-4EA29FF8EBF4}"
 EndProject
@@ -52,8 +52,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc.Codec.Json", "src\extensions\codecs\Horse.Nikon.Rpc.Codec.Json\Horse.Nikon.Rpc.Codec.Json.csproj", "{EC04EA64-DC65-44D4-8D3A-94ECADA059C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Horse.Nikon.Rpc.Coordinate.Files", "src\extensions\coordinates\Horse.Nikon.Rpc.Coordinate.Files\Horse.Nikon.Rpc.Coordinate.Files.csproj", "{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rabbit.KestrelHttpServer", "src\extensions\transports\Rabbit.KestrelHttpServer\Rabbit.KestrelHttpServer.csproj", "{4E7EC46E-B577-464F-A767-D354346D05ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,10 +119,6 @@ Global
 		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E7EC46E-B577-464F-A767-D354346D05ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E7EC46E-B577-464F-A767-D354346D05ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E7EC46E-B577-464F-A767-D354346D05ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E7EC46E-B577-464F-A767-D354346D05ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,7 +148,6 @@ Global
 		{36C20737-05A9-45F3-9D36-E18B1E32A2C5} = {AA8494CA-CE39-4F1A-9034-A89554CD6AFF}
 		{EC04EA64-DC65-44D4-8D3A-94ECADA059C9} = {AA8494CA-CE39-4F1A-9034-A89554CD6AFF}
 		{6EDBE371-2605-4B0A-B8DD-47DFE5F0FB45} = {38C5EBBE-B5CB-4F57-81D4-88BD8B1FEFE0}
-		{4E7EC46E-B577-464F-A767-D354346D05ED} = {678AB1D7-4A8E-457C-848C-68E2A3A11B41}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A966974-630A-4C4B-8C27-70ACA5002AE6}

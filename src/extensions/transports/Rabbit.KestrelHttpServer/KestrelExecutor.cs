@@ -101,7 +101,7 @@ namespace Rabbit.Transport.KestrelHttpServer
 
         #region Private Method
 
-        private async Task<HttpResultMessage<object>> RemoteExecuteAsync(ServiceRecord entry, HttpMessage httpMessage)
+        private async Task<HttpResultMessage<object>> RemoteExecuteAsync(ServiceEntry entry, HttpMessage httpMessage)
         {
             HttpResultMessage<object> resultMessage = new HttpResultMessage<object>();
             var provider = _concurrent.GetValueOrDefault(httpMessage.Path);
@@ -154,7 +154,7 @@ namespace Rabbit.Transport.KestrelHttpServer
             return resultMessage;
         }
 
-        private async Task<HttpResultMessage<object>> LocalExecuteAsync(ServiceRecord entry, HttpMessage httpMessage)
+        private async Task<HttpResultMessage<object>> LocalExecuteAsync(ServiceEntry entry, HttpMessage httpMessage)
         {
             
             HttpResultMessage<object> resultMessage = new HttpResultMessage<object>();

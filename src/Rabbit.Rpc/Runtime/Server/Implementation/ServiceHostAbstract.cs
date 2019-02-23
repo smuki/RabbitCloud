@@ -49,6 +49,7 @@ namespace Horse.Nikon.Rpc.Runtime.Server.Implementation
         /// <param name="endPoint">主机终结点。</param>
         /// <returns>一个任务。</returns>
         public abstract Task StartAsync();
+        public abstract void Start();
 
         #endregion Implementation of IServiceHost
 
