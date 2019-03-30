@@ -53,7 +53,7 @@ namespace Rabbit.Transport.DotNetty
             _logger = logger;
             _healthCheckService = healthCheckService;
             _serviceExecutor = serviceExecutor;
-            _bootstrap = this.GetBootstrap();
+            _bootstrap = GetBootstrap();
             _bootstrap.Handler(new ActionChannelInitializer<ISocketChannel>(c =>
             {
                 var pipeline = c.Pipeline;

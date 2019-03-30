@@ -1,5 +1,6 @@
 using MessagePack;
 using Horse.Nikon.Rpc.Messages;
+using System.Runtime.CompilerServices;
 
 namespace Horse.Nikon.Rpc.Codec.MessagePack.Messages
 {
@@ -26,6 +27,7 @@ namespace Horse.Nikon.Rpc.Codec.MessagePack.Messages
         [Key(1)]
         public DynamicItem Result { get; set; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public RemoteInvokeResultMessage GetRemoteInvokeResultMessage()
         {
             return new RemoteInvokeResultMessage

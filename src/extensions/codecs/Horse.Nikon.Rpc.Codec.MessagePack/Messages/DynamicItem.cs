@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Horse.Nikon.Rpc.Codec.MessagePack.Utilities;
 using Horse.Nikon.Rpc.Utilities;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Horse.Nikon.Rpc.Codec.MessagePack.Messages
 {
@@ -15,6 +16,7 @@ namespace Horse.Nikon.Rpc.Codec.MessagePack.Messages
         public DynamicItem()
         { }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DynamicItem(object value)
         {
             if (value == null)
@@ -24,7 +26,7 @@ namespace Horse.Nikon.Rpc.Codec.MessagePack.Messages
             var code = Type.GetTypeCode(valueType);
 
             //如果是简单类型则取短名称，否则取长名称。
-            if (code != TypeCode.Object)
+            if (code != TypeCode.Object && valueType.BaseType!=typeof(Enum))
                 TypeName = valueType.FullName;
             else
                 TypeName = valueType.AssemblyQualifiedName;
@@ -47,6 +49,7 @@ namespace Horse.Nikon.Rpc.Codec.MessagePack.Messages
         #endregion Property
 
         #region Public Method
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public object Get()
         {
             if (Content == null || TypeName == null)

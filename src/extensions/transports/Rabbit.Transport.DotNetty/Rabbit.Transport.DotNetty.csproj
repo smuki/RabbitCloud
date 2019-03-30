@@ -18,13 +18,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Rabbit.Rpc\Horse.Nikon.Rpc.csproj" />
-    <PackageReference Include="DotNetty.Transport.Libuv" Version="0.4.8" />
+
+    <PackageReference Include="DotNetty.Codecs" Version="0.6.0" />    
+    <PackageReference Include="DotNetty.Transport.Libuv" Version="0.6.0" />
     <PackageReference Include="System.Memory" Version="4.5.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetty.Codecs" Version="0.4.8" />
+    <ProjectReference Include="..\..\..\Rabbit.Rpc\Horse.Nikon.Rpc.csproj" />
   </ItemGroup>
 
 

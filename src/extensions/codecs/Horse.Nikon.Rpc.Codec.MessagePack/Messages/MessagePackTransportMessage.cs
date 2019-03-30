@@ -3,6 +3,7 @@ using Horse.Nikon.Rpc.Codec.Codec.MessagePack.Messages;
 using Horse.Nikon.Rpc.Codec.MessagePack.Utilities;
 using Horse.Nikon.Rpc.Messages;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Horse.Nikon.Rpc.Codec.MessagePack.Messages
 {
@@ -44,11 +45,13 @@ namespace Horse.Nikon.Rpc.Codec.MessagePack.Messages
         [Key(2)]
         public string ContentType { get; set; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsInvokeMessage()
         {
             return ContentType == MessagePackTransportMessageType.remoteInvokeMessageTypeName;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsInvokeResultMessage()
         {
             return ContentType == MessagePackTransportMessageType.remoteInvokeResultMessageTypeName;

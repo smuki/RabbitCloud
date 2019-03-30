@@ -1,4 +1,5 @@
 ﻿using Horse.Nikon.Rpc.Transport.Codec;
+using System.Runtime.CompilerServices;
 
 namespace Horse.Nikon.Rpc.Codec.MessagePack
 {
@@ -17,6 +18,7 @@ namespace Horse.Nikon.Rpc.Codec.MessagePack
         /// 获取编码器。
         /// </summary>
         /// <returns>编码器实例。</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]		
         public ITransportMessageEncoder GetEncoder()
         {
             return _transportMessageEncoder;
@@ -26,6 +28,7 @@ namespace Horse.Nikon.Rpc.Codec.MessagePack
         /// 获取解码器。
         /// </summary>
         /// <returns>解码器实例。</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]		
         public ITransportMessageDecoder GetDecoder()
         {
             return _transportMessageDecoder;

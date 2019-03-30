@@ -14,7 +14,7 @@ namespace Horse.Nikon.Rpc.Codec.ProtoBuffer
             var transportMessage = new ProtoBufferTransportMessage(message)
             {
                 Id = message.Id,
-                ContentType = message.ContentType
+                ContentType = message.ContentType,
             };
 
             return SerializerUtilitys.Serialize(transportMessage);

@@ -39,14 +39,11 @@ namespace Horse.Nikon.Rpc.Codec.ProtoBuffer.Messages
 
         [ProtoMember(1)]
         public string TypeName { get; set; }
-
         [ProtoMember(2)]
         public byte[] Content { get; set; }
-
         #endregion Property
 
         #region Public Method
-
         public object Get()
         {
             if (Content == null || TypeName == null)

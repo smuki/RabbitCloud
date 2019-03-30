@@ -12,7 +12,6 @@ namespace Horse.Nikon.Rpc.Codec.ProtoBuffer
         public TransportMessage Decode(byte[] data)
         {
             var message = SerializerUtilitys.Deserialize<ProtoBufferTransportMessage>(data);
-
             return message.GetTransportMessage();
         }
 
